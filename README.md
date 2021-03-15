@@ -4,7 +4,7 @@
 
 How many times have you strugueld with finding the perfect gift for the close ones? IGift is designed to help people share their wishes. 
 
-## MoSCoW Requirmets:
+## MoSCoW Requirements:
 
 **M**  
 As a user, I want to be able to post my wishes on the app  
