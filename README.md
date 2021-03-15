@@ -1,6 +1,6 @@
 # IGift
 
-![alt text](https://ibb.co/89CXsFR)
+![logo_igift](https://user-images.githubusercontent.com/39630044/111089138-cf6bc800-852a-11eb-9b2f-78c12d093612.png)
 
 How many times have you strugueld with finding the perfect gift for the close ones? IGift is designed to help people share their wishes. 
 
