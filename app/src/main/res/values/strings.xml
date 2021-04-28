@@ -8,5 +8,22 @@
     <string name="signin">SIGNIN</string>
     <string name="social_signup">Social signup</string>
     <string name="new_user">New user?</string>
-    <string name="signup">Signup</string>
+    <string name="signup">Sign up</string>
+
+    <string name="facebook_app_id">738297410191075</string>
+    <string name="fb_login_protocol_scheme">fb738297410191075</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="start_a_group">Start a group</string>
+    <string name="welcome">Welcome</string>
+    <string name="join_a_group">Join a Group</string>
+    <string name="search_for_an_existing_group">Search for an existing group</string>
+    <string name="start_a_group_for_your_family">Start a group for your family</string>
+    <string name="name_this_group">Name this group</string>
+    <string name="your_members_see_this_group">Your members see this group</string>
+    <string name="e_g_henderson_fam">E.g: Henderson Fam</string>
+    <string name="title_activity_test">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
 </resources>

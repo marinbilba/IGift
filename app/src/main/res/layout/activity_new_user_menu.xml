@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewUserMenuActivity">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="146dp"
+        android:layout_height="124dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/new_user_menu_giftbox" />
+
+    <TextView
+        android:id="@+id/Welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/welcome"
+        android:textColor="@color/purple_500"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+    <TableRow
+        android:layout_marginTop="120dp"
+        android:id="@+id/startGroupRow"
+        android:layout_width="374dp"
+        android:layout_height="83dp"
+        android:onClick="startGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Welcome">
+
+        <ImageView
+            android:id="@+id/group_image"
+            android:layout_width="67dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/new_user_menu_group" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/startGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/poppinsbold"
+                android:text="@string/start_a_group"
+                android:textColor="@color/purple_500"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/startGroupDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/start_a_group_for_your_family"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_marginBottom="300dp"
+        android:layout_width="374dp"
+        android:layout_height="83dp"
+        android:onClick="joinGroup"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startGroupRow">
+
+        <ImageView
+            android:id="@+id/search_image"
+            android:layout_width="67dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/new_user_menu_loupe" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/joinGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/poppinsbold"
+                android:text="@string/join_a_group"
+                android:textColor="@color/purple_500"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/joinGroupDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/search_for_an_existing_group"
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </TableRow>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
