@@ -10,8 +10,12 @@
     <string name="new_user">New user?</string>
     <string name="signup">Sign up</string>
 
+    <string name="required_field">This field is required</string>
+
+
     <string name="facebook_app_id">738297410191075</string>
     <string name="fb_login_protocol_scheme">fb738297410191075</string>
+
     <string name="confirm_password">Confirm Password</string>
     <string name="start_a_group">Start a group</string>
     <string name="welcome">Welcome</string>
@@ -25,5 +29,6 @@
     <string name="title_home">My list</string>
     <string name="title_dashboard">Groups</string>
     <string name="title_notifications">Calendar</string>
+    <string name="email">Email</string>
 
 </resources>
