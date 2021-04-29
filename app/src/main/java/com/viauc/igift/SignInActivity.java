@@ -15,6 +15,8 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.firebase.ui.auth.AuthUI;
@@ -41,8 +43,10 @@ public class SignInActivity extends AppCompatActivity {
     private FirebaseUser user;
 
     // Facebook
-    CallbackManager mCallbackManager;
-    LoginButton loginButton;
+    private CallbackManager mCallbackManager;
+   private LoginButton loginButton;
+    private static final String TAG="FacebookAuthentication";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,33 +61,35 @@ public class SignInActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.passwordEditText);
 
         // Initialize Facebook Login button
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
         mCallbackManager = CallbackManager.Factory.create();
         loginButton = findViewById(R.id.facebook_login_button);
         loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.d("Facebook", "facebook:onSuccess:" + loginResult);
+                Log.d(TAG, "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
             @Override
             public void onCancel() {
-                Log.d("Facebook", "facebook:onCancel");
+                Log.d(TAG, "facebook:onCancel");
             }
 
             @Override
             public void onError(FacebookException error) {
-                Log.d("Facebook", "facebook:onError", error);
+                Log.d(TAG, "facebook:onError", error);
             }
         });
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // Pass the activity result back to the Facebook SDK
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
+
+
     }
     private void handleFacebookAccessToken(AccessToken accessToken) {
 
