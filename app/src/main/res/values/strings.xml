@@ -21,5 +21,9 @@
     <string name="name_this_group">Name this group</string>
     <string name="your_members_see_this_group">Your members see this group</string>
     <string name="e_g_henderson_fam">E.g: Henderson Fam</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">My list</string>
+    <string name="title_dashboard">Groups</string>
+    <string name="title_notifications">Calendar</string>
 
 </resources>

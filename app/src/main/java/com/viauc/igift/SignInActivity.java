@@ -90,7 +90,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void updateUiOnSingIn(FirebaseUser myUserObj) {
-        startActivity(new Intent(this, MainActivitySec.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
