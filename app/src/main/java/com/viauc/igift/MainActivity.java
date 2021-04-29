@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(SignInViewModel.class);
         checkIfSignedIn();
+        FirebaseAuth.getInstance().signOut();
     }
     private void checkIfSignedIn() {
         viewModel.getCurrentUser().observe(this, user -> {
