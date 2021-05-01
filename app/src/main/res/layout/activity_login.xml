@@ -80,7 +80,10 @@
                 android:fontFamily="@font/poppinsmedium"
                 android:gravity="end"
                 android:text="@string/forgot_password"
-                android:textColor="#3F51B5" />
+                android:textColor="#3F51B5"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="forgotPassword"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

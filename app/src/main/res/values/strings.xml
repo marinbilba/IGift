@@ -31,5 +31,8 @@
     <string name="title_notifications">Calendar</string>
     <string name="email">Email</string>
     <string name="create_group">Create Group</string>
+    <string name="password_greater_then_6_char">Password must be greater then 6 digit</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="forgot_passwrod2">Forgot passwrod</string>
 
 </resources>
