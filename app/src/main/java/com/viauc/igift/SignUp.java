@@ -28,8 +28,8 @@ public class SignUp extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         usernameEditText = findViewById(R.id.usernameEditText);
-        emailEditText = findViewById(R.id.email);
-        passwordEditText = findViewById(R.id.password);
+        emailEditText = findViewById(R.id.emailEditText);
+        passwordEditText = findViewById(R.id.passwordEditText);
         passwordConfirmEditText = findViewById(R.id.confirmPasswordEditText);
 
          mAuth= FirebaseAuth.getInstance();
