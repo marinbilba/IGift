@@ -1,4 +1,4 @@
-package com.viauc.igift;
+package com.viauc.igift.ui.signin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +17,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -25,9 +24,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Arrays;
-import java.util.List;
+import com.viauc.igift.ui.ForgotPasswordActivity;
+import com.viauc.igift.MainActivity;
+import com.viauc.igift.R;
+import com.viauc.igift.ui.signup.SignUpActivity;
 
 public class SignInActivity extends AppCompatActivity {
 

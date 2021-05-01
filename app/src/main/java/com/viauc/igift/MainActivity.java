@@ -15,7 +15,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
-    private MainActivityViewModel viewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,23 +29,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
-        checkIfSignedIn();
-    }
-    private void checkIfSignedIn() {
-        viewModel.getCurrentUser().observe(this, user -> {
-            //todo check this
-            if (user == null)
-                goToSignInActivity();
-        });
-    }
 
-    private void goToSignInActivity() {
-        Intent myIntent = new Intent(this, SignInActivity.class);
-        this.startActivity(myIntent);
-
-        // startActivity(new Intent(this, SignInActivity.class));
-        finish();
     }
-
 }

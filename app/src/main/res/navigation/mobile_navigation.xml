@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_notifications" />
     <activity
         android:id="@+id/signInActivity"
-        android:name="com.viauc.igift.SignInActivity"
+        android:name="com.viauc.igift.ui.signin.SignInActivity"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
 </navigation>

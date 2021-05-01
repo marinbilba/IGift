@@ -1,4 +1,4 @@
-package com.viauc.igift;
+package com.viauc.igift.ui.signup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -7,9 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -21,6 +19,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.viauc.igift.MainActivity;
+import com.viauc.igift.R;
+import com.viauc.igift.ui.signin.SignInActivity;
 
 public class SignUpActivity extends AppCompatActivity {
     private SignUpViewModel viewModel;
