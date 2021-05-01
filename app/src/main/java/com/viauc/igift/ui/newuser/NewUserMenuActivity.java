@@ -1,9 +1,11 @@
-package com.viauc.igift;
+package com.viauc.igift.ui.newuser;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+
+import com.viauc.igift.R;
 
 public class NewUserMenuActivity extends AppCompatActivity {
 

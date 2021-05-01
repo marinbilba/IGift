@@ -24,7 +24,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.viauc.igift.ui.ForgotPasswordActivity;
+import com.viauc.igift.ui.forgotpassword.ForgotPasswordActivity;
 import com.viauc.igift.MainActivity;
 import com.viauc.igift.R;
 import com.viauc.igift.ui.signup.SignUpActivity;
@@ -37,7 +37,6 @@ public class SignInActivity extends AppCompatActivity {
     private TextView passwordEditText;
 
     private FirebaseAuth mAuth;
-    private FirebaseUser user;
 
     // Facebook
     private CallbackManager mCallbackManager;
@@ -76,14 +75,21 @@ public class SignInActivity extends AppCompatActivity {
                 Log.d(TAG, "facebook:onError", error);
             }
         });
+        // Check if user is signed in (non-null) and update UI accordingly.
+checkIfSignedIn();
+
+    }
+    private void checkIfSignedIn() {
+        viewModel.getCurrentUser().observe(this, user -> {
+            if (user != null) {
+               updateUiToMainActivity(user);
+            }
+        });
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
-
-
-
     }
     private void handleFacebookAccessToken(AccessToken accessToken) {
 
@@ -96,20 +102,20 @@ public class SignInActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("Facebook", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUiOnSingIn(user);
+                            updateUiToMainActivity(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("Facebook", "signInWithCredential:failure", task.getException());
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUiOnSingIn(null);
+                            updateUiToMainActivity(null);
                         }
                     }
                 });
     }
 
 
-    private void updateUiOnSingIn(FirebaseUser myUserObj) {
+    private void updateUiToMainActivity(FirebaseUser myUserObj) {
         if(myUserObj!=null){
             startActivity(new Intent(this, MainActivity.class));
             finish();
@@ -133,13 +139,13 @@ public class SignInActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                updateUiOnSingIn(user);
+                                updateUiToMainActivity(user);
                                 finish();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Toast.makeText(getApplicationContext(), "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
-                                updateUiOnSingIn(null);
+                                updateUiToMainActivity(null);
                             }
                         }
                     });

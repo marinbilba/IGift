@@ -1,4 +1,4 @@
-package com.viauc.igift.ui;
+package com.viauc.igift.ui.forgotpassword;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;

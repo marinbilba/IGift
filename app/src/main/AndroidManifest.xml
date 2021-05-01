@@ -12,20 +12,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.IGift">
-        <activity android:name=".ui.ForgotPasswordActivity"></activity>
+        <activity android:name=".ui.forgotpassword.ForgotPasswordActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
+        </activity>
+        <activity android:name=".ui.newgroup.NewGroupActivity" />
+        <activity android:name=".ui.newuser.NewUserMenuActivity" />
+        <activity android:name=".ui.signup.SignUpActivity" />
+        <activity android:name=".ui.signin.SignInActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".NewGroupActivity" />
-        <activity android:name=".NewUserMenuActivity" />
-        <activity android:name=".ui.signup.SignUpActivity" />
-        <activity android:name=".ui.signin.SignInActivity" />
+        </intent-filter>
+
+            </activity>
 
 <!--        Facebook -->
         <meta-data

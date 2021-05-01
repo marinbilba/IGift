@@ -48,11 +48,6 @@ public class SignUpActivity extends AppCompatActivity {
         passwordConfirmEditText = findViewById(R.id.confirmPasswordEditText);
 
          mAuth= FirebaseAuth.getInstance();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            updateUIToHomePage(currentUser);
-        }
 
     }
     public boolean onOptionsItemSelected(MenuItem item){
