@@ -8,7 +8,7 @@
 
         <menu>
             <item
-                android:id="@+id/nav_home"
+                android:id="@+id/report_issue"
                 android:icon="@drawable/report_issue_icon"
                 android:title="@string/report_issue" />
         </menu>
@@ -17,7 +17,7 @@
     <item android:title="@string/logout">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/sign_out"
                 android:icon="@drawable/logout"
                 android:title="@string/sign_out" />
         </menu>

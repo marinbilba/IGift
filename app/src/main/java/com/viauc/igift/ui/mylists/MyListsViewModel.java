@@ -1,23 +1,20 @@
-package com.viauc.igift.ui.home;
+package com.viauc.igift.ui.mylists;
 
 import android.app.Application;
-import android.content.Intent;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.viauc.igift.MainActivity;
 import com.viauc.igift.data.UserRepository;
 
-public class HomeViewModel extends AndroidViewModel {
+public class MyListsViewModel extends AndroidViewModel {
 
     private MutableLiveData<String> mText;
 
     private UserRepository userRepository;
-    public HomeViewModel(Application app) {
+    public MyListsViewModel(Application app) {
         super(app);
         mText = new MutableLiveData<>();
         mText.setValue("This is home fragment");

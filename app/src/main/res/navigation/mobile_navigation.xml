@@ -3,27 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_my_list">
 
     <fragment
         android:id="@+id/navigation_connect"
-        android:name="com.viauc.igift.ui.home.HomeFragment"
+        android:name="com.viauc.igift.ui.connect.ConnectFragment"
         android:label="@string/connect"
         tools:layout="@layout/fragment_connect" />
-    <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.viauc.igift.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.viauc.igift.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_my_list"
+        android:name="com.viauc.igift.ui.mylists.MyListsFragment"
+        android:label="@string/my_list"
+        tools:layout="@layout/fragment_my_list" />
+
+    <fragment
+        android:id="@+id/navigation_groups"
+        android:name="com.viauc.igift.ui.groups.GroupsFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_groups" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_calendar"
         android:name="com.viauc.igift.ui.calendar.CalendarFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_calendar" />

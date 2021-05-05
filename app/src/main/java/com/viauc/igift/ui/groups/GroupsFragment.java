@@ -1,4 +1,4 @@
-package com.viauc.igift.ui.dashboard;
+package com.viauc.igift.ui.groups;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.viauc.igift.R;
 
-public class DashboardFragment extends Fragment {
+public class GroupsFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
+    private GroupsViewModel groupsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        groupsViewModel =
+                new ViewModelProvider(this).get(GroupsViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_groups, container, false);
         final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        groupsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
