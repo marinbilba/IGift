@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_header_height"
+android:background="@color/purple_200"
+android:orientation="vertical"
+android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="92dp"
+        android:layout_height="53dp"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+
+        android:src="@drawable/logo_igift" />
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/nav_header_vertical_spacing"
+android:textSize="22sp"
+    android:text="@string/settings"
+    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    android:fontFamily="@font/poppinsbold"/>
+
+
+</LinearLayout>

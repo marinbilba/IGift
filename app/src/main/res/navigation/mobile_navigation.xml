@@ -6,6 +6,11 @@
     app:startDestination="@+id/navigation_home">
 
     <fragment
+        android:id="@+id/navigation_connect"
+        android:name="com.viauc.igift.ui.home.HomeFragment"
+        android:label="@string/connect"
+        tools:layout="@layout/fragment_connect" />
+    <fragment
         android:id="@+id/navigation_home"
         android:name="com.viauc.igift.ui.home.HomeFragment"
         android:label="@string/title_home"
@@ -22,9 +27,4 @@
         android:name="com.viauc.igift.ui.calendar.CalendarFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_calendar" />
-    <activity
-        android:id="@+id/signInActivity"
-        android:name="com.viauc.igift.ui.signin.SignInActivity"
-        android:label="activity_login"
-        tools:layout="@layout/activity_login" />
 </navigation>
