@@ -12,12 +12,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.facebook.Profile;
 import com.viauc.igift.R;
+
+import static com.facebook.Profile.getCurrentProfile;
 
 public class CalendarFragment extends Fragment {
 
     private CalendarViewModel calendarViewModel;
-
+ com.facebook.Profile facebookProfile=getCurrentProfile();
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         calendarViewModel =
@@ -25,5 +28,7 @@ public class CalendarFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_calendar, container, false);
 
         return root;
+
     }
+
 }
