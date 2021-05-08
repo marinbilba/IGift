@@ -1,22 +1,22 @@
 package com.viauc.igift.data;
 
 import android.app.Application;
-import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,25 +31,29 @@ public class AuthAppRepository {
 
     private static AuthAppRepository instance;
 
-    private Application application;
+    private final Application application;
     private final UserLiveData currentUser;
 
     // Firebase instances
-    private FirebaseAuth mAuth;
-   private FirebaseFirestore firebaseFirestore;
+    private final FirebaseAuth mAuth;
+   private final FirebaseFirestore firebaseFirestore;
 
     // Facebook
-    private CallbackManager mCallbackManager;
-    private LoginButton loginButton;
+    private final CallbackManager facebookCallbackManager;
 
     private static final String FIREBASE_STORAGE_TAG = "FirebaseStorage";
+    private static final String FACEBOOK_TAG = "Facebook";
+
 
     private AuthAppRepository(Application application) {
         this.application = application;
+        currentUser = new UserLiveData();
         // Initialize firebase instances
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
-        currentUser = new UserLiveData();
+
+        // Initialize Facebook Callback Manager
+        facebookCallbackManager = CallbackManager.Factory.create();
     }
 
     public static AuthAppRepository getInstance(Application app) {
@@ -101,6 +105,31 @@ public class AuthAppRepository {
                 });
     }
 
+    public CallbackManager getFacebookCallbackManager() {
+        return facebookCallbackManager;
+    }
+
+    public void handleFacebookAccessToken(AccessToken accessToken) {
+        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
+            mAuth.signInWithCredential(credential)
+                    .addOnCompleteListener(ContextCompat.getMainExecutor(application), new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(FACEBOOK_TAG, "signInWithCredential:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(FACEBOOK_TAG, "signInWithCredential:failure", task.getException());
+                                Toast.makeText(application, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+    }
+
     /**
      * Check if user exists in firebase storage and in case it does not exist it will be added there
      * @param user
@@ -141,6 +170,8 @@ public class AuthAppRepository {
             }
         });
     }
+
+
 
     public LiveData<FirebaseUser> getCurrentUser() {
         return currentUser;

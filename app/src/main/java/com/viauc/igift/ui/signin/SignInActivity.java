@@ -1,6 +1,5 @@
 package com.viauc.igift.ui.signin;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -10,32 +9,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.viauc.igift.ui.forgotpassword.ForgotPasswordActivity;
 import com.viauc.igift.MainActivity;
 import com.viauc.igift.R;
 import com.viauc.igift.ui.signup.SignUpActivity;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -48,7 +34,7 @@ public class SignInActivity extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
 
     // Facebook
-    private CallbackManager mCallbackManager;
+    private CallbackManager facebookCallbackManager;
     private LoginButton loginButton;
     private static final String TAG = "FacebookAuthentication";
 
@@ -58,7 +44,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         viewModel = new ViewModelProvider(this).get(SignInViewModel.class);
-
+        facebookCallbackManager =viewModel.getFacebookCallbackManager();
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
 
@@ -71,14 +57,12 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        // Initialize Facebook Login button
-        mCallbackManager = CallbackManager.Factory.create();
         loginButton = findViewById(R.id.facebook_login_button);
-        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+        loginButton.registerCallback(viewModel.getFacebookCallbackManager(), new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                handleFacebookAccessToken(loginResult.getAccessToken());
+                viewModel.handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
             @Override
@@ -91,7 +75,6 @@ public class SignInActivity extends AppCompatActivity {
                 Log.d(TAG, "facebook:onError", error);
             }
         });
-        // Check if user is signed in (non-null) and update UI accordingly.
 
     }
 
@@ -99,31 +82,9 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void handleFacebookAccessToken(AccessToken accessToken) {
-
-        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("Facebook", "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUiToMainActivity(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("Facebook", "signInWithCredential:failure", task.getException());
-                            Toast.makeText(SignInActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUiToMainActivity(null);
-                        }
-                    }
-                });
-    }
 
 
     private void updateUiToMainActivity(FirebaseUser myUserObj) {

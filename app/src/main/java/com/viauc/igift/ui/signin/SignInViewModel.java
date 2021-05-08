@@ -8,6 +8,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.login.widget.LoginButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.viauc.igift.data.AuthAppRepository;
 import com.viauc.igift.data.UserRepository;
@@ -34,5 +37,16 @@ public class SignInViewModel extends AndroidViewModel {
 
     public LiveData<FirebaseUser> getCurrentUser() {
         return authAppRepository.getCurrentUser();
+    }
+
+
+
+    public void handleFacebookAccessToken(AccessToken accessToken) {
+        authAppRepository.handleFacebookAccessToken(accessToken);
+
+    }
+
+    public CallbackManager getFacebookCallbackManager() {
+        return authAppRepository.getFacebookCallbackManager();
     }
 }
