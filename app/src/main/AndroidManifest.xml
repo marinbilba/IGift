@@ -18,7 +18,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
-        <activity android:name=".ui.connect.newgroup.NewGroupFragment" />
+        <activity android:name=".ui.connect.creategroup.CreateGroupFragment" />
         <activity android:name=".ui.newuser.NewUserMenuActivity" />
         <activity android:name=".ui.signup.SignUpActivity" />
         <activity android:name=".ui.signin.SignInActivity" >

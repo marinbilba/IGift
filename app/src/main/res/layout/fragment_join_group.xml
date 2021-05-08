@@ -32,7 +32,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/inputGroupName"
+        android:id="@+id/inputTextCreateGroupName"
         android:layout_width="352dp"
         android:layout_height="56dp"
         android:layout_marginTop="52dp"
@@ -50,7 +50,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputGroupName"
+        app:layout_constraintTop_toBottomOf="@+id/inputTextCreateGroupName"
         app:layout_constraintVertical_bias="0.177" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

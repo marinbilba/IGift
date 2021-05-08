@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.viauc.igift.util.TAG;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,8 +43,6 @@ public class AuthAppRepository {
     // Facebook
     private final CallbackManager facebookCallbackManager;
 
-    private static final String FIREBASE_STORAGE_TAG = "FirebaseStorage";
-    private static final String FACEBOOK_TAG = "Facebook";
 
 
     private AuthAppRepository(Application application) {
@@ -81,7 +80,7 @@ public class AuthAppRepository {
 
                             }
                             // If sign in fails, display a message to the user.
-                            Log.w("Sing up", "signInWithEmail:failure", task.getException());
+                            Log.w(TAG.FIREBASE_AUTH.toString(), "signInWithEmail:failure", task.getException());
                             Toast.makeText(application, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -118,11 +117,11 @@ public class AuthAppRepository {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
-                                Log.d(FACEBOOK_TAG, "signInWithCredential:success");
+                                Log.d(TAG.FACEBOOK.toString(), "signInWithCredential:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                             } else {
                                 // If sign in fails, display a message to the user.
-                                Log.w(FACEBOOK_TAG, "signInWithCredential:failure", task.getException());
+                                Log.w(TAG.FACEBOOK.toString(), "signInWithCredential:failure", task.getException());
                                 Toast.makeText(application, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                             }
@@ -146,14 +145,14 @@ public class AuthAppRepository {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d(FIREBASE_STORAGE_TAG, "DocumentSnapshot data: " + document.getData());
+                        Log.d(TAG.FIREBASE_STORAGE.toString(), "DocumentSnapshot data: " + document.getData());
                     } else {
-                        Log.d(FIREBASE_STORAGE_TAG, "No such document");
+                        Log.d(TAG.FIREBASE_STORAGE.toString(), "No such document");
                         populateFirebaseStorageWithCurrentUser(user);
 
                     }
                 } else {
-                    Log.d(FIREBASE_STORAGE_TAG, "get failed with ", task.getException());
+                    Log.d(TAG.FIREBASE_STORAGE.toString(), "get failed with ", task.getException());
                 }
             }
         });
@@ -167,7 +166,7 @@ public class AuthAppRepository {
         documentReference.set(userHashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.d("Firebase Storage", "User profile is created for " + user.getUid());
+                Log.d(TAG.FIREBASE_STORAGE.toString(), "User profile is created for " + user.getUid());
             }
         });
     }

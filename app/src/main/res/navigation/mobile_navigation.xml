@@ -37,12 +37,15 @@
         tools:layout="@layout/fragment_calendar" />
     <fragment
         android:id="@+id/newGroupFragment"
-        android:name="com.viauc.igift.ui.connect.newgroup.NewGroupFragment"
+        android:name="com.viauc.igift.ui.connect.creategroup.CreateGroupFragment"
         android:label="fragment_create_group"
         tools:layout="@layout/fragment_create_group" >
         <action
             android:id="@+id/action_newGroupFragment_to_navigation_connect"
             app:destination="@id/navigation_connect" />
+        <action
+            android:id="@+id/action_newGroupFragment_to_navigation_groups"
+            app:destination="@id/navigation_groups" />
     </fragment>
     <fragment
         android:id="@+id/joinGroupFragment"
