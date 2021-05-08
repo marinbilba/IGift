@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseUser;
 import com.viauc.igift.ui.connect.ConnectViewModel;
 import com.viauc.igift.ui.signin.SignInActivity;
 
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
@@ -38,11 +40,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainActivityViewModel =
-                new ViewModelProvider(this).get(MainActivityViewModel.class);
-        checkIfSignedIn();
         initViews();
         setupNavigation();
+        mainActivityViewModel =
+                new ViewModelProvider(this).get(MainActivityViewModel.class);
+
+        mainActivityViewModel.getCurrentUser().observe(this, new Observer<FirebaseUser>() {
+            @Override
+            public void onChanged(FirebaseUser firebaseUser) {
+                if (firebaseUser == null) {
+                    Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
     }
     private void initViews() {
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -130,13 +142,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //close navigation drawer
         return true;
     }
-    private void checkIfSignedIn() {
-        mainActivityViewModel.getCurrentUser().observe(this, user -> {
-            if (user == null) {
-                Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-    }
+
+
 }

@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.login.widget.LoginButton;
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -175,5 +176,10 @@ public class AuthAppRepository {
 
     public LiveData<FirebaseUser> getCurrentUser() {
         return currentUser;
+    }
+
+    public void signOut() {
+        AuthUI.getInstance()
+                .signOut(application.getApplicationContext());
     }
 }
