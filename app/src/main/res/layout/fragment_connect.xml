@@ -34,7 +34,6 @@
         android:layout_width="374dp"
         android:layout_height="83dp"
         android:layout_marginTop="32dp"
-        android:onClick="startGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Welcome">
@@ -56,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:fontFamily="@font/poppinsbold"
-                android:text="@string/start_a_group"
+                android:text="@string/create_a_group"
                 android:textColor="@color/purple_500"
                 android:textSize="20sp" />
 
@@ -72,11 +71,10 @@
     </TableRow>
 
     <TableRow
-        android:id="@+id/joinGroup2"
+        android:id="@+id/joinGroupRow"
         android:layout_width="374dp"
         android:layout_height="83dp"
         android:layout_marginTop="16dp"
-        android:onClick="joinGroup"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

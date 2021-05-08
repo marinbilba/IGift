@@ -9,7 +9,14 @@
         android:id="@+id/navigation_connect"
         android:name="com.viauc.igift.ui.connect.ConnectFragment"
         android:label="@string/connect"
-        tools:layout="@layout/fragment_connect" />
+        tools:layout="@layout/fragment_connect" >
+        <action
+            android:id="@+id/action_navigation_connect_to_newGroupFragment"
+            app:destination="@id/newGroupFragment" />
+        <action
+            android:id="@+id/action_navigation_connect_to_joinGroupFragment"
+            app:destination="@id/joinGroupFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_my_list"
@@ -28,4 +35,22 @@
         android:name="com.viauc.igift.ui.calendar.CalendarFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_calendar" />
+    <fragment
+        android:id="@+id/newGroupFragment"
+        android:name="com.viauc.igift.ui.connect.newgroup.NewGroupFragment"
+        android:label="fragment_create_group"
+        tools:layout="@layout/fragment_create_group" >
+        <action
+            android:id="@+id/action_newGroupFragment_to_navigation_connect"
+            app:destination="@id/navigation_connect" />
+    </fragment>
+    <fragment
+        android:id="@+id/joinGroupFragment"
+        android:name="com.viauc.igift.ui.connect.joingroup.JoinGroupFragment"
+        android:label="fragment_join_group"
+        tools:layout="@layout/fragment_join_group" >
+        <action
+            android:id="@+id/action_joinGroupFragment_to_navigation_connect"
+            app:destination="@id/navigation_connect" />
+    </fragment>
 </navigation>

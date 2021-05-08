@@ -17,7 +17,7 @@
     <string name="fb_login_protocol_scheme">fb738297410191075</string>
 
     <string name="confirm_password">Confirm Password</string>
-    <string name="start_a_group">Start a group</string>
+    <string name="create_a_group">Create a group</string>
     <string name="welcome">Welcome</string>
     <string name="join_a_group">Join a Group</string>
     <string name="search_for_an_existing_group">Search for an existing group</string>
@@ -42,5 +42,7 @@
     <string name="close">close</string>
     <string name="open">open</string>
     <string name="settings">Settings</string>
+    <string name="find_group">Find group</string>
+    <string name="find_other_members_view_public_gift_preferences_and_wish_lists">Find other members. View public gift preferences and wish lists.</string>
 
 </resources>

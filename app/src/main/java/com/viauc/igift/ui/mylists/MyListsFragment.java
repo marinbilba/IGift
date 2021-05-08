@@ -26,32 +26,7 @@ public class MyListsFragment extends Fragment {
         myListsViewModel = new ViewModelProvider(this).get(MyListsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_my_list, container, false);
 
-        final TextView textView = root.findViewById(R.id.text_home);
-        myListsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-
-        Button button = (Button) root.findViewById(R.id.signOut);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myListsViewModel.signOut();
-                checkIfSignedIn();
-            }
-        });
-
         return root;
     }
 
-    private void checkIfSignedIn() {
-        myListsViewModel.getCurrentUser().observe(this, user -> {
-            if (user == null) {
-                Intent intent = new Intent(getActivity(), SignInActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
 }
