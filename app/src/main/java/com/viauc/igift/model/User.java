@@ -1,4 +1,4 @@
-package com.viauc.igift.data;
+package com.viauc.igift.model;
 
 public class User {
     public String username, email;

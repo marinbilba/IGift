@@ -2,6 +2,7 @@ package com.viauc.igift.ui.signin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -43,7 +44,7 @@ public class SignInActivity extends AppCompatActivity {
     private TextView emailEditText;
     private TextView passwordEditText;
 
-    private FirebaseAuth mAuth;
+    FirebaseAuth mAuth;
     FirebaseFirestore firebaseFirestore;
 
     // Facebook
@@ -58,12 +59,17 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         viewModel = new ViewModelProvider(this).get(SignInViewModel.class);
 
-        // Initialize firebase instances
-        mAuth = FirebaseAuth.getInstance();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
+
+        viewModel.getCurrentUser().observe(this, new Observer<FirebaseUser>() {
+            @Override
+            public void onChanged(FirebaseUser firebaseUser) {
+                if (firebaseUser != null) {
+                    updateUiToMainActivity(firebaseUser);
+                }
+            }
+        });
 
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
@@ -73,7 +79,6 @@ public class SignInActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
-
             }
 
             @Override
@@ -87,17 +92,9 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
         // Check if user is signed in (non-null) and update UI accordingly.
-        checkIfSignedIn();
 
     }
 
-    private void checkIfSignedIn() {
-        viewModel.getCurrentUser().observe(this, user -> {
-            if (user != null) {
-                updateUiToMainActivity(user);
-            }
-        });
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -116,7 +113,6 @@ public class SignInActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("Facebook", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            checkIfUserExists(user);
                             updateUiToMainActivity(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -143,24 +139,7 @@ public class SignInActivity extends AppCompatActivity {
         final String password = passwordEditText.getText().toString().trim();
 
         if (loginFieldsValidation(email, password)) {
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                checkIfUserExists(user);
-                                updateUiToMainActivity(user);
-                                finish();
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                                updateUiToMainActivity(null);
-                            }
-                        }
-                    });
+            viewModel.signIn(email, password);
         }
     }
 
@@ -187,39 +166,4 @@ public class SignInActivity extends AppCompatActivity {
         startActivity(new Intent(this, ForgotPasswordActivity.class));
     }
 
-    private void populateFirebaseStorageWithCurrentUser(FirebaseUser user) {
-        DocumentReference documentReference = firebaseFirestore.collection("users").document(user.getUid());
-        Map<String, Object> userHashMap = new HashMap<>();
-        userHashMap.put("email", user.getEmail());
-        documentReference.set(userHashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("Firebase Storage", "User profile is created for " + user.getUid());
-            }
-        });
-    }
-
-    private void checkIfUserExists(FirebaseUser user) {
-        if(user==null){
-            return;
-        }
-        DocumentReference docRef = firebaseFirestore.collection("users").document(user.getUid());
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                    } else {
-                        Log.d(TAG, "No such document");
-                        populateFirebaseStorageWithCurrentUser(user);
-
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-    }
 }
