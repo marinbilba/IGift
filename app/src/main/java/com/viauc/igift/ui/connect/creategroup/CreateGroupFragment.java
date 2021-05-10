@@ -16,9 +16,10 @@ import com.viauc.igift.R;
 
 public class CreateGroupFragment extends Fragment {
     CreateGroupViewModel createGroupViewModel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+//todo don't allow same user to create group with the same name
         View view = inflater.inflate(R.layout.fragment_create_group, container, false);
 
         EditText groupNameEditText = view.findViewById(R.id.inputTextCreateGroupName);
