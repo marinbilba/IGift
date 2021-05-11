@@ -7,19 +7,16 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.viauc.igift.R;
-import com.viauc.igift.data.UserDataRepository;
-import com.viauc.igift.model.Group;
+import com.viauc.igift.data.UserGroupsRepository;
 
 public class CreateGroupViewModel extends AndroidViewModel {
-    private final UserDataRepository userDataRepository;
-
+    private final UserGroupsRepository userGroupsRepository;
     public CreateGroupViewModel(@NonNull Application application) {
         super(application);
-        userDataRepository = UserDataRepository.getInstance(application);
+        userGroupsRepository = UserGroupsRepository.getInstance(application);
     }
     public void createGroup(String groupName){
-        userDataRepository.createGroup(groupName);
+        userGroupsRepository.createGroup(groupName);
     }
 
     public Pair<Boolean, String> validateGroupNameInputField(String groupName, View view) {

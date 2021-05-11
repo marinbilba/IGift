@@ -5,6 +5,13 @@ public class Group {
     public String ownerEmail;
     public String groupName;
 
+    public Group() {
+    }
+
+    public Group(String ownerEmail, String groupName) {
+        this.ownerEmail = ownerEmail;
+        this.groupName = groupName;
+    }
 
     public String getOwnerEmail() {
         return ownerEmail;

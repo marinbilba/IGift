@@ -5,19 +5,27 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+
+import com.viauc.igift.data.UserGroupsRepository;
+import com.viauc.igift.model.Group;
+
+import java.util.ArrayList;
 
 public class GroupsViewModel extends AndroidViewModel {
 
-    private MutableLiveData<String> mText;
+    private final UserGroupsRepository userGroupsRepository;
 
     public GroupsViewModel(Application app) {
         super(app);
-        mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        userGroupsRepository = UserGroupsRepository.getInstance(app);
+
     }
 
-    public LiveData<String> getText() {
-        return mText;
+
+    public MutableLiveData<ArrayList<Group>> getUserCreatedGroups() {
+
+        return userGroupsRepository.getUserCreatedGroupsLiveData();
     }
+
+
 }
