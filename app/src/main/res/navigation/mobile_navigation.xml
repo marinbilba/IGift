@@ -49,9 +49,9 @@
     </fragment>
     <fragment
         android:id="@+id/joinGroupFragment"
-        android:name="com.viauc.igift.ui.connect.joingroup.JoinGroupFragment"
+        android:name="com.viauc.igift.ui.connect.searchgroup.SearchGroupFragment"
         android:label="fragment_join_group"
-        tools:layout="@layout/fragment_join_group" >
+        tools:layout="@layout/fragment_search_group" >
         <action
             android:id="@+id/action_joinGroupFragment_to_navigation_connect"
             app:destination="@id/navigation_connect" />

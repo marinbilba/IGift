@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,12 +35,11 @@ public class UserGroupsRepository {
 //    private OnCreatedGroupTaskComplete onCreatedGroupTaskComplete;
 
 
-    private UserGroupsRepository(Application application ) {
-
+    private UserGroupsRepository(Application application) {
 
 
         this.application = application;
-        userCreatedGroups=new ArrayList<>();
+        userCreatedGroups = new ArrayList<>();
         // Initialize firebase  instance
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -71,54 +69,62 @@ public class UserGroupsRepository {
         });
     }
 
-    public MutableLiveData<ArrayList<Group>> getUserCreatedGroupsLiveData() {
-        MutableLiveData<ArrayList<Group>> userCreatedGroupsLiveData = new MutableLiveData<>();
-
-        getUserCreatedGroups();
-        userCreatedGroupsLiveData.setValue(userCreatedGroups);
-        LiveData<ArrayList<Group>> as=userCreatedGroupsLiveData;
-        return userCreatedGroupsLiveData;
+    public void getUserCreatedGroupsLiveData(CreateGroupCallback fetchedUserCreatedGroupsCallback) {
+        getUserCreatedGroups(fetchedUserCreatedGroupsCallback);
+    }
+    public void getUserCreatedGroupsLiveData(CreateGroupCallback fetchedUserCreatedGroupsCallback, String userEmail) {
+        getUserCreatedGroups(fetchedUserCreatedGroupsCallback,userEmail);
     }
 
-    public void getUserCreatedGroups() {
+
+
+    private void getUserCreatedGroups(CreateGroupCallback fetchedUserCreatedGroupsCallback) {
         firebaseFirestore.collection("groups")
-                //  .whereEqualTo("ownerEmail",mAuth.getCurrentUser().getEmail())
-                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .whereEqualTo("ownerEmail", mAuth.getCurrentUser().getEmail())
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                    userCreatedGroups=new ArrayList<>();
-                    for (DocumentSnapshot documentSnapshot : list) {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    userCreatedGroups = new ArrayList<>();
+                    for (DocumentSnapshot documentSnapshot : task.getResult()) {
                         Log.d(TAG.FIREBASE_STORAGE.toString(), documentSnapshot.getId() + " => " + documentSnapshot.getData());
                         Group group = documentSnapshot.toObject(Group.class);
-
                         userCreatedGroups.add(group);
-
-
+                        fetchedUserCreatedGroupsCallback.createdGroupsOnCallbackSuccess(userCreatedGroups);
                     }
+                    fetchedUserCreatedGroupsCallback.createdGroupsOnCallbackNoResults();
+                } else {
+                    Log.d(TAG.FIREBASE_STORAGE.toString(), "Error getting documents: ", task.getException());
+
                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG.FIREBASE_STORAGE.toString(), "Error getting documents: ", e);
 
             }
         });
 
-//        firebaseFirestore.collection("groups")
-//                //  .whereEqualTo("ownerEmail",mAuth.getCurrentUser().getEmail())
-//                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if(task.isSuccessful()){
-//
-//
-//                }else {
-//
-//                }
-//            }
-//        });
     }
+
+    private void getUserCreatedGroups(CreateGroupCallback createGroupCallback, String userEmail) {
+        firebaseFirestore.collection("groups")
+                .whereEqualTo("ownerEmail", userEmail)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    userCreatedGroups = new ArrayList<>();
+                    for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                        Log.d(TAG.FIREBASE_STORAGE.toString(), documentSnapshot.getId() + " => " + documentSnapshot.getData());
+                        Group group = documentSnapshot.toObject(Group.class);
+                        userCreatedGroups.add(group);
+                        createGroupCallback.createdGroupsOnCallbackSuccess(userCreatedGroups);
+                    }
+                    createGroupCallback.createdGroupsOnCallbackNoResults();
+                } else {
+                    Log.d(TAG.FIREBASE_STORAGE.toString(), "Error getting documents: ", task.getException());
+
+                }
+
+            }
+        });
+    }
+
 }

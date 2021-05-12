@@ -10,17 +10,16 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.viauc.igift.R;
-import com.viauc.igift.ui.connect.ConnectViewModel;
+import com.viauc.igift.ui.connect.searchgroup.SearchGroupViewModel;
 
 public class JoinGroupFragment extends Fragment {
-
-    private JoinGroupViewModel joinGroupViewModel;
-    View view;
+    JoinGroupViewModel joinGroupViewModel;
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_create_group, container, false);
         joinGroupViewModel =
                 new ViewModelProvider(this).get(JoinGroupViewModel.class);
-        view = inflater.inflate(R.layout.fragment_join_group, container, false);
-    return view;
+        return view;
     }
 }

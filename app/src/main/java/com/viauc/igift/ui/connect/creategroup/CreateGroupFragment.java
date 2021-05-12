@@ -32,7 +32,7 @@ public class CreateGroupFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String groupName = groupNameEditText.getText().toString().trim();
-                Pair<Boolean, String> response=createGroupViewModel.validateGroupNameInputField(groupName,view);
+                Pair<Boolean, String> response=createGroupViewModel.validateGroupNameInputField(groupName);
                 if(!response.first){
                     groupNameEditText.setError(response.second);
                     groupNameEditText.requestFocus();

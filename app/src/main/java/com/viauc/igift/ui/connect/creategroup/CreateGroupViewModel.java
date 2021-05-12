@@ -19,7 +19,7 @@ public class CreateGroupViewModel extends AndroidViewModel {
         userGroupsRepository.createGroup(groupName);
     }
 
-    public Pair<Boolean, String> validateGroupNameInputField(String groupName, View view) {
+    public Pair<Boolean, String> validateGroupNameInputField(String groupName) {
 
         if(groupName.isEmpty()){
            return new Pair<Boolean,String>(false,"Field can not be empty");
