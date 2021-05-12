@@ -14,14 +14,12 @@ import com.viauc.igift.R;
 import com.viauc.igift.data.CreateGroupCallback;
 import com.viauc.igift.model.Group;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GroupsFragment extends Fragment  {
 
     private GroupsViewModel groupsViewModel;
-    private ExpandablePlaceHolderView expandablePlaceHolderView;
-    ArrayList<Group> userCreatedGroups;
+    private ExpandablePlaceHolderView createdGroupsPlaceHolderView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -29,9 +27,8 @@ public class GroupsFragment extends Fragment  {
                 new ViewModelProvider(this).get(GroupsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_groups, container, false);
 
-        expandablePlaceHolderView = (ExpandablePlaceHolderView) view.findViewById(R.id.expandableCreatedGroupsPlaceholder);
-        expandablePlaceHolderView.addView(new HeaderView(getContext(), "Groups I manage"));
-        expandablePlaceHolderView.addView(new HeaderView(getContext(), "Groups I joined"));
+        createdGroupsPlaceHolderView = (ExpandablePlaceHolderView) view.findViewById(R.id.expandableCreatedGroupsPlaceholder);
+        createdGroupsPlaceHolderView.addView(new HeaderView(getContext(), "Groups I manage"));
 
         loadGroupData();
         return view;
@@ -44,7 +41,7 @@ public class GroupsFragment extends Fragment  {
         @Override
         public void createdGroupsOnCallbackSuccess(List<Group> list) {
             for (Group group : list) {
-                expandablePlaceHolderView.addView(new GroupNameView(getContext(), group));
+                createdGroupsPlaceHolderView.addView(new GroupNameView(getContext(), group));
             }
         }
 
@@ -52,7 +49,7 @@ public class GroupsFragment extends Fragment  {
         public void createdGroupsOnCallbackNoResults() {
             Group testGroup=new Group();
             testGroup.setGroupName("No managed groups");
-            expandablePlaceHolderView.addView(new GroupNameView(getContext(), testGroup));
+            createdGroupsPlaceHolderView.addView(new GroupNameView(getContext(), testGroup));
 
         }
     };

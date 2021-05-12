@@ -84,8 +84,8 @@ public class UserGroupsRepository {
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                userCreatedGroups = new ArrayList<>();
                 if (task.isSuccessful()) {
-                    userCreatedGroups = new ArrayList<>();
                     for (DocumentSnapshot documentSnapshot : task.getResult()) {
                         Log.d(TAG.FIREBASE_STORAGE.toString(), documentSnapshot.getId() + " => " + documentSnapshot.getData());
                         Group group = documentSnapshot.toObject(Group.class);

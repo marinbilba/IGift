@@ -45,5 +45,6 @@
     <string name="find_group">Find group</string>
     <string name="find_other_members_view_public_gift_preferences_and_wish_lists">Find other members groups and wish lists. Search by user email address.</string>
     <string name="enter_the_user_email">Enter the user email</string>
+    <string name="join">Join</string>
 
 </resources>

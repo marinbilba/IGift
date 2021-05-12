@@ -40,7 +40,7 @@ public class CreateGroupFragment extends Fragment {
                     createGroupViewModel.createGroup(groupName);
                     //todo Check if group was actually created before going to a new view
                     //todo check for group name duplicates
-                    Navigation.findNavController(v).navigate(R.id.action_navigation_connect_to_joinGroupFragment);
+                    Navigation.findNavController(v).navigate(R.id.action_newGroupFragment_to_navigation_groups);
                 }
 
 
