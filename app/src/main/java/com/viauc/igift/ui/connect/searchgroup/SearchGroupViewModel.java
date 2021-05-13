@@ -5,7 +5,7 @@ import android.util.Pair;
 
 import androidx.lifecycle.AndroidViewModel;
 
-import com.viauc.igift.data.CreateGroupCallback;
+import com.viauc.igift.data.callbacks.CreateGroupCallback;
 import com.viauc.igift.data.UserGroupsRepository;
 
 public class SearchGroupViewModel extends AndroidViewModel {

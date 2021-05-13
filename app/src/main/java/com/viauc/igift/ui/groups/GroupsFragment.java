@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mindorks.placeholderview.ExpandablePlaceHolderView;
 import com.viauc.igift.R;
-import com.viauc.igift.data.CreateGroupCallback;
+import com.viauc.igift.data.callbacks.CreateGroupCallback;
 import com.viauc.igift.model.Group;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupsFragment extends Fragment  {
@@ -26,30 +28,34 @@ public class GroupsFragment extends Fragment  {
         groupsViewModel =
                 new ViewModelProvider(this).get(GroupsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_groups, container, false);
-
         createdGroupsPlaceHolderView = (ExpandablePlaceHolderView) view.findViewById(R.id.expandableCreatedGroupsPlaceholder);
         createdGroupsPlaceHolderView.addView(new HeaderView(getContext(), "Groups I manage"));
 
         loadGroupData();
         return view;
     }
-
+    RecyclerView recyclerView;
     private void loadGroupData() {
         groupsViewModel.getUserCreatedGroups(createGroupCallback);
     }
     CreateGroupCallback createGroupCallback =new CreateGroupCallback() {
         @Override
         public void createdGroupsOnCallbackSuccess(List<Group> list) {
+            ArrayList<String> gr=new ArrayList();
+
             for (Group group : list) {
-                createdGroupsPlaceHolderView.addView(new GroupNameView(getContext(), group));
+                gr.add(group.groupName);
+
             }
+            createdGroupsPlaceHolderView.addView(new GroupsAdapter(gr,getContext()));
+
         }
 
         @Override
         public void createdGroupsOnCallbackNoResults() {
-            Group testGroup=new Group();
-            testGroup.setGroupName("No managed groups");
-            createdGroupsPlaceHolderView.addView(new GroupNameView(getContext(), testGroup));
+//            Group testGroup=new Group();
+//            testGroup.setGroupName("No managed groups");
+//            createdGroupsPlaceHolderView.addView(new GroupNameView(getContext(), testGroup));
 
         }
     };

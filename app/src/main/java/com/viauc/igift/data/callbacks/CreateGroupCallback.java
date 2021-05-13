@@ -1,4 +1,4 @@
-package com.viauc.igift.data;
+package com.viauc.igift.data.callbacks;
 
 import com.viauc.igift.model.Group;
 

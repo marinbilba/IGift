@@ -1,7 +1,6 @@
 package com.viauc.igift.ui.connect.searchgroup;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.viauc.igift.R;
-import com.viauc.igift.data.CreateGroupCallback;
+import com.viauc.igift.data.callbacks.CreateGroupCallback;
 import com.viauc.igift.model.Group;
 
 import java.util.List;
@@ -55,7 +55,9 @@ public class SearchGroupFragment extends Fragment {
     CreateGroupCallback createGroupCallback =new CreateGroupCallback() {
         @Override
         public void createdGroupsOnCallbackSuccess(List<Group> list) {
-            Log.d("pulas", "onCallback: All");
+            SearchGroupFragmentDirections.ActionSearchGroupFragmentToJoinGroupFragment action =
+                    SearchGroupFragmentDirections.actionSearchGroupFragmentToJoinGroupFragment(searchUserEmail);
+            Navigation.findNavController(view).navigate(action);
         }
 
         @Override

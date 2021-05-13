@@ -5,4 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.connect.joingroup.JoinGroupFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/joinGroupRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

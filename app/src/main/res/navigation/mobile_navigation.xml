@@ -15,7 +15,7 @@
             app:destination="@id/createGroupFragment" />
         <action
             android:id="@+id/action_navigation_connect_to_joinGroupFragment"
-            app:destination="@id/joinGroupFragment" />
+            app:destination="@id/searchGroupFragment" />
     </fragment>
 
     <fragment
@@ -37,8 +37,9 @@
         tools:layout="@layout/fragment_calendar" />
     <fragment
         android:id="@+id/createGroupFragment"
+
         android:name="com.viauc.igift.ui.connect.creategroup.CreateGroupFragment"
-        android:label="fragment_create_group"
+        android:label="Create Group"
         tools:layout="@layout/fragment_create_group" >
         <action
             android:id="@+id/action_newGroupFragment_to_navigation_connect"
@@ -48,12 +49,28 @@
             app:destination="@id/navigation_groups" />
     </fragment>
     <fragment
-        android:id="@+id/joinGroupFragment"
+        android:id="@+id/searchGroupFragment"
         android:name="com.viauc.igift.ui.connect.searchgroup.SearchGroupFragment"
-        android:label="fragment_join_group"
+        android:label="Search Group"
         tools:layout="@layout/fragment_search_group" >
         <action
-            android:id="@+id/action_joinGroupFragment_to_navigation_connect"
+            android:id="@+id/action_searchGroupFragment_to_navigation_connect"
             app:destination="@id/navigation_connect" />
+        <action
+            android:id="@+id/action_searchGroupFragment_to_joinGroupFragment"
+            app:destination="@id/joinGroupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/joinGroupFragment"
+        android:name="com.viauc.igift.ui.connect.joingroup.JoinGroupFragment"
+        android:label="Join Group"
+        tools:layout="@layout/fragment_join_group"
+        >
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_joinGroupFragment_to_searchGroupFragment"
+            app:destination="@id/searchGroupFragment" />
     </fragment>
 </navigation>

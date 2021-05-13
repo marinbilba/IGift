@@ -10,7 +10,7 @@ import com.mindorks.placeholderview.annotations.View;
 import com.viauc.igift.R;
 import com.viauc.igift.model.Group;
 
-@Layout(R.layout.groups_name_layout)
+@Layout(R.layout.groups_name_raw_layout)
 public class GroupNameView {
     private static String TAG ="ChildView";
 
