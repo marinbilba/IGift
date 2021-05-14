@@ -28,7 +28,11 @@
         android:id="@+id/navigation_groups"
         android:name="com.viauc.igift.ui.groups.GroupsFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_groups" />
+        tools:layout="@layout/fragment_groups" >
+        <action
+            android:id="@+id/action_navigation_groups_to_groupMembersFragment"
+            app:destination="@id/groupMembersFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_calendar"
@@ -72,5 +76,16 @@
         <action
             android:id="@+id/action_joinGroupFragment_to_searchGroupFragment"
             app:destination="@id/searchGroupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupMembersFragment"
+        android:name="com.viauc.igift.ui.groupmembers.GroupMembersFragment"
+        android:label="GroupMembersFragment" >
+        <action
+            android:id="@+id/action_groupMembersFragment_to_navigation_groups"
+            app:destination="@id/navigation_groups" />
+        <argument
+            android:name="group"
+            app:argType="com.viauc.igift.model.Group" />
     </fragment>
 </navigation>

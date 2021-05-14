@@ -38,11 +38,9 @@ public class HeaderView {
 
     @Expand
     private void onExpand(){
-        Toast.makeText(mContext, "onExpand "+mHeaderText, Toast.LENGTH_SHORT).show();
     }
 
     @Collapse
     private void onCollapse(){
-        Toast.makeText(mContext, "onCollapse "+mHeaderText, Toast.LENGTH_SHORT).show();
     }
 }
