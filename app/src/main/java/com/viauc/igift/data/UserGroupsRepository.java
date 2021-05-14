@@ -163,15 +163,15 @@ public class UserGroupsRepository {
     }
 
     public void getUserJoinedGroups(UserJoinedGroupsCallback userJoinedGroupsCallback) {
-        firebaseFirestore.collection("usersConnected")
-                .whereEqualTo("connectedUserEmail", currentUserEmail)
+        firebaseFirestore.collection("groups")
+                .whereArrayContains("connectedUsers", currentUserEmail)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     userCreatedGroups = new ArrayList<>();
                     for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                        Log.d("Pulamea", documentSnapshot.getId() + " => " + documentSnapshot.getData());
+                        Log.d(TAG.FIREBASE_STORAGE.toString(), documentSnapshot.getId() + " => " + documentSnapshot.getData());
                         Group group = documentSnapshot.toObject(Group.class);
                         userCreatedGroups.add(group);
                         userJoinedGroupsCallback.joinedGroupsOnCallbackSuccess(userCreatedGroups);

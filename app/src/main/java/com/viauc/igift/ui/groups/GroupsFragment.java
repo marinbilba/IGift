@@ -21,7 +21,7 @@ public class GroupsFragment extends Fragment  {
 
     private GroupsViewModel groupsViewModel;
     private ExpandablePlaceHolderView createdGroupsPlaceHolderView;
-    private ExpandablePlaceHolderView groupsUserJoined;
+    private ExpandablePlaceHolderView groupsUserJoinedPlaceHolderView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -29,16 +29,16 @@ public class GroupsFragment extends Fragment  {
                 new ViewModelProvider(this).get(GroupsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_groups, container, false);
         createdGroupsPlaceHolderView = (ExpandablePlaceHolderView) view.findViewById(R.id.expandableCreatedGroupsPlaceholder);
-        groupsUserJoined = (ExpandablePlaceHolderView) view.findViewById(R.id.expandableJoinedGroupsPlaceholder);
+        groupsUserJoinedPlaceHolderView = (ExpandablePlaceHolderView) view.findViewById(R.id.expandableJoinedGroupsPlaceholder);
         loadGroupData();
         return view;
     }
 
     private void createExpandablePlaceHolderViews() {
         createdGroupsPlaceHolderView.removeAllViews();
-        groupsUserJoined.removeAllViews();
+        groupsUserJoinedPlaceHolderView.removeAllViews();
         createdGroupsPlaceHolderView.addView(new HeaderView(getContext(), "Groups I manage"));
-        groupsUserJoined.addView(new HeaderView(getContext(), "Groups I Joined"));
+        groupsUserJoinedPlaceHolderView.addView(new HeaderView(getContext(), "Groups I Joined"));
 
     }
 // todo can be optimized by caching locally the data
@@ -70,6 +70,9 @@ UserJoinedGroupsCallback userJoinedGroupsCallback=new UserJoinedGroupsCallback()
     @Override
     public void joinedGroupsOnCallbackSuccess(List<Group> list) {
 
+        for (Group group : list) {
+            groupsUserJoinedPlaceHolderView.addView(new GroupNameView(getContext(), group));
+        }
     }
 
     @Override
