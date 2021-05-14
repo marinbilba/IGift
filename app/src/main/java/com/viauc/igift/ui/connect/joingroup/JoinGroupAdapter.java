@@ -11,23 +11,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.viauc.igift.R;
-import com.viauc.igift.data.callbacks.OnJoinGroupClickListener;
+import com.viauc.igift.data.callbacks.OnRecyclerViewPositionClickListener;
 import com.viauc.igift.model.Group;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class JoinGroupAdapter extends RecyclerView.Adapter<JoinGroupAdapter.JoinGroupViewHolder> {
     ArrayList<Group> groups;
     Context context;
-    private final OnJoinGroupClickListener onJoinGroupClickListener;
+    private final OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener;
 
-    public JoinGroupAdapter(ArrayList<Group> groups, OnJoinGroupClickListener onJoinGroupClickListener, Context context) {
+    public JoinGroupAdapter(ArrayList<Group> groups, OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener, Context context) {
         this.groups = groups;
         this.context = context;
-        this.onJoinGroupClickListener = onJoinGroupClickListener;
+        this.onRecyclerViewPositionClickListener = onRecyclerViewPositionClickListener;
     }
 
     @NonNull
@@ -36,7 +35,7 @@ public class JoinGroupAdapter extends RecyclerView.Adapter<JoinGroupAdapter.Join
     public JoinGroupViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.groups_name_join_layout, parent, false);
-        return new JoinGroupViewHolder(view, onJoinGroupClickListener);
+        return new JoinGroupViewHolder(view, onRecyclerViewPositionClickListener);
     }
 
     @Override
@@ -54,23 +53,21 @@ public class JoinGroupAdapter extends RecyclerView.Adapter<JoinGroupAdapter.Join
     public static class JoinGroupViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView groupName;
         Button joinGroupButton;
-        OnJoinGroupClickListener onJoinGroupClickListener;
+        OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener;
 
-        public JoinGroupViewHolder(@NonNull View itemView, OnJoinGroupClickListener listener) {
+        public JoinGroupViewHolder(@NonNull View itemView, OnRecyclerViewPositionClickListener listener) {
             super(itemView);
             joinGroupButton = itemView.findViewById(R.id.joinGroupButton);
             groupName = itemView.findViewById(R.id.group_name);
             joinGroupButton.setOnClickListener(this);
-            onJoinGroupClickListener = listener;
+            onRecyclerViewPositionClickListener = listener;
 
 
         }
 
         @Override
         public void onClick(View v) {
-            onJoinGroupClickListener.onGroupPositionClicked(getAbsoluteAdapterPosition());
+            onRecyclerViewPositionClickListener.onRecyclerViewPositionCallback(getAbsoluteAdapterPosition());
         }
-
-
     }
 }

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.viauc.igift.R;
 import com.viauc.igift.data.callbacks.UserCreatedGroupsCallback;
-import com.viauc.igift.data.callbacks.OnJoinGroupClickListener;
+import com.viauc.igift.data.callbacks.OnRecyclerViewPositionClickListener;
 import com.viauc.igift.model.Group;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class JoinGroupFragment extends Fragment {
         @Override
         public void createdGroupsOnCallbackSuccess(List<Group> list) {
 fetchedGroups= (ArrayList<Group>) list;
-            JoinGroupAdapter myAdapter = new JoinGroupAdapter((ArrayList<Group>) list, onJoinGroupClickListener, getContext());
+            JoinGroupAdapter myAdapter = new JoinGroupAdapter((ArrayList<Group>) list, onRecyclerViewPositionClickListener, getContext());
             recyclerView.setAdapter(myAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
@@ -56,9 +56,9 @@ fetchedGroups= (ArrayList<Group>) list;
 
         }
     };
-    OnJoinGroupClickListener onJoinGroupClickListener = new OnJoinGroupClickListener() {
+    OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener = new OnRecyclerViewPositionClickListener() {
         @Override
-        public void onGroupPositionClicked(int position) {
+        public void onRecyclerViewPositionCallback(int position) {
             joinGroupViewModel.joinGroup(fetchedGroups.get(position));
         }
     };
