@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.viauc.igift.R;
-import com.viauc.igift.data.callbacks.CreateGroupCallback;
+import com.viauc.igift.data.callbacks.UserCreatedGroupsCallback;
 import com.viauc.igift.model.Group;
 
 import java.util.List;
@@ -45,14 +45,14 @@ public class SearchGroupFragment extends Fragment {
                     userEmailToSearch.setError(response.second);
                     userEmailToSearch.requestFocus();
                 }else{
-                    searchGroupViewModel.getUserCreatedGroupsByEmail(createGroupCallback, searchUserEmail);
+                    searchGroupViewModel.getUserCreatedGroupsByEmail(userCreatedGroupsCallback, searchUserEmail);
                 }
             }
         });
 
         return view;
     }
-    CreateGroupCallback createGroupCallback =new CreateGroupCallback() {
+    UserCreatedGroupsCallback userCreatedGroupsCallback =new UserCreatedGroupsCallback() {
         @Override
         public void createdGroupsOnCallbackSuccess(List<Group> list) {
             SearchGroupFragmentDirections.ActionSearchGroupFragmentToJoinGroupFragment action =

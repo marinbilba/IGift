@@ -1,7 +1,6 @@
 package com.viauc.igift.ui.connect.joingroup;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.viauc.igift.R;
-import com.viauc.igift.data.callbacks.CreateGroupCallback;
+import com.viauc.igift.data.callbacks.UserCreatedGroupsCallback;
 import com.viauc.igift.data.callbacks.OnJoinGroupClickListener;
 import com.viauc.igift.model.Group;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class JoinGroupFragment extends Fragment {
     ArrayList<Group> fetchedGroups = new ArrayList<>();
@@ -41,10 +39,10 @@ public class JoinGroupFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         String userEmail = JoinGroupFragmentArgs.fromBundle(getArguments()).getUserEmail();
-        joinGroupViewModel.getUserCreatedGroupsByEmail(createGroupCallback, userEmail);
+        joinGroupViewModel.getUserCreatedGroupsByEmail(userCreatedGroupsCallback, userEmail);
     }
 
-    CreateGroupCallback createGroupCallback = new CreateGroupCallback() {
+    UserCreatedGroupsCallback userCreatedGroupsCallback = new UserCreatedGroupsCallback() {
         @Override
         public void createdGroupsOnCallbackSuccess(List<Group> list) {
 fetchedGroups= (ArrayList<Group>) list;
@@ -61,8 +59,7 @@ fetchedGroups= (ArrayList<Group>) list;
     OnJoinGroupClickListener onJoinGroupClickListener = new OnJoinGroupClickListener() {
         @Override
         public void onGroupPositionClicked(int position) {
-fetchedGroups.get(position);
-            Log.d("Press", "onGroupPositionClicked: "+fetchedGroups.get(position).getGroupName());
+            joinGroupViewModel.joinGroup(fetchedGroups.get(position));
         }
     };
 

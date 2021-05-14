@@ -4,8 +4,9 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 
-import com.viauc.igift.data.callbacks.CreateGroupCallback;
+import com.viauc.igift.data.callbacks.UserCreatedGroupsCallback;
 import com.viauc.igift.data.UserGroupsRepository;
+import com.viauc.igift.data.callbacks.UserJoinedGroupsCallback;
 
 public class GroupsViewModel extends AndroidViewModel {
 
@@ -18,9 +19,12 @@ public class GroupsViewModel extends AndroidViewModel {
     }
 
 
-    public void getUserCreatedGroups(CreateGroupCallback fetchedUserCreatedGroupsCallback) {
-        userGroupsRepository.getUserCreatedGroupsLiveData(fetchedUserCreatedGroupsCallback);
+    public void getUserCreatedGroups(UserCreatedGroupsCallback fetchedUserCreatedGroupsCallback) {
+        userGroupsRepository.getUserCreatedGroups(fetchedUserCreatedGroupsCallback);
     }
 
 
+    public void getUserJoinedGroups(UserJoinedGroupsCallback userJoinedGroupsCallback) {
+        userGroupsRepository.getUserJoinedGroups(userJoinedGroupsCallback);
+    }
 }

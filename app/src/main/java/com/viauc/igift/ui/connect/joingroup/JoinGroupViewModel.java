@@ -5,8 +5,9 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.viauc.igift.data.callbacks.CreateGroupCallback;
+import com.viauc.igift.data.callbacks.UserCreatedGroupsCallback;
 import com.viauc.igift.data.UserGroupsRepository;
+import com.viauc.igift.model.Group;
 
 public class JoinGroupViewModel extends AndroidViewModel {
     private final UserGroupsRepository userGroupsRepository;
@@ -15,9 +16,14 @@ public class JoinGroupViewModel extends AndroidViewModel {
         userGroupsRepository = UserGroupsRepository.getInstance(application);
     }
 
-    public void getUserCreatedGroupsByEmail(CreateGroupCallback fetchedUserCreatedGroupsCallback, String userEmail) {
+    public void getUserCreatedGroupsByEmail(UserCreatedGroupsCallback fetchedUserCreatedGroupsCallback, String userEmail) {
 
-        userGroupsRepository.getUserCreatedGroupsLiveData(fetchedUserCreatedGroupsCallback,userEmail);
+        userGroupsRepository.getUserCreatedGroups(fetchedUserCreatedGroupsCallback,userEmail);
+
+    }
+
+    public void joinGroup(Group group) {
+        userGroupsRepository.joinGroup(group);
 
     }
 }

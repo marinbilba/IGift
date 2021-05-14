@@ -1,16 +1,31 @@
 package com.viauc.igift.model;
 
+import com.google.firebase.firestore.DocumentId;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+
 public class Group {
 
-    public String ownerEmail;
-    public String groupName;
-
+    @DocumentId
+    String uID;
+    private String ownerEmail;
+    private String groupName;
+private ArrayList<String> usersConnected;
     public Group() {
     }
 
-    public Group(String ownerEmail, String groupName) {
-        this.ownerEmail = ownerEmail;
-        this.groupName = groupName;
+    public String getuID() {
+        return uID;
+    }
+
+    public ArrayList<String> getUsersConnected() {
+        return usersConnected;
+    }
+
+    public void setUsersConnected(ArrayList<String> usersConnected) {
+        this.usersConnected = usersConnected;
     }
 
     public String getOwnerEmail() {

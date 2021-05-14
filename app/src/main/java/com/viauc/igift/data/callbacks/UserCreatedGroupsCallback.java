@@ -4,7 +4,7 @@ import com.viauc.igift.model.Group;
 
 import java.util.List;
 
-public interface CreateGroupCallback {
+public interface UserCreatedGroupsCallback {
     void createdGroupsOnCallbackSuccess(List<Group> list);
 
     void createdGroupsOnCallbackNoResults();

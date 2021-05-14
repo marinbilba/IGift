@@ -5,7 +5,7 @@ import android.util.Pair;
 
 import androidx.lifecycle.AndroidViewModel;
 
-import com.viauc.igift.data.callbacks.CreateGroupCallback;
+import com.viauc.igift.data.callbacks.UserCreatedGroupsCallback;
 import com.viauc.igift.data.UserGroupsRepository;
 
 public class SearchGroupViewModel extends AndroidViewModel {
@@ -28,9 +28,9 @@ public class SearchGroupViewModel extends AndroidViewModel {
         return new Pair<Boolean,String>(true,"");
     }
 
-    public void getUserCreatedGroupsByEmail(CreateGroupCallback fetchedUserCreatedGroupsCallback, String userEmail) {
+    public void getUserCreatedGroupsByEmail(UserCreatedGroupsCallback fetchedUserCreatedGroupsCallback, String userEmail) {
 
-      userGroupsRepository.getUserCreatedGroupsLiveData(fetchedUserCreatedGroupsCallback,userEmail);
+      userGroupsRepository.getUserCreatedGroups(fetchedUserCreatedGroupsCallback,userEmail);
 
     }
 }
