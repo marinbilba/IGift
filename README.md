@@ -9,7 +9,6 @@ How many times have you strugueld with finding the perfect gift for the close on
 **M**  
 As a user, I want to be able to log in using a registration system or with my facebook/google account      
 As a user, I want to be able to post my wishes on the app  
-As a user, I want to create friends network within the app  
 As a user, I want to share my wishe lists to my “family members”  
 As a user, I want to join other memebers groups  
 As a user, I want to see my created wishes list  
