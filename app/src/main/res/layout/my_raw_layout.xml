@@ -17,13 +17,13 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/wish_list_name_ConstraintLayout"
+        android:id="@+id/my_raw_ConstraintLayout"
         android:layout_width="match_parent"
         android:layout_height="45dp">
 
 
         <TextView
-            android:id="@+id/wish_list_name"
+            android:id="@+id/list_name_raw_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"

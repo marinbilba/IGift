@@ -1,4 +1,4 @@
-package com.viauc.igift.ui.mylists;
+package com.viauc.igift.ui.wishitems;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,19 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.viauc.igift.R;
 import com.viauc.igift.data.callbacks.OnRecyclerViewPositionClickListener;
+import com.viauc.igift.model.WishItem;
 import com.viauc.igift.model.WishList;
+import com.viauc.igift.ui.mylists.MyListAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.MyListAdapterViewHolder> {
-    private ArrayList<WishList> wishLists;
+public class WishItemsAdapter extends RecyclerView.Adapter<WishItemsAdapter.WishItemsViewHolder>{
+    private ArrayList<WishItem> wishItems;
     private Context context;
     private final OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener;
 
-    public MyListAdapter(ArrayList<WishList> wishLists, Context context, OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener) {
-        this.wishLists = wishLists;
+    public WishItemsAdapter(ArrayList<WishItem> wishItems, Context context, OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener) {
+        this.wishItems = wishItems;
         this.context = context;
         this.onRecyclerViewPositionClickListener = onRecyclerViewPositionClickListener;
     }
@@ -32,32 +34,32 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.MyListAdap
     @NonNull
     @NotNull
     @Override
-    public MyListAdapterViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+    public WishItemsViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.my_raw_layout, parent, false);
-        return new MyListAdapter.MyListAdapterViewHolder(view, onRecyclerViewPositionClickListener);
+        return new WishItemsAdapter.WishItemsViewHolder(view, onRecyclerViewPositionClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull MyListAdapterViewHolder holder, int position) {
-        holder.wishListName.setText(wishLists.get(position).getListName());
+    public void onBindViewHolder(@NonNull @NotNull WishItemsViewHolder holder, int position) {
+        holder.wishItemName.setText(wishItems.get(position).getGiftName());
 
     }
 
     @Override
     public int getItemCount() {
-        return wishLists.size();
+        return wishItems.size();
     }
 
-    public static class MyListAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView wishListName;
+    public static class WishItemsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView wishItemName;
         ConstraintLayout constraintLayout;
         OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener;
 
-        public MyListAdapterViewHolder(@NonNull View itemView, OnRecyclerViewPositionClickListener listener) {
+        public WishItemsViewHolder(@NonNull View itemView, OnRecyclerViewPositionClickListener listener) {
             super(itemView);
-            constraintLayout = itemView.findViewById(R.id.my_raw_ConstraintLayout);
-            wishListName = itemView.findViewById(R.id.list_name_raw_text_view);
+            constraintLayout=itemView.findViewById(R.id.my_raw_ConstraintLayout);
+            wishItemName = itemView.findViewById(R.id.list_name_raw_text_view);
             constraintLayout.setOnClickListener(this);
             onRecyclerViewPositionClickListener = listener;
 

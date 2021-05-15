@@ -24,7 +24,7 @@ public class GroupsFragment extends Fragment {
     private GroupsViewModel groupsViewModel;
     private ExpandablePlaceHolderView createdGroupsPlaceHolderView;
     private ExpandablePlaceHolderView groupsUserJoinedPlaceHolderView;
-    View view;
+    private View view;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

@@ -42,6 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/inputTextCreateGroupName"
         android:layout_width="334dp"

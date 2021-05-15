@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.viauc.igift.data.callbacks.FetchWishListCallback;
 import com.viauc.igift.model.WishItem;
+import com.viauc.igift.model.WishItemsHolder;
 import com.viauc.igift.model.WishList;
 import com.viauc.igift.util.TAG;
 
@@ -21,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -65,7 +67,7 @@ private ArrayList<WishList> userWishLists;
            firebaseFirestore.collection("users").document(mAuth.getUid()).collection("wishLists").document(wishList.getListName()).update("wishItems", FieldValue.arrayUnion(itemToAdd)).addOnCompleteListener(new OnCompleteListener<Void>() {
                @Override
                public void onComplete(@NonNull @NotNull Task<Void> task) {
-
+                   System.out.println();
                }
            });
        }
@@ -87,7 +89,9 @@ private ArrayList<WishList> userWishLists;
                             // Get wish list items
                             try {
                                 ArrayList<WishItem> wishItems = (ArrayList<WishItem>) documentSnapshot.get("wishItems");
-                                wishList.setWishItemsList(wishItems);
+
+                                ArrayList<WishItem>  wishItemsHolder = (ArrayList<WishItem>) documentSnapshot.toObject(WishItemsHolder.class).wishItemList;
+                                wishList.setWishItemsList(wishItemsHolder);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

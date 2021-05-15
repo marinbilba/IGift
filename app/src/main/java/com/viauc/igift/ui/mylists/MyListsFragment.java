@@ -26,6 +26,7 @@ import com.viauc.igift.model.Group;
 import com.viauc.igift.model.WishList;
 import com.viauc.igift.ui.groupmembers.GroupMembersAdapter;
 import com.viauc.igift.ui.groups.GroupNameView;
+import com.viauc.igift.ui.groups.GroupsFragmentDirections;
 import com.viauc.igift.ui.groups.HeaderView;
 import com.viauc.igift.ui.signin.SignInActivity;
 
@@ -80,7 +81,9 @@ public class MyListsFragment extends Fragment {
         @Override
         public void onRecyclerViewPositionCallback(int position) {
             WishList wishList=wishLists.get(position);
-            System.out.println();
+            MyListsFragmentDirections.ActionNavigationMyListToWishItemsFragment action =
+                    MyListsFragmentDirections.actionNavigationMyListToWishItemsFragment(wishList);
+            Navigation.findNavController(view).navigate(action);
         }
     };
 

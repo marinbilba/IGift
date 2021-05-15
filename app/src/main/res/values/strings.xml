@@ -50,5 +50,12 @@
     <string name="create_list">Create List</string>
     <string name="create_a_name_for_the_list_which_will_be_share_with_your_friends_in_the_joined_groups">Create a name for the list which will be share with your friends in the joined groups</string>
     <string name="my_birthday">My birthday</string>
+    <string name="gift_name">Gift name</string>
+    <string name="phone">Phone</string>
+    <string name="price">Price</string>
+    <string name="where_to_buy">Where To Buy</string>
+    <string name="any_apple_store">Any Apple Store</string>
+    <string name="description">Description</string>
+    <string name="add_item">Add item</string>
 
 </resources>

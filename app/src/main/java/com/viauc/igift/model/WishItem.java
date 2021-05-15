@@ -5,19 +5,26 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class WishItem implements Parcelable {
-    private String WishWebLink;
-    private Bitmap wishImage;
     private String giftName;
     private double price;
-    private String ranking;
+    private String whereToBuy;
     private String description;
 
+    public WishItem() {
+    }
+
+    public WishItem(String giftName, double price, String whereToBuy, String description) {
+        this.giftName = giftName;
+        this.price = price;
+        this.whereToBuy = whereToBuy;
+        this.description = description;
+    }
+
     protected WishItem(Parcel in) {
-        WishWebLink = in.readString();
-        wishImage = in.readParcelable(Bitmap.class.getClassLoader());
+
         giftName = in.readString();
         price = in.readDouble();
-        ranking = in.readString();
+        whereToBuy = in.readString();
         description = in.readString();
     }
 
@@ -32,22 +39,6 @@ public class WishItem implements Parcelable {
             return new WishItem[size];
         }
     };
-
-    public String getWishWebLink() {
-        return WishWebLink;
-    }
-
-    public void setWishWebLink(String wishWebLink) {
-        WishWebLink = wishWebLink;
-    }
-
-    public Bitmap getWishImage() {
-        return wishImage;
-    }
-
-    public void setWishImage(Bitmap wishImage) {
-        this.wishImage = wishImage;
-    }
 
     public String getGiftName() {
         return giftName;
@@ -65,12 +56,12 @@ public class WishItem implements Parcelable {
         this.price = price;
     }
 
-    public String getRanking() {
-        return ranking;
+    public String getWhereToBuy() {
+        return whereToBuy;
     }
 
-    public void setRanking(String ranking) {
-        this.ranking = ranking;
+    public void setWhereToBuy(String whereToBuy) {
+        this.whereToBuy = whereToBuy;
     }
 
     public String getDescription() {
@@ -88,11 +79,10 @@ public class WishItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(WishWebLink);
-        dest.writeParcelable(wishImage, flags);
+
         dest.writeString(giftName);
         dest.writeDouble(price);
-        dest.writeString(ranking);
+        dest.writeString(whereToBuy);
         dest.writeString(description);
     }
 }

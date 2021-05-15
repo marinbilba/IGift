@@ -10,6 +10,9 @@ public class WishList implements Parcelable {
     private String listName;
     private List<WishItem> wishItemsList;
 
+    public WishList() {
+    }
+
     protected WishList(Parcel in) {
         listName = in.readString();
         wishItemsList=new ArrayList<>();
