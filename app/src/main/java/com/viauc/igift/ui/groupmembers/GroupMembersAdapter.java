@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.viauc.igift.R;
-import com.viauc.igift.data.callbacks.OnGroupMemberClickListener;
 import com.viauc.igift.data.callbacks.OnRecyclerViewPositionClickListener;
 
 import org.jetbrains.annotations.NotNull;

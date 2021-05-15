@@ -6,20 +6,24 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.viauc.igift.data.WishListsRepository;
+import com.viauc.igift.data.callbacks.FetchWishListCallback;
+
 public class MyListsViewModel extends AndroidViewModel {
 
-    private MutableLiveData<String> mText;
+    private final WishListsRepository wishListsRepository;
 
     public MyListsViewModel(Application app) {
         super(app);
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        wishListsRepository=WishListsRepository.getInstance(app);
+
 
     }
 
-    public LiveData<String> getText() {
-        return mText;
+
+
+    public void getUserWishLists(FetchWishListCallback fetchWishListCallback) {
+        wishListsRepository.getCurrentUserWishLists(fetchWishListCallback);
+
     }
-
-
 }

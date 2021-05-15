@@ -6,32 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".ui.mylists.MyListsFragment">
 
-    <TextView
-        android:id="@+id/text_home"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/wishListRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.494" />
+        android:layout_height="match_parent" />
 
-    <Button
-        android:id="@+id/signOut"
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addListFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign out"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="88dp"
+        android:backgroundTint="@color/purple_500"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.128"
-
-        />
+        app:srcCompat="@drawable/floating_action_btn_plus_icon" />
 </androidx.constraintlayout.widget.ConstraintLayout>

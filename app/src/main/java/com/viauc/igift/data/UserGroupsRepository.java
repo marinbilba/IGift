@@ -145,7 +145,6 @@ public class UserGroupsRepository {
             joinGroupUser = new ArrayList<>();
         }
         joinGroupUser.add(currentUserEmail);
-        joinGroupUser.add("pidar");
 
         group.setUsersConnected(joinGroupUser);
         // Convert to hash set to avoid duplicates

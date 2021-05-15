@@ -7,25 +7,21 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.viauc.igift.data.callbacks.UserCreatedGroupsCallback;
 import com.viauc.igift.data.UserGroupsRepository;
+import com.viauc.igift.util.FieldValidation;
 
 public class SearchGroupViewModel extends AndroidViewModel {
     private final UserGroupsRepository userGroupsRepository;
-
+private FieldValidation fieldValidation;
     public SearchGroupViewModel(Application app) {
         super(app);
         userGroupsRepository = UserGroupsRepository.getInstance(app);
+        fieldValidation=new FieldValidation();
 
     }
 
     public Pair<Boolean, String> validateJoinGroupNameInputField(String groupName) {
 
-        if(groupName.isEmpty()){
-            return new Pair<Boolean,String>(false,"Field can not be empty");
-        }
-        else if(groupName.length()<6){
-            return new Pair<Boolean,String>(false,"Minimum 6 characters");
-        }
-        return new Pair<Boolean,String>(true,"");
+      return fieldValidation.validateEmptyAndMinCharInputField(groupName);
     }
 
     public void getUserCreatedGroupsByEmail(UserCreatedGroupsCallback fetchedUserCreatedGroupsCallback, String userEmail) {

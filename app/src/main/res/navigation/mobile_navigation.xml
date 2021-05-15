@@ -22,7 +22,11 @@
         android:id="@+id/navigation_my_list"
         android:name="com.viauc.igift.ui.mylists.MyListsFragment"
         android:label="@string/my_list"
-        tools:layout="@layout/fragment_my_list" />
+        tools:layout="@layout/fragment_my_list" >
+        <action
+            android:id="@+id/action_navigation_my_list_to_newListFragment"
+            app:destination="@id/newListFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_groups"
@@ -87,5 +91,14 @@
         <argument
             android:name="group"
             app:argType="com.viauc.igift.model.Group" />
+    </fragment>
+    <fragment
+        android:id="@+id/newListFragment"
+        android:name="com.viauc.igift.ui.newlist.NewListFragment"
+        android:label="fragment_new_list"
+        tools:layout="@layout/fragment_new_list" >
+        <action
+            android:id="@+id/action_newListFragment_to_navigation_my_list"
+            app:destination="@id/navigation_my_list" />
     </fragment>
 </navigation>

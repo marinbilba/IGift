@@ -8,26 +8,22 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.viauc.igift.data.UserGroupsRepository;
+import com.viauc.igift.util.FieldValidation;
 
 public class CreateGroupViewModel extends AndroidViewModel {
     private final UserGroupsRepository userGroupsRepository;
+    private FieldValidation fieldValidation;
     public CreateGroupViewModel(@NonNull Application application) {
         super(application);
         userGroupsRepository = UserGroupsRepository.getInstance(application);
+        fieldValidation=new FieldValidation();
     }
     public void createGroup(String groupName){
         userGroupsRepository.createGroup(groupName);
     }
 
     public Pair<Boolean, String> validateGroupNameInputField(String groupName) {
-
-        if(groupName.isEmpty()){
-           return new Pair<Boolean,String>(false,"Field can not be empty");
-        }
-        else if(groupName.length()<6){
-            return new Pair<Boolean,String>(false,"Minimum 6 characters");
-        }
-        return new Pair<Boolean,String>(true,"");
+return fieldValidation.validateEmptyAndMinCharInputField(groupName);
 
     }
 }

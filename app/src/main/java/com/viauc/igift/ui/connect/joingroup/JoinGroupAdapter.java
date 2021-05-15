@@ -34,7 +34,7 @@ public class JoinGroupAdapter extends RecyclerView.Adapter<JoinGroupAdapter.Join
     @Override
     public JoinGroupViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.groups_name_join_layout, parent, false);
+        View view = inflater.inflate(R.layout.groups_name_join_raw_layout, parent, false);
         return new JoinGroupViewHolder(view, onRecyclerViewPositionClickListener);
     }
 

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.newlist.NewListFragment">
+
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="211dp"
+        android:layout_height="102dp"
+        android:layout_marginTop="52dp"
+        android:src="@drawable/add_new_list_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="68dp"
+        android:text="@string/name_this_list"
+        android:textColor="@color/purple_500"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="324dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/create_a_name_for_the_list_which_will_be_share_with_your_friends_in_the_joined_groups"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.413"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/inputTextCreateNewListName"
+        android:layout_width="334dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="48dp"
+        android:fontFamily="@font/poppinsmedium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        android:hint="@string/my_birthday"/>
+
+
+
+    <Button
+        android:id="@+id/createNewListButton"
+        android:layout_width="205dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="52dp"
+        android:text="@string/create_list"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputTextCreateNewListName"
+        app:layout_constraintVertical_bias="0.110000014"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
