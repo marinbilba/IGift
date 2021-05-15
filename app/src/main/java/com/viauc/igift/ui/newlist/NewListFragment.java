@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.viauc.igift.R;
 import com.viauc.igift.data.callbacks.CreateWishListCallback;
+import com.viauc.igift.ui.mylists.WishListDisplayFragmentDirections;
 
 public class NewListFragment extends Fragment {
 
@@ -47,6 +48,8 @@ public class NewListFragment extends Fragment {
             newListNameTextView.requestFocus();
         } else {
             newListViewModel.createList(listName);
+            Navigation.findNavController(view).navigate(R.id.action_newListFragment_to_navigation_my_list);
+
         }
 
     }

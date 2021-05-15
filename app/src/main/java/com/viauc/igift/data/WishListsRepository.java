@@ -12,7 +12,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.viauc.igift.data.callbacks.FetchUserCallback;
 import com.viauc.igift.data.callbacks.FetchWishListCallback;
+import com.viauc.igift.model.User;
 import com.viauc.igift.model.WishItem;
 import com.viauc.igift.model.WishList;
 import com.viauc.igift.util.TAG;
@@ -27,11 +29,14 @@ import java.util.Objects;
 public class WishListsRepository {
     private static WishListsRepository instance;
 
+    private final AuthAppRepository authAppRepository;
+
     private final Application application;
     private final FirebaseFirestore firebaseFirestore;
     private final FirebaseAuth mAuth;
     private String currentUserEmail;
     private ArrayList<WishList> userWishLists;
+
 
     private WishListsRepository(Application application) {
         this.application = application;
@@ -39,6 +44,7 @@ public class WishListsRepository {
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         currentUserEmail = Objects.requireNonNull(mAuth.getCurrentUser()).getEmail();
+        authAppRepository = AuthAppRepository.getInstance(application);
     }
 
     public static WishListsRepository getInstance(Application app) {
@@ -76,7 +82,29 @@ public class WishListsRepository {
         if (mAuth.getUid() == null) {
             return;
         }
-        firebaseFirestore.collection("users").document(mAuth.getUid()).collection("wishLists").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        fetchUserWishLists(fetchWishListCallback, mAuth.getUid());
+    }
+
+    public void getUserWishLists(FetchWishListCallback fetchWishListCallback, String userEmail) {
+
+        FetchUserCallback fetchUserCallback = new FetchUserCallback() {
+            @Override
+            public void fetchUserOnSuccess(User user) {
+                try {
+                    String userId = user.getuID();
+                    fetchUserWishLists(fetchWishListCallback, userId);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        };
+        authAppRepository.getUserByEmail(userEmail, fetchUserCallback);
+    }
+
+    private void fetchUserWishLists(FetchWishListCallback fetchWishListCallback, String userId) {
+
+        firebaseFirestore.collection("users").document(userId).collection("wishLists").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -106,17 +134,17 @@ public class WishListsRepository {
     }
 
     private ArrayList<WishItem> convertMapArrayToObjectArray(ArrayList<Map<String, Object>> wishItems) {
-        ArrayList<WishItem> tempWishItems=new ArrayList<>();
+        ArrayList<WishItem> tempWishItems = new ArrayList<>();
         for (Map<String, Object> item : wishItems) {
-            WishItem wishItem ;
+            WishItem wishItem;
             try {
                 double itemPrice = Double.parseDouble(item.get("price").toString());
-                wishItem = new WishItem(item.get("giftName").toString(),itemPrice, item.get("description").toString(), item.get("whereToBuy").toString());
+                wishItem = new WishItem(item.get("giftName").toString(), itemPrice, item.get("description").toString(), item.get("whereToBuy").toString());
                 tempWishItems.add(wishItem);
 
-            }catch (Exception e){
-                 wishItem = new WishItem(item.get("giftName").toString(), item.get("description").toString(), item.get("whereToBuy").toString());
-tempWishItems.add(wishItem);
+            } catch (Exception e) {
+                wishItem = new WishItem(item.get("giftName").toString(), item.get("description").toString(), item.get("whereToBuy").toString());
+                tempWishItems.add(wishItem);
             }
 
 

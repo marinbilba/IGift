@@ -24,8 +24,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.viauc.igift.data.callbacks.FetchUserCallback;
+import com.viauc.igift.model.User;
+import com.viauc.igift.model.WishList;
 import com.viauc.igift.util.TAG;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -181,4 +188,20 @@ public class AuthAppRepository {
         AuthUI.getInstance()
                 .signOut(application.getApplicationContext());
     }
+
+    public User getUserByEmail(String userEmail, FetchUserCallback fetchUserCallback){
+        final User[] user = new User[1];
+        firebaseFirestore.collection("users").whereEqualTo("email",userEmail).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                        Log.d(TAG.FIREBASE_STORAGE.toString(), documentSnapshot.getId() + " => " + documentSnapshot.getData());
+                        User user = documentSnapshot.toObject(User.class);
+                        fetchUserCallback.fetchUserOnSuccess(user);
+                    }}
+            }
+        });
+        return user[0];
+        }
 }

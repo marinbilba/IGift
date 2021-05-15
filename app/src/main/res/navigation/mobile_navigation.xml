@@ -94,6 +94,9 @@
         <argument
             android:name="group"
             app:argType="com.viauc.igift.model.Group" />
+        <action
+            android:id="@+id/action_groupMembersFragment_to_wishListDisplayFragment"
+            app:destination="@id/wishListDisplayFragment" />
     </fragment>
     <fragment
         android:id="@+id/newListFragment"
@@ -118,6 +121,9 @@
         <action
             android:id="@+id/action_wishItemsFragment_to_newItemFragment"
             app:destination="@id/newItemFragment" />
+        <action
+            android:id="@+id/action_wishItemsFragment_to_wishItemsDisplay"
+            app:destination="@id/wishItemsDisplay" />
     </fragment>
     <fragment
         android:id="@+id/newItemFragment"
@@ -127,5 +133,26 @@
         <argument
             android:name="wishList"
             app:argType="com.viauc.igift.model.WishList" />
+    </fragment>
+    <fragment
+        android:id="@+id/wishItemsDisplay"
+        android:name="com.viauc.igift.ui.wishitemsdisplay.WishItemsDisplayFragment"
+        android:label="fragment_wish_items_display"
+        tools:layout="@layout/fragment_wish_items_display" >
+        <argument
+            android:name="wishItem"
+            app:argType="com.viauc.igift.model.WishItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/wishListDisplayFragment"
+        android:name="com.viauc.igift.ui.mylists.WishListDisplayFragment"
+        android:label="Wish list"
+        tools:layout="@layout/fragment_wish_list_display" >
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_wishListDisplayFragment_to_wishItemsFragment"
+            app:destination="@id/wishItemsFragment" />
     </fragment>
 </navigation>

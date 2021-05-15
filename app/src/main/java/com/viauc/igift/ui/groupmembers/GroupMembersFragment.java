@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,9 +18,11 @@ import com.mindorks.placeholderview.ExpandablePlaceHolderView;
 import com.viauc.igift.R;
 import com.viauc.igift.data.callbacks.OnRecyclerViewPositionClickListener;
 import com.viauc.igift.model.Group;
+import com.viauc.igift.model.WishItem;
 import com.viauc.igift.ui.connect.joingroup.JoinGroupAdapter;
 import com.viauc.igift.ui.connect.joingroup.JoinGroupFragmentArgs;
 import com.viauc.igift.ui.groups.GroupsViewModel;
+import com.viauc.igift.ui.wishitems.WishItemsFragmentDirections;
 
 import java.util.ArrayList;
 
@@ -56,6 +59,9 @@ public class GroupMembersFragment extends Fragment {
         @Override
         public void onRecyclerViewPositionCallback(int position) {
       String userEmail=connectedUsersEmail.get(position);
+            GroupMembersFragmentDirections.ActionGroupMembersFragmentToWishListDisplayFragment action =
+                    GroupMembersFragmentDirections.actionGroupMembersFragmentToWishListDisplayFragment(userEmail);
+            Navigation.findNavController(view).navigate(action);
         }
     };
 }

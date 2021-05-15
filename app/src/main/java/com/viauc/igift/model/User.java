@@ -1,24 +1,21 @@
 package com.viauc.igift.model;
 
+import com.google.firebase.firestore.DocumentId;
+
 public class User {
-    public String username, email;
+    @DocumentId
+    String uID;
+    private String  email;
 
     public User(){
 
     }
 
-    public User(String name, String email) {
-        this.username = name;
-        this.email = email;
+    public String getuID() {
+        return uID;
     }
 
-    public String getUsername() {
-        return username;
-    }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getEmail() {
         return email;

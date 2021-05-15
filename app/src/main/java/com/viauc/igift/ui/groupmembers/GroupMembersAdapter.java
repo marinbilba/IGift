@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.viauc.igift.R;
@@ -50,14 +51,14 @@ public class GroupMembersAdapter  extends RecyclerView.Adapter<GroupMembersAdapt
 
     public static class GroupMembersViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView userEmail;
-        Button seeWishList;
+        ConstraintLayout constraintLayout;
         OnRecyclerViewPositionClickListener onGroupMemberClickListener;
 
         public GroupMembersViewHolder(@NonNull View itemView, OnRecyclerViewPositionClickListener listener) {
             super(itemView);
-            seeWishList = itemView.findViewById(R.id.seeWishListButton);
+            constraintLayout = itemView.findViewById(R.id.group_members_raw_constraint_layout);
             userEmail = itemView.findViewById(R.id.groupMemberEmailAddress);
-            seeWishList.setOnClickListener(this);
+            constraintLayout.setOnClickListener(this);
             onGroupMemberClickListener = listener;
 
 

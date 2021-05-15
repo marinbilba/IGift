@@ -32,6 +32,7 @@ public class WishItemsFragment extends Fragment {
     private ArrayList<WishItem> wishItems;
     private RecyclerView recyclerView;
     private WishList wishList;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class WishItemsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.wishItemsRecyclerView);
         FloatingActionButton floatingActionButton = view.findViewById(R.id.addItemFloatingActionButton);
         floatingActionButton.setOnClickListener(v -> {
-           navigateToCreateNewItem();
+            navigateToCreateNewItem();
 
         });
         return view;
@@ -57,11 +58,10 @@ public class WishItemsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         WishItemsFragmentArgs wishItemsFragmentArgs = WishItemsFragmentArgs.fromBundle(getArguments());
-         wishList = wishItemsFragmentArgs.getWishList();
-        if (wishList.getWishItemsList() != null) {
-            wishItems = (ArrayList<WishItem>) wishList.getWishItemsList();
-            inflateRecyclerView();
-        }
+        wishList = wishItemsFragmentArgs.getWishList();
+        wishItems = (ArrayList<WishItem>) wishList.getWishItemsList();
+        inflateRecyclerView();
+
     }
 
     private void inflateRecyclerView() {
@@ -71,10 +71,14 @@ public class WishItemsFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
     }
-    OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener=new OnRecyclerViewPositionClickListener() {
+
+    OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener = new OnRecyclerViewPositionClickListener() {
         @Override
         public void onRecyclerViewPositionCallback(int position) {
-
+            WishItem wishItem = wishItems.get(position);
+            WishItemsFragmentDirections.ActionWishItemsFragmentToWishItemsDisplay action =
+                    WishItemsFragmentDirections.actionWishItemsFragmentToWishItemsDisplay(wishItem);
+            Navigation.findNavController(view).navigate(action);
         }
     };
 }
