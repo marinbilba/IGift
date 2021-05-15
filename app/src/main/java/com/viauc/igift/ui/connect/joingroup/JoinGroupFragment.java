@@ -45,7 +45,7 @@ public class JoinGroupFragment extends Fragment {
     UserCreatedGroupsCallback userCreatedGroupsCallback = new UserCreatedGroupsCallback() {
         @Override
         public void createdGroupsOnCallbackSuccess(List<Group> list) {
-fetchedGroups= (ArrayList<Group>) list;
+            fetchedGroups = (ArrayList<Group>) list;
             JoinGroupAdapter myAdapter = new JoinGroupAdapter((ArrayList<Group>) list, onRecyclerViewPositionClickListener, getContext());
             recyclerView.setAdapter(myAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

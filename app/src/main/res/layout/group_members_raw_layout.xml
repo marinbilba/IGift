@@ -39,7 +39,7 @@
             tools:text="@tools:sample/full_names" />
 
         <Button
-            android:id="@+id/joinGroupButton"
+            android:id="@+id/seeWishListButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/purple_200"

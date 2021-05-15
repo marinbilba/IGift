@@ -173,8 +173,17 @@ public class UserGroupsRepository {
                     for (DocumentSnapshot documentSnapshot : task.getResult()) {
                         Log.d(TAG.FIREBASE_STORAGE.toString(), documentSnapshot.getId() + " => " + documentSnapshot.getData());
                         Group group = documentSnapshot.toObject(Group.class);
-                        userCreatedGroups.add(group);
-                        userJoinedGroupsCallback.joinedGroupsOnCallbackSuccess(userCreatedGroups);
+                        if (group != null) {
+                            // Get users connected to this group
+                            try {
+                                ArrayList<String> connectedUsers = (ArrayList<String>) documentSnapshot.get("connectedUsers");
+                                group.setUsersConnected(connectedUsers);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            userCreatedGroups.add(group);
+                            userJoinedGroupsCallback.joinedGroupsOnCallbackSuccess(userCreatedGroups);
+                        }
                     }
                     userJoinedGroupsCallback.joinedGroupsOnCallbackNoResults();
                 } else {

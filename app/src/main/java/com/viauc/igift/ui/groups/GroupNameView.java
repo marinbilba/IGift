@@ -2,7 +2,6 @@ package com.viauc.igift.ui.groups;
 
 import android.content.Context;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -38,8 +37,7 @@ public class GroupNameView {
         groupNameTextView.setText(group.getGroupName());
         constraintLayout.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
-            public void onClick(android.view.View v) {
-                onGroupClickListener.onGroupClickCallback(group);
+            public void onClick(android.view.View v) { onGroupClickListener.onGroupClickCallback(group);
             }
         });
     }
