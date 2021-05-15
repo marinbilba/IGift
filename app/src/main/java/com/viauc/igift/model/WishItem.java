@@ -40,6 +40,12 @@ public class WishItem implements Parcelable {
         }
     };
 
+    public WishItem(String giftName, String description, String whereToBuy) {
+        this.giftName = giftName;
+        this.whereToBuy = whereToBuy;
+        this.description = description;
+    }
+
     public String getGiftName() {
         return giftName;
     }

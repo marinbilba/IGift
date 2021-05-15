@@ -14,7 +14,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.viauc.igift.data.callbacks.FetchWishListCallback;
 import com.viauc.igift.model.WishItem;
-import com.viauc.igift.model.WishItemsHolder;
 import com.viauc.igift.model.WishList;
 import com.viauc.igift.util.TAG;
 
@@ -22,7 +21,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -33,7 +31,7 @@ public class WishListsRepository {
     private final FirebaseFirestore firebaseFirestore;
     private final FirebaseAuth mAuth;
     private String currentUserEmail;
-private ArrayList<WishList> userWishLists;
+    private ArrayList<WishList> userWishLists;
 
     private WishListsRepository(Application application) {
         this.application = application;
@@ -59,18 +57,19 @@ private ArrayList<WishList> userWishLists;
         firebaseFirestore.collection("users").document(mAuth.getUid()).collection("wishLists").document(listName).set(newList);
 
     }
+
     public void addWishItemToWishList(WishList wishList, WishItem itemToAdd) {
         if (mAuth.getUid() == null) {
             return;
         }
 
-           firebaseFirestore.collection("users").document(mAuth.getUid()).collection("wishLists").document(wishList.getListName()).update("wishItems", FieldValue.arrayUnion(itemToAdd)).addOnCompleteListener(new OnCompleteListener<Void>() {
-               @Override
-               public void onComplete(@NonNull @NotNull Task<Void> task) {
-                   System.out.println();
-               }
-           });
-       }
+        firebaseFirestore.collection("users").document(mAuth.getUid()).collection("wishLists").document(wishList.getListName()).update("wishItems", FieldValue.arrayUnion(itemToAdd)).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<Void> task) {
+                System.out.println();
+            }
+        });
+    }
 
 
     public void getCurrentUserWishLists(FetchWishListCallback fetchWishListCallback) {
@@ -88,10 +87,9 @@ private ArrayList<WishList> userWishLists;
                         if (wishList != null) {
                             // Get wish list items
                             try {
-                                ArrayList<WishItem> wishItems = (ArrayList<WishItem>) documentSnapshot.get("wishItems");
-
-                                ArrayList<WishItem>  wishItemsHolder = (ArrayList<WishItem>) documentSnapshot.toObject(WishItemsHolder.class).wishItemList;
-                                wishList.setWishItemsList(wishItemsHolder);
+                                ArrayList<Map<String, Object>> wishItems = (ArrayList<Map<String, Object>>) documentSnapshot.get("wishItems");
+                                ArrayList<WishItem> convertedWishItems = convertMapArrayToObjectArray(wishItems);
+                                wishList.setWishItemsList(convertedWishItems);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -105,5 +103,25 @@ private ArrayList<WishList> userWishLists;
                 }
             }
         });
+    }
+
+    private ArrayList<WishItem> convertMapArrayToObjectArray(ArrayList<Map<String, Object>> wishItems) {
+        ArrayList<WishItem> tempWishItems=new ArrayList<>();
+        for (Map<String, Object> item : wishItems) {
+            WishItem wishItem ;
+            try {
+                double itemPrice = Double.parseDouble(item.get("price").toString());
+                wishItem = new WishItem(item.get("giftName").toString(),itemPrice, item.get("description").toString(), item.get("whereToBuy").toString());
+                tempWishItems.add(wishItem);
+
+            }catch (Exception e){
+                 wishItem = new WishItem(item.get("giftName").toString(), item.get("description").toString(), item.get("whereToBuy").toString());
+tempWishItems.add(wishItem);
+            }
+
+
+        }
+
+        return tempWishItems;
     }
 }
