@@ -57,5 +57,6 @@
     <string name="any_apple_store">Any Apple Store</string>
     <string name="description">Description</string>
     <string name="add_item">Add item</string>
+    <string name="event">Event</string>
 
 </resources>

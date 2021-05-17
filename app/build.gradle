@@ -73,8 +73,11 @@ dependencies {
 //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-//Glide
-//    implementation 'com.github.bumptech.glide:glide:4.10.0'
+// Calendar View
+    implementation 'com.applandeo:material-calendar-view:1.7.0'
+
+    //Appache
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
 
     // Other
     implementation 'com.mindorks:placeholderview:0.7.1'
