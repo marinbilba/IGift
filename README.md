@@ -7,25 +7,25 @@ How many times have you strugueld with finding the perfect gift for the close on
 ## MoSCoW Requirements:
 
 **M**  
-As a user, I want to be able to log in using a registration system or with my facebook/google account     
-As a user, I want to be able to restore my password in case I forgot it  
-As a user, I want to see my created wishes list  
-As a user, I want to be able to post my wishes on the app  
-As a user, I want to see my wish list items  
-As a user, I want to join other memebers groups  
-As a user, I want to share my wish lists to my “family members”  
-As a user, I want to see the other "familiy members" wish lists and items  
+As a user, I want to be able to log in using a registration system or with my facebook/google account - DONE  
+As a user, I want to be able to restore my password in case I forgot it - DONE  
+As a user, I want to see my created wishes list - DONE  
+As a user, I want to be able to post my wishes on the app - DONE   
+As a user, I want to see my wish list items - DONE  
+As a user, I want to join other members groups - DONE  
+As a user, I want to share my wish lists to my “family members” - DONE  
+As a user, I want to see the other "family members" wish lists and items - DONE   
 
 **S**  
-As a user, I want to be able to synchronize the calendar on the app with the calendar on Facebook in order to know about upcoming birthdays and events  
-As a user, I want to be able to add events(e.g birthdays, holidays) to my calendar    
-As a user, I want to be notified before the events start date 
+As a user, I want to be able to synchronize the calendar on the app with the calendar on Facebook in order to know about upcoming birthdays and events - NOT IMPL    
+As a user, I want to be able to add events(e.g birthdays, holidays) to my calendar - DONE     
+As a user, I want to choose wether I should be or not notified before the events start date/time - DONE  
 
 **C**  
-As a user, I want to see the upcoming holidays and gift suggestions for my friends 
+As a user, I want to see the upcoming holidays and gift suggestions for my friends - NOT IMPL
 
 **W**
-As a user, I want to receive suggestions of gifts that are similar to what my friends wished  
+As a user, I want to receive suggestions of gifts that are similar to what my friends wished - NOT IMPL
 
 
 
