@@ -162,8 +162,8 @@
     <fragment
         android:id="@+id/calendarEventFragment"
         android:name="com.viauc.igift.ui.calendarevent.CalendarEventFragment"
-        android:label="fragment_calendar_event"
-        tools:layout="@layout/fragment_calendar_event" >
+        android:label="Events"
+        tools:layout="@layout/fragment_calendar_event">
         <argument
             android:name="calendarEvents"
             app:argType="com.viauc.igift.model.CalendarEventList" />

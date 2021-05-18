@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +18,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import com.allyants.notifyme.NotifyMe;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -73,40 +76,40 @@ public class CalendarFragment extends Fragment {
     }
 
     private void checkCalendarEvent(EventDay eventDay) {
-        ArrayList<CalendarEvent> tempCalendarEvents=new ArrayList<>();
-        for (CalendarEvent event :calendarEvents) {
-            Date date=event.getTimestamp().toDate();
-            Calendar firstDate=Calendar.getInstance();
+        ArrayList<CalendarEvent> tempCalendarEvents = new ArrayList<>();
+        for (CalendarEvent event : calendarEvents) {
+            Date date = event.getTimestamp().toDate();
+            Calendar firstDate = Calendar.getInstance();
             firstDate.setTime(date);
 //todo "same day" is not as simple a concept as it sounds when different time zones can be involved.
 // The code bellow will for both dates compute the day relative to the time zone used by the computer it is running on.
             boolean sameDay = firstDate.get(Calendar.DAY_OF_YEAR) == eventDay.getCalendar().get(Calendar.DAY_OF_YEAR) &&
                     firstDate.get(Calendar.YEAR) == eventDay.getCalendar().get(Calendar.YEAR);
-            if(sameDay){
+            if (sameDay) {
                 tempCalendarEvents.add(event);
             }
         }
-        if(!CollectionUtils.isEmpty(tempCalendarEvents)){
+        if (!CollectionUtils.isEmpty(tempCalendarEvents)) {
             openEventDisplay(tempCalendarEvents);
         }
 
     }
 
     private void openEventDisplay(ArrayList<CalendarEvent> tempCalendarEvents) {
-        CalendarEventList calendarEventList=new CalendarEventList(tempCalendarEvents);
+        CalendarEventList calendarEventList = new CalendarEventList(tempCalendarEvents);
         CalendarFragmentDirections.ActionNavigationCalendarToCalendarEventFragment action =
                 CalendarFragmentDirections.actionNavigationCalendarToCalendarEventFragment(calendarEventList);
         Navigation.findNavController(view).navigate(action);
     }
 
     private void insertUserCalendarEvents(ArrayList<CalendarEvent> calendarEvents) {
-        this.calendarEvents=calendarEvents;
+        this.calendarEvents = calendarEvents;
         List<EventDay> events = new ArrayList<>();
         for (CalendarEvent calendarEvent : calendarEvents) {
             Calendar calendar = Calendar.getInstance();
-            Timestamp timestamp=calendarEvent.getTimestamp();
+            Timestamp timestamp = calendarEvent.getTimestamp();
             calendar.setTime(timestamp.toDate());
-            events.add(new EventDay(calendar,R.drawable.sample_three_icons, Color.parseColor("#228B22")));
+            events.add(new EventDay(calendar, R.drawable.sample_three_icons, Color.parseColor("#228B22")));
         }
 
         calendarView.setEvents(events);
@@ -119,7 +122,8 @@ public class CalendarFragment extends Fragment {
         builder.setView(dialogView);
 
         EditText editTextChangeDescription = dialogView.findViewById(R.id.eventEditText);
-
+        TimePicker timePicker = dialogView.findViewById(R.id.eventTimePicker);
+        CheckBox notifyMeCheckBox = dialogView.findViewById(R.id.notifyMeCheckBox);
 
         builder.setTitle("Add event");
         // This method will be overwritten
@@ -148,11 +152,26 @@ public class CalendarFragment extends Fragment {
                 editTextChangeDescription.setError("This field is required");
 
             } else {
+                selectedEventDay.getCalendar().set(Calendar.HOUR_OF_DAY, timePicker.getHour());
+                selectedEventDay.getCalendar().set(Calendar.MINUTE, timePicker.getMinute());
 
                 calendarViewModel.saveEvent(editTextChangeDescription, selectedEventDay);
+
+                if (notifyMeCheckBox.isChecked()) {
+                    registerNotification(editTextChangeDescription, selectedEventDay);
+                }
                 dialog.dismiss();
             }
         });
+    }
+
+    private void registerNotification(EditText editTextChangeDescription, EventDay selectedEventDay) {
+        NotifyMe.Builder notifyMe = new NotifyMe.Builder(getContext());
+        notifyMe.title("Event Notification");
+        notifyMe.content(editTextChangeDescription.getText());
+        notifyMe.time(selectedEventDay.getCalendar());
+        notifyMe.large_icon(R.drawable.new_user_menu_giftbox);
+        notifyMe.build();
     }
 
 }
