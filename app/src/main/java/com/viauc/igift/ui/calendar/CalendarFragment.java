@@ -1,16 +1,15 @@
 package com.viauc.igift.ui.calendar;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -18,14 +17,16 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
-import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
-import com.facebook.Profile;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.zxing.common.StringUtils;
+import com.google.firebase.Timestamp;
 import com.viauc.igift.R;
+import com.viauc.igift.model.CalendarEvent;
+
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static com.facebook.Profile.getCurrentProfile;
@@ -36,7 +37,10 @@ public class CalendarFragment extends Fragment {
     com.facebook.Profile facebookProfile = getCurrentProfile();
     View view;
     CalendarView calendarView;
-FloatingActionButton floatingActionButton;
+    FloatingActionButton floatingActionButton;
+    EventDay selectedEventDay;
+    ArrayList<CalendarEvent> calendarEvents;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         calendarViewModel =
@@ -44,61 +48,107 @@ FloatingActionButton floatingActionButton;
         view = inflater.inflate(R.layout.fragment_calendar, container, false);
         calendarView = view.findViewById(R.id.calendarView);
         floatingActionButton = view.findViewById(R.id.addEventFloatingActionButton);
-        calendarView.setOnDayClickListener(new OnDayClickListener() {
+        selectedEventDay = new EventDay(calendarView.getFirstSelectedDate());
 
-            @Override
-            public void onDayClick(EventDay eventDay) {
-                Toast.makeText(getContext(),
-                        eventDay.getCalendar().getTime().toString() + " "
-                                + eventDay.isEnabled(),
-                        Toast.LENGTH_SHORT).show();
-            }
+        // current selected day
+        calendarView.setOnDayClickListener(eventDay -> {
+            selectedEventDay = eventDay;
+
+           checkCalendarEvent(eventDay);
+
         });
 
-        //change description button
         floatingActionButton.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            LayoutInflater inflaterAlert = this.getLayoutInflater();
-            View dialogView = inflaterAlert.inflate(R.layout.fragment_add_event, null);
-            builder.setView(dialogView);
+            inflateAddEventFragment();
+        });
+        calendarViewModel.getUserCalendarEvents().observe(getViewLifecycleOwner(), new Observer<ArrayList<CalendarEvent>>() {
+            @Override
+            public void onChanged(ArrayList<CalendarEvent> calendarEvents) {
+                insertUserCalendarEvents(calendarEvents);
+            }
+        });
+        return view;
 
-            EditText editTextChangeDescription = dialogView.findViewById(R.id.eventEditText);
+    }
 
-            builder.setTitle("Add event");
-            // This method will be overwritten
-            builder.setPositiveButton("Add",
-                    (dialog, which) -> {
-                        //Do nothing here because we override this button later to change the close behaviour.
-                    });
+    private void checkCalendarEvent(EventDay eventDay) {
+        ArrayList<CalendarEvent> tempCalendarEvents=new ArrayList<>();
+        for (CalendarEvent event :calendarEvents) {
+            Date date=event.getTimestamp().toDate();
+            Calendar firstDate=Calendar.getInstance();
+            firstDate.setTime(date);
+//todo "same day" is not as simple a concept as it sounds when different time zones can be involved.
+// The code bellow will for both dates compute the day relative to the time zone used by the computer it is running on.
+            boolean sameDay = firstDate.get(Calendar.DAY_OF_YEAR) == eventDay.getCalendar().get(Calendar.DAY_OF_YEAR) &&
+                    firstDate.get(Calendar.YEAR) == eventDay.getCalendar().get(Calendar.YEAR);
+            if(sameDay){
+                tempCalendarEvents.add(event);
+            }
+        }
+        if(!CollectionUtils.isEmpty(tempCalendarEvents)){
+            openEventDisplay(tempCalendarEvents);
+        }
+
+    }
+
+    private void openEventDisplay(ArrayList<CalendarEvent> tempCalendarEvents) {
+
+    }
+
+    private void insertUserCalendarEvents(ArrayList<CalendarEvent> calendarEvents) {
+        this.calendarEvents=calendarEvents;
+        List<EventDay> events = new ArrayList<>();
+        for (CalendarEvent calendarEvent : calendarEvents) {
+            Calendar calendar = Calendar.getInstance();
+            Timestamp timestamp=calendarEvent.getTimestamp();
+            calendar.setTime(timestamp.toDate());
+            events.add(new EventDay(calendar,R.drawable.sample_three_icons, Color.parseColor("#228B22")));
+        }
+
+        calendarView.setEvents(events);
+    }
+
+    private void inflateAddEventFragment() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflaterAlert = this.getLayoutInflater();
+        View dialogView = inflaterAlert.inflate(R.layout.fragment_add_event, null);
+        builder.setView(dialogView);
+
+        EditText editTextChangeDescription = dialogView.findViewById(R.id.eventEditText);
 
 
-            builder.setNegativeButton("Cancel", (dialog, id) -> {
+        builder.setTitle("Add event");
+        // This method will be overwritten
+        builder.setPositiveButton("Add",
+                (dialog, which) -> {
+                    //Do nothing here because we override this button later to change the close behaviour.
+                });
 
-            });
 
-            String defaultText = "";
+        builder.setNegativeButton("Cancel", (dialog, id) -> {
+
+        });
+
+        String defaultText = "";
 //            if (!StringUtils.isEmpty(selectedList.description)) {
 //                defaultText = selectedList.description;
 //            }
 //            editTextChangeDescription.setText(defaultText);
 
 
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
-            AlertDialog dialog = builder.create();
-            dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v1 -> {
+            if (org.apache.commons.lang3.StringUtils.isEmpty(editTextChangeDescription.getText().toString())) {
+                editTextChangeDescription.setError("This field is required");
 
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v1 -> {
-                if (org.apache.commons.lang3.StringUtils.isEmpty(editTextChangeDescription.getText().toString())){
-                    editTextChangeDescription.setError("This field is required");
-                } else {
+            } else {
 
-                    dialog.dismiss();
-                }
-            });
-
+                calendarViewModel.saveEvent(editTextChangeDescription, selectedEventDay);
+                dialog.dismiss();
+            }
         });
-        return view;
-
     }
 
 }

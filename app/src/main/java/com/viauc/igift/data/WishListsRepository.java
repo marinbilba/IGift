@@ -135,6 +135,7 @@ public class WishListsRepository {
 
     private ArrayList<WishItem> convertMapArrayToObjectArray(ArrayList<Map<String, Object>> wishItems) {
         ArrayList<WishItem> tempWishItems = new ArrayList<>();
+       if(wishItems!=null){
         for (Map<String, Object> item : wishItems) {
             WishItem wishItem;
             try {
@@ -147,7 +148,7 @@ public class WishListsRepository {
                 tempWishItems.add(wishItem);
             }
 
-
+        }
         }
 
         return tempWishItems;

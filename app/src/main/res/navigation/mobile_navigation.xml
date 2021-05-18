@@ -45,7 +45,11 @@
         android:id="@+id/navigation_calendar"
         android:name="com.viauc.igift.ui.calendar.CalendarFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_calendar" />
+        tools:layout="@layout/fragment_calendar" >
+        <action
+            android:id="@+id/action_navigation_calendar_to_calendarEventFragment"
+            app:destination="@id/calendarEventFragment" />
+    </fragment>
     <fragment
         android:id="@+id/createGroupFragment"
 
@@ -154,5 +158,14 @@
         <action
             android:id="@+id/action_wishListDisplayFragment_to_wishItemsFragment"
             app:destination="@id/wishItemsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/calendarEventFragment"
+        android:name="com.viauc.igift.ui.calendarevent.CalendarEventFragment"
+        android:label="fragment_calendar_event"
+        tools:layout="@layout/fragment_calendar_event" >
+        <argument
+            android:name="calendarEvents"
+            app:argType="com.viauc.igift.model.CalendarEventList" />
     </fragment>
 </navigation>
