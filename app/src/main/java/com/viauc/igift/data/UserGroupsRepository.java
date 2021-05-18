@@ -75,7 +75,7 @@ public class UserGroupsRepository {
     }
 
 
-    public void getUserCreatedGroups(UserCreatedGroupsCallback fetchedUserCreatedGroupsCallback) {
+    public void getCurrentUserCreatedGroups(UserCreatedGroupsCallback fetchedUserCreatedGroupsCallback) {
         firebaseFirestore.collection("groups")
                 .whereEqualTo("ownerEmail", currentUserEmail)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -86,10 +86,19 @@ public class UserGroupsRepository {
                     for (DocumentSnapshot documentSnapshot : task.getResult()) {
                         Log.d(TAG.FIREBASE_STORAGE.toString(), documentSnapshot.getId() + " => " + documentSnapshot.getData());
                         Group group = documentSnapshot.toObject(Group.class);
-                        userCreatedGroups.add(group);
-                        fetchedUserCreatedGroupsCallback.createdGroupsOnCallbackSuccess(userCreatedGroups);
+                        if (group != null) {
+                            // Get users connected to this group
+                            try {
+                                ArrayList<String> connectedUsers = (ArrayList<String>) documentSnapshot.get("connectedUsers");
+                                group.setUsersConnected(connectedUsers);
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            userCreatedGroups.add(group);
+                            fetchedUserCreatedGroupsCallback.createdGroupsOnCallbackSuccess(userCreatedGroups);
+                        }
                     }
-                    fetchedUserCreatedGroupsCallback.createdGroupsOnCallbackNoResults();
                 } else {
                     Log.d(TAG.FIREBASE_STORAGE.toString(), "Error getting documents: ", task.getException());
 
@@ -100,7 +109,7 @@ public class UserGroupsRepository {
 
     }
 
-    public void getUserCreatedGroups(UserCreatedGroupsCallback userCreatedGroupsCallback, String userEmail) {
+    public void getUserCreatedGroupsByEmail(UserCreatedGroupsCallback userCreatedGroupsCallback, String userEmail) {
         firebaseFirestore.collection("groups")
                 .whereEqualTo("ownerEmail", userEmail)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -134,7 +143,8 @@ public class UserGroupsRepository {
             }
         });
     }
-//todo the part of checking duplicated can be optimized by checking if you are alredy a member of the group in another method
+
+    //todo the part of checking duplicated can be optimized by checking if you are alredy a member of the group in another method
     public void joinGroup(Group group) {
 //        Map<String, Object> joinGroupUser = new HashMap<>();
 //        joinGroupUser.put("connectedUserEmail", currentUserEmail);
@@ -148,7 +158,7 @@ public class UserGroupsRepository {
 
         group.setUsersConnected(joinGroupUser);
         // Convert to hash set to avoid duplicates
-        HashSet<String> stringHashSet=new HashSet<>(joinGroupUser);
+        HashSet<String> stringHashSet = new HashSet<>(joinGroupUser);
         ArrayList<String> joinGroupUserToStore = new ArrayList<>(stringHashSet);
 
         firebaseFirestore.collection("groups").document(group.getuID()).update("connectedUsers", joinGroupUserToStore).addOnCompleteListener(new OnCompleteListener<Void>() {

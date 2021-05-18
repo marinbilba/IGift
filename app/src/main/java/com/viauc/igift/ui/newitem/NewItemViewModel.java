@@ -25,7 +25,7 @@ public class NewItemViewModel extends AndroidViewModel {
     }
 
     public Pair<Boolean, String> validateItemName(String itemName) {
-       return fieldValidation.validateEmptyAndMinCharInputField(itemName);
+       return fieldValidation.validateEmptyAndMinCharInputField(itemName,2);
     }
 
     public void addNewWishItem(WishList wishList, WishItem wishItem) {

@@ -1,5 +1,6 @@
 package com.viauc.igift.ui.calendar;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
+import com.viauc.igift.MainActivity;
 import com.viauc.igift.R;
 import com.viauc.igift.model.CalendarEvent;
 import com.viauc.igift.model.CalendarEventList;
@@ -167,10 +169,10 @@ public class CalendarFragment extends Fragment {
 
     private void registerNotification(EditText editTextChangeDescription, EventDay selectedEventDay) {
         NotifyMe.Builder notifyMe = new NotifyMe.Builder(getContext());
-        notifyMe.title("Event Notification");
+        notifyMe.title("IGIFT");
         notifyMe.content(editTextChangeDescription.getText());
         notifyMe.time(selectedEventDay.getCalendar());
-        notifyMe.large_icon(R.drawable.new_user_menu_giftbox);
+        notifyMe.large_icon(R.mipmap.ic_launcher_foreground);
         notifyMe.build();
     }
 

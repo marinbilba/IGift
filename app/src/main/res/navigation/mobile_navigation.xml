@@ -137,6 +137,9 @@
         <argument
             android:name="wishList"
             app:argType="com.viauc.igift.model.WishList" />
+        <action
+            android:id="@+id/action_newItemFragment_to_wishItemsFragment"
+            app:destination="@id/wishItemsFragment" />
     </fragment>
     <fragment
         android:id="@+id/wishItemsDisplay"

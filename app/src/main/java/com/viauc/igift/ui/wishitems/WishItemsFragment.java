@@ -33,6 +33,7 @@ public class WishItemsFragment extends Fragment {
     private RecyclerView recyclerView;
     private WishList wishList;
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class WishItemsFragment extends Fragment {
         Navigation.findNavController(view).navigate(action);
     }
 
-
+    //todo Wish list live data is a better choice
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         WishItemsFragmentArgs wishItemsFragmentArgs = WishItemsFragmentArgs.fromBundle(getArguments());

@@ -21,12 +21,12 @@ private FieldValidation fieldValidation;
 
     public Pair<Boolean, String> validateJoinGroupNameInputField(String groupName) {
 
-      return fieldValidation.validateEmptyAndMinCharInputField(groupName);
+      return fieldValidation.validateEmptyAndMinCharInputField(groupName,6);
     }
 
     public void getUserCreatedGroupsByEmail(UserCreatedGroupsCallback fetchedUserCreatedGroupsCallback, String userEmail) {
 
-      userGroupsRepository.getUserCreatedGroups(fetchedUserCreatedGroupsCallback,userEmail);
+      userGroupsRepository.getUserCreatedGroupsByEmail(fetchedUserCreatedGroupsCallback,userEmail);
 
     }
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -14,10 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.viauc.igift.R;
 import com.viauc.igift.model.WishItem;
 import com.viauc.igift.model.WishList;
+import com.viauc.igift.ui.wishitems.WishItemsFragmentDirections;
 
 public class NewItemFragment extends Fragment {
 
@@ -62,7 +65,13 @@ public class NewItemFragment extends Fragment {
 
         if(validateItemName(itemName)){
             WishItem wishItem=new WishItem(itemName,itemPrice,itemWhereToBuy,itemDescription);
+            wishList.getWishItemsList().add(wishItem);
             newItemViewModel.addNewWishItem(wishList,wishItem);
+
+            NewItemFragmentDirections.ActionNewItemFragmentToWishItemsFragment action =
+                    NewItemFragmentDirections.actionNewItemFragmentToWishItemsFragment(wishList);
+            Navigation.findNavController(view).navigate(action);
+
         }
     }
 

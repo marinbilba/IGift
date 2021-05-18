@@ -4,15 +4,16 @@ import android.util.Pair;
 
 public class FieldValidation {
 
-    public Pair<Boolean, String> validateEmptyAndMinCharInputField(String inputFieldToValidate) {
+    public Pair<Boolean, String> validateEmptyAndMinCharInputField(String inputFieldToValidate,int minChar) {
 
         if(inputFieldToValidate.isEmpty()){
             return new Pair<Boolean,String>(false,"Field can not be empty");
         }
-        else if(inputFieldToValidate.length()<6){
-            return new Pair<Boolean,String>(false,"Minimum 6 characters");
+        else if(inputFieldToValidate.length()<minChar){
+            return new Pair<Boolean,String>(false,"Required minimum "+minChar +" characters");
         }
         return new Pair<Boolean,String>(true,"");
 
     }
+
 }

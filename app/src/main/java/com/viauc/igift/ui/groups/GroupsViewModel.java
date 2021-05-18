@@ -20,7 +20,7 @@ public class GroupsViewModel extends AndroidViewModel {
 
 
     public void getUserCreatedGroups(UserCreatedGroupsCallback fetchedUserCreatedGroupsCallback) {
-        userGroupsRepository.getUserCreatedGroups(fetchedUserCreatedGroupsCallback);
+        userGroupsRepository.getCurrentUserCreatedGroups(fetchedUserCreatedGroupsCallback);
     }
 
 

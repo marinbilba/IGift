@@ -2,7 +2,6 @@ package com.viauc.igift.ui.connect.creategroup;
 
 import android.app.Application;
 import android.util.Pair;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -23,7 +22,7 @@ public class CreateGroupViewModel extends AndroidViewModel {
     }
 
     public Pair<Boolean, String> validateGroupNameInputField(String groupName) {
-return fieldValidation.validateEmptyAndMinCharInputField(groupName);
+return fieldValidation.validateEmptyAndMinCharInputField(groupName,6);
 
     }
 }

@@ -18,7 +18,7 @@ public class JoinGroupViewModel extends AndroidViewModel {
 
     public void getUserCreatedGroupsByEmail(UserCreatedGroupsCallback fetchedUserCreatedGroupsCallback, String userEmail) {
 
-        userGroupsRepository.getUserCreatedGroups(fetchedUserCreatedGroupsCallback,userEmail);
+        userGroupsRepository.getUserCreatedGroupsByEmail(fetchedUserCreatedGroupsCallback,userEmail);
 
     }
 
