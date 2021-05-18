@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
@@ -21,6 +22,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
 import com.viauc.igift.R;
 import com.viauc.igift.model.CalendarEvent;
+import com.viauc.igift.model.CalendarEventList;
+import com.viauc.igift.ui.groups.GroupsFragmentDirections;
 
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -53,9 +56,7 @@ public class CalendarFragment extends Fragment {
         // current selected day
         calendarView.setOnDayClickListener(eventDay -> {
             selectedEventDay = eventDay;
-
-           checkCalendarEvent(eventDay);
-
+            checkCalendarEvent(eventDay);
         });
 
         floatingActionButton.setOnClickListener(v -> {
@@ -92,7 +93,10 @@ public class CalendarFragment extends Fragment {
     }
 
     private void openEventDisplay(ArrayList<CalendarEvent> tempCalendarEvents) {
-
+        CalendarEventList calendarEventList=new CalendarEventList(tempCalendarEvents);
+        CalendarFragmentDirections.ActionNavigationCalendarToCalendarEventFragment action =
+                CalendarFragmentDirections.actionNavigationCalendarToCalendarEventFragment(calendarEventList);
+        Navigation.findNavController(view).navigate(action);
     }
 
     private void insertUserCalendarEvents(ArrayList<CalendarEvent> calendarEvents) {
