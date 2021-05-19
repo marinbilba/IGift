@@ -44,7 +44,7 @@ public class SignInActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(SignInViewModel.class);
         facebookCallbackManager =viewModel.getFacebookCallbackManager();
         emailEditText = findViewById(R.id.emailEditText);
-        passwordEditText = findViewById(R.id.passwordEditText);
+        passwordEditText = findViewById(R.id.signInPasswordEditText);
 
         viewModel.getCurrentUser().observe(this, new Observer<FirebaseUser>() {
             @Override

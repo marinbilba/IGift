@@ -87,24 +87,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //  setBottomNavigationVisibility();
     }
 
-//    private void setBottomNavigationVisibility() {
-//        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-//            @Override
-//            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-//                switch (destination.getId()) {
-//                    default:
-//                        bottomNavigationView.setVisibility(View.GONE);
-//                        break;
-//                    case R.id.navigation_connect:
-//                        bottomNavigationView.setVisibility(View.VISIBLE);
-//                        break;
-//                    case R.id.navigation_my_list:
-//                        bottomNavigationView.setVisibility(View.VISIBLE);
-//                        break;
-//                }
-//            }
-//        });
-//    }
 
     @Override
     public boolean onSupportNavigateUp() {
