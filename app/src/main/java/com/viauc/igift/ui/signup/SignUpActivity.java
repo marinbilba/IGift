@@ -16,6 +16,8 @@ import com.viauc.igift.MainActivity;
 import com.viauc.igift.R;
 import com.viauc.igift.ui.signin.SignInActivity;
 
+import java.util.ArrayList;
+
 public class SignUpActivity extends AppCompatActivity {
     private SignUpViewModel viewModel;
 
@@ -65,8 +67,11 @@ public class SignUpActivity extends AppCompatActivity {
         password = passwordEditText.getText().toString().trim();
         confirmPassword = passwordConfirmEditText.getText().toString().trim();
 
-        if (allFieldsValidation(email, password, confirmPassword)) {
+
+        if (allFieldsValidation(email,password,confirmPassword)) {
             viewModel.signUp(email,password);
+        }else{
+
         }
 
     }

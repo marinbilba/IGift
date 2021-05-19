@@ -20,8 +20,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class CalendarEventAdapter extends RecyclerView.Adapter<CalendarEventAdapter.CalendarEventViewHolder> {
-    private ArrayList<CalendarEvent> calendarEvents;
-    private Context context;
+    private final ArrayList<CalendarEvent> calendarEvents;
+    private final Context context;
 
     public CalendarEventAdapter(ArrayList<CalendarEvent> calendarEvents, Context context) {
         this.calendarEvents = calendarEvents;

@@ -30,8 +30,6 @@ public class SignInActivity extends AppCompatActivity {
     private TextView emailEditText;
     private TextView passwordEditText;
 
-    FirebaseAuth mAuth;
-    FirebaseFirestore firebaseFirestore;
 
     // Facebook
     private CallbackManager facebookCallbackManager;

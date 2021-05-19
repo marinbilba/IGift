@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class CalendarViewModel extends AndroidViewModel {
 
-private CalendarEventsRepository calendarEventsRepository;
+private final CalendarEventsRepository calendarEventsRepository;
     public CalendarViewModel(Application app) {
         super(app);
         calendarEventsRepository=CalendarEventsRepository.getInstance(app);

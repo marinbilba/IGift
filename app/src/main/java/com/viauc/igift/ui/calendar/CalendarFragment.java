@@ -36,13 +36,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static com.facebook.Profile.getCurrentProfile;
 
 public class CalendarFragment extends Fragment {
 
     private CalendarViewModel calendarViewModel;
-    com.facebook.Profile facebookProfile = getCurrentProfile();
     View view;
     CalendarView calendarView;
     FloatingActionButton floatingActionButton;
@@ -64,15 +64,8 @@ public class CalendarFragment extends Fragment {
             checkCalendarEvent(eventDay);
         });
 
-        floatingActionButton.setOnClickListener(v -> {
-            inflateAddEventFragment();
-        });
-        calendarViewModel.getUserCalendarEvents().observe(getViewLifecycleOwner(), new Observer<ArrayList<CalendarEvent>>() {
-            @Override
-            public void onChanged(ArrayList<CalendarEvent> calendarEvents) {
-                insertUserCalendarEvents(calendarEvents);
-            }
-        });
+        floatingActionButton.setOnClickListener(v -> inflateAddEventFragment());
+        calendarViewModel.getUserCalendarEvents().observe(getViewLifecycleOwner(), this::insertUserCalendarEvents);
         return view;
 
     }
@@ -118,7 +111,7 @@ public class CalendarFragment extends Fragment {
     }
 
     private void inflateAddEventFragment() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         LayoutInflater inflaterAlert = this.getLayoutInflater();
         View dialogView = inflaterAlert.inflate(R.layout.fragment_add_event, null);
         builder.setView(dialogView);
@@ -138,13 +131,6 @@ public class CalendarFragment extends Fragment {
         builder.setNegativeButton("Cancel", (dialog, id) -> {
 
         });
-
-        String defaultText = "";
-//            if (!StringUtils.isEmpty(selectedList.description)) {
-//                defaultText = selectedList.description;
-//            }
-//            editTextChangeDescription.setText(defaultText);
-
 
         AlertDialog dialog = builder.create();
         dialog.show();
