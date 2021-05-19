@@ -57,30 +57,40 @@ public class NewItemFragment extends Fragment {
     }
 
     private void createWishItem() {
+        WishItem wishItem = new WishItem();
         String itemName = itemNameEditText.getText().toString().trim();
-        double itemPrice = Double.parseDouble(itemPriceEditText.getText().toString().trim());
         String itemWhereToBuy = itemWhereToBuyEditText.getText().toString().trim();
         String itemDescription = itemDescriptionEditText.getText().toString().trim();
 
 
-        if(validateItemName(itemName)){
-            WishItem wishItem=new WishItem(itemName,itemPrice,itemWhereToBuy,itemDescription);
-            wishList.getWishItemsList().add(wishItem);
-            newItemViewModel.addNewWishItem(wishList,wishItem);
-
-            NewItemFragmentDirections.ActionNewItemFragmentToWishItemsFragment action =
-                    NewItemFragmentDirections.actionNewItemFragmentToWishItemsFragment(wishList);
-            Navigation.findNavController(view).navigate(action);
+        if (validateItemName(itemName)) {
+            wishItem.setGiftName(itemName);
+        }
+        // Parce item price
+        try {
+            double itemPrice = Double.parseDouble(itemPriceEditText.getText().toString().trim());
+            wishItem.setPrice(itemPrice);
+        } catch (NumberFormatException e) {
 
         }
+        wishItem.setWhereToBuy(itemWhereToBuy);
+        wishItem.setDescription(itemDescription);
+
+        // add wish item to db
+        newItemViewModel.addNewWishItem(wishList,wishItem);
+        // update wish list locally
+        wishList.getWishItemsList().add(wishItem);
+        NewItemFragmentDirections.ActionNewItemFragmentToWishItemsFragment action =
+                NewItemFragmentDirections.actionNewItemFragmentToWishItemsFragment(wishList);
+        Navigation.findNavController(view).navigate(action);
     }
 
     private boolean validateItemName(String itemName) {
-        Pair<Boolean, String> response=   newItemViewModel.validateItemName(itemName);
-        if(!response.first){
+        Pair<Boolean, String> response = newItemViewModel.validateItemName(itemName);
+        if (!response.first) {
             itemNameEditText.setError(response.second);
             itemNameEditText.requestFocus();
-        return false;
+            return false;
         }
         return true;
     }
