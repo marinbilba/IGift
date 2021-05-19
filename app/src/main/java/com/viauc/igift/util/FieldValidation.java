@@ -1,6 +1,8 @@
 package com.viauc.igift.util;
 
+import android.text.TextUtils;
 import android.util.Pair;
+import android.util.Patterns;
 
 public class FieldValidation {
 
@@ -16,4 +18,8 @@ public class FieldValidation {
 
     }
 
+    public boolean emailEmptyStringAndPatternValidation(String email) {
+            return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+
+        }
 }

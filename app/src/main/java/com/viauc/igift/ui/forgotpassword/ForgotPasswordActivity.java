@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,12 +20,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.viauc.igift.R;
+import com.viauc.igift.data.callbacks.ForgotPasswordCallback;
 import com.viauc.igift.ui.signin.SignInActivity;
+import com.viauc.igift.ui.signup.SignUpViewModel;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
-    private static final String TAG = "ForgotPasswordActivity";
-
-    public FirebaseAuth mAuth;
+    private ForgotPasswordViewModel viewModel;
     EditText emailEditText;
 
     @Override
@@ -35,8 +36,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         emailEditText = findViewById(R.id.emailEditText);
-        mAuth = FirebaseAuth.getInstance();
-}
+        viewModel = new ViewModelProvider(this).get(ForgotPasswordViewModel.class);
+    }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent myIntent = new Intent(getApplicationContext(), SignInActivity.class);
@@ -44,58 +45,41 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean emailValidation(String email) {
-
-        if (!isValidEmail(email)) {
-            emailEditText.setError(getString(R.string.invalid_email));
-            emailEditText.requestFocus();
-            return false;
-        }
-        return true;
-    }
-
-    public boolean isValidEmail(String target) {
-        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
-
-    }
 
     public void resetPassword(View view) {
         final String email = emailEditText.getText().toString().trim();
-        if (emailValidation(email)) {
+        if (viewModel.emailValidation(email)) {
+            viewModel.sendPasswordResetEmail(emailEditText.getText().toString(), forgotPasswordCallback);
+        } else {
+            emailEditText.setError(getString(R.string.invalid_email));
+            emailEditText.requestFocus();
+        }
+    }
 
+    ForgotPasswordCallback forgotPasswordCallback = new ForgotPasswordCallback() {
+        @Override
+        public void displayForgotPasswordAlertDialog() {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    ForgotPasswordActivity.this);
 
-            mAuth.sendPasswordResetEmail(emailEditText.getText().toString())
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) Log.d(TAG, "Email sent.");
+            // set title
+            alertDialogBuilder.setTitle("Reset Password");
 
+            // set dialog message
+            alertDialogBuilder
+                    .setMessage("A Reset Password Link Is Sent To Your Registered Email")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
 
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                                    ForgotPasswordActivity.this);
-
-                            // set title
-                            alertDialogBuilder.setTitle("Reset Password");
-
-                            // set dialog message
-                            alertDialogBuilder
-                                    .setMessage("A Reset Password Link Is Sent To Your Registered Email")
-                                    .setCancelable(false)
-                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-
-                                            ForgotPasswordActivity.this.finish();
-                                        }
-                                    });
-
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            alertDialog.show();
-
-
+                            ForgotPasswordActivity.this.finish();
                         }
                     });
 
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+
         }
-    }
+    };
 
 }

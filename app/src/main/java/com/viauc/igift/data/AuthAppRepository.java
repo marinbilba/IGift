@@ -26,6 +26,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.viauc.igift.data.callbacks.FetchUserCallback;
+import com.viauc.igift.data.callbacks.ForgotPasswordCallback;
 import com.viauc.igift.model.User;
 import com.viauc.igift.model.WishList;
 import com.viauc.igift.util.TAG;
@@ -45,11 +46,10 @@ public class AuthAppRepository {
 
     // Firebase instances
     private final FirebaseAuth mAuth;
-   private final FirebaseFirestore firebaseFirestore;
+    private final FirebaseFirestore firebaseFirestore;
 
     // Facebook
     private final CallbackManager facebookCallbackManager;
-
 
 
     private AuthAppRepository(Application application) {
@@ -64,12 +64,12 @@ public class AuthAppRepository {
     }
 
     public static AuthAppRepository getInstance(Application app) {
-        if(instance == null)
+        if (instance == null)
             instance = new AuthAppRepository(app);
         return instance;
     }
 
-    public void signUp(String email, String password){
+    public void signUp(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(ContextCompat.getMainExecutor(application), new OnCompleteListener<AuthResult>() {
                     @Override
@@ -94,7 +94,8 @@ public class AuthAppRepository {
                     }
                 });
     }
-    public void signIn(String email, String password){
+
+    public void signIn(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(ContextCompat.getMainExecutor(application), new OnCompleteListener<AuthResult>() {
                     @Override
@@ -118,32 +119,33 @@ public class AuthAppRepository {
 
     public void handleFacebookAccessToken(AccessToken accessToken) {
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
-            mAuth.signInWithCredential(credential)
-                    .addOnCompleteListener(ContextCompat.getMainExecutor(application), new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG.FACEBOOK.toString(), "signInWithCredential:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                checkIfUserExists(user);
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG.FACEBOOK.toString(), "signInWithCredential:failure", task.getException());
-                                Toast.makeText(application, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(ContextCompat.getMainExecutor(application), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG.FACEBOOK.toString(), "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            checkIfUserExists(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG.FACEBOOK.toString(), "signInWithCredential:failure", task.getException());
+                            Toast.makeText(application, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
                         }
-                    });
+                    }
+                });
 
     }
 
     /**
      * Check if user exists in firebase storage and in case it does not exist it will be added there
+     *
      * @param user
      */
     private void checkIfUserExists(FirebaseUser user) {
-        if(user==null){
+        if (user == null) {
             return;
         }
         DocumentReference docRef = firebaseFirestore.collection("users").document(user.getUid());
@@ -180,7 +182,6 @@ public class AuthAppRepository {
     }
 
 
-
     public LiveData<FirebaseUser> getCurrentUser() {
         return currentUser;
     }
@@ -190,9 +191,9 @@ public class AuthAppRepository {
                 .signOut(application.getApplicationContext());
     }
 
-    public User getUserByEmail(String userEmail, FetchUserCallback fetchUserCallback){
+    public User getUserByEmail(String userEmail, FetchUserCallback fetchUserCallback) {
         final User[] user = new User[1];
-        firebaseFirestore.collection("users").whereEqualTo("email",userEmail).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        firebaseFirestore.collection("users").whereEqualTo("email", userEmail).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -200,9 +201,24 @@ public class AuthAppRepository {
                         Log.d(TAG.FIREBASE_STORAGE.toString(), documentSnapshot.getId() + " => " + documentSnapshot.getData());
                         User user = documentSnapshot.toObject(User.class);
                         fetchUserCallback.fetchUserOnSuccess(user);
-                    }}
+                    }
+                }
             }
         });
         return user[0];
-        }
+    }
+
+    public void sendPasswordResetEmail(String userEmail, ForgotPasswordCallback forgotPasswordCallback) {
+        mAuth.sendPasswordResetEmail(userEmail)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful())
+                            Log.d(TAG.FIREBASE_STORAGE.toString(), "Forgot password email sent. " + userEmail);
+                        forgotPasswordCallback.displayForgotPasswordAlertDialog();
+
+
+                    }
+                });
+    }
 }
