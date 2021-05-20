@@ -1,20 +1,18 @@
 package com.viauc.igift.ui.wishitems;
 
 import android.app.Application;
-import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData;
 
 import com.viauc.igift.data.WishListsRepository;
-import com.viauc.igift.model.Group;
+import com.viauc.igift.model.WishItem;
 import com.viauc.igift.model.WishList;
-import com.viauc.igift.ui.groupmembers.GroupMembersFragmentArgs;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class WishItemsViewModel extends AndroidViewModel {
     private final WishListsRepository wishListsRepository;
@@ -26,4 +24,16 @@ public class WishItemsViewModel extends AndroidViewModel {
     }
 
 
+    public void deleteWishItem(String listName, WishItem wishItem) {
+        wishListsRepository.deleteWishItem(listName,wishItem);
+    }
+
+    public  LiveData<ArrayList<WishList>> getUserWishLists() {
+      return   wishListsRepository.getUserWishListsLiveData();
+    }
+
+    public LiveData<WishList> getWishItemsOfWishList(String listName) {
+    wishListsRepository.getWishItemsOfWishList(listName);
+    return wishListsRepository.getUserWishListLiveData();
+    }
 }

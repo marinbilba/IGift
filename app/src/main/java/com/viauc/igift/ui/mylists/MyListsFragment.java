@@ -14,13 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.viauc.igift.R;
-import com.viauc.igift.data.callbacks.FetchWishListCallback;
-import com.viauc.igift.data.callbacks.OnDeleteWishListCallback;
+import com.viauc.igift.data.callbacks.OnDeleteRawCallback;
 import com.viauc.igift.data.callbacks.OnRecyclerViewPositionClickListener;
 import com.viauc.igift.model.WishList;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MyListsFragment extends Fragment {
 
@@ -49,7 +47,7 @@ public class MyListsFragment extends Fragment {
     private void inflateRecyclerView(ArrayList<WishList> wishLists) {
         if (!wishLists.isEmpty()) {
          this.wishLists=wishLists;
-            MyListAdapter myAdapter = new MyListAdapter(wishLists, getContext(),onDeleteWishListCallback, onRecyclerViewPositionClickListener);
+            MyListAdapter myAdapter = new MyListAdapter(wishLists, getContext(), onDeleteRawCallback, onRecyclerViewPositionClickListener);
             recyclerView.setAdapter(myAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
@@ -66,9 +64,9 @@ public class MyListsFragment extends Fragment {
         }
     };
 
-    OnDeleteWishListCallback onDeleteWishListCallback=new OnDeleteWishListCallback() {
+    OnDeleteRawCallback onDeleteRawCallback =new OnDeleteRawCallback() {
         @Override
-        public void deleteWishList(int position) {
+        public void deleteRaw(int position) {
       WishList wishList= wishLists.get(position);
       myListsViewModel.deleteWishList(wishList);
         }

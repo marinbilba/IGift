@@ -12,7 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.viauc.igift.R;
-import com.viauc.igift.data.callbacks.OnDeleteWishListCallback;
+import com.viauc.igift.data.callbacks.OnDeleteRawCallback;
 import com.viauc.igift.data.callbacks.OnRecyclerViewPositionClickListener;
 import com.viauc.igift.model.WishList;
 
@@ -24,13 +24,13 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.MyListAdap
     private ArrayList<WishList> wishLists;
     private Context context;
     private final OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener;
-    private final OnDeleteWishListCallback onDeleteWishListCallback;
+    private final OnDeleteRawCallback onDeleteRawCallback;
 
-    public MyListAdapter(ArrayList<WishList> wishLists, Context context,OnDeleteWishListCallback onDeleteWishListCallback, OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener) {
+    public MyListAdapter(ArrayList<WishList> wishLists, Context context, OnDeleteRawCallback onDeleteRawCallback, OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener) {
         this.wishLists = wishLists;
         this.context = context;
         this.onRecyclerViewPositionClickListener = onRecyclerViewPositionClickListener;
-        this.onDeleteWishListCallback=onDeleteWishListCallback;
+        this.onDeleteRawCallback = onDeleteRawCallback;
 
     }
 
@@ -39,8 +39,8 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.MyListAdap
     @Override
     public MyListAdapterViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.my_raw_layout, parent, false);
-        return new MyListAdapter.MyListAdapterViewHolder(view,onDeleteWishListCallback, onRecyclerViewPositionClickListener);
+        View view = inflater.inflate(R.layout.my_raw_with_delete_layout, parent, false);
+        return new MyListAdapter.MyListAdapterViewHolder(view, onDeleteRawCallback, onRecyclerViewPositionClickListener);
     }
 
     @Override
@@ -60,18 +60,18 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.MyListAdap
         ImageView deleteWishListImageView;
 
         OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener;
-        OnDeleteWishListCallback onDeleteWishListCallback;
+        OnDeleteRawCallback onDeleteRawCallback;
 
-        public MyListAdapterViewHolder(@NonNull View itemView, OnDeleteWishListCallback onDeleteWishListCallback, OnRecyclerViewPositionClickListener listener) {
+        public MyListAdapterViewHolder(@NonNull View itemView, OnDeleteRawCallback onDeleteRawCallback, OnRecyclerViewPositionClickListener listener) {
             super(itemView);
             constraintLayout = itemView.findViewById(R.id.my_raw_ConstraintLayout);
             wishListName = itemView.findViewById(R.id.list_name_raw_text_view);
-            deleteWishListImageView = itemView.findViewById(R.id.deleteWishListImageView);
+            deleteWishListImageView = itemView.findViewById(R.id.deleteRawImageView);
             deleteWishListImageView.setOnClickListener(this);
             constraintLayout.setOnClickListener(this);
 
             onRecyclerViewPositionClickListener = listener;
-            this.onDeleteWishListCallback=onDeleteWishListCallback;
+            this.onDeleteRawCallback = onDeleteRawCallback;
 
 
         }
@@ -82,7 +82,7 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.MyListAdap
                 onRecyclerViewPositionClickListener.onRecyclerViewPositionCallback(getAbsoluteAdapterPosition());
             }
             if(v==deleteWishListImageView){
-                onDeleteWishListCallback.deleteWishList(getAbsoluteAdapterPosition());
+                onDeleteRawCallback.deleteRaw(getAbsoluteAdapterPosition());
             }
 
         }

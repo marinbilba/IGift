@@ -1,7 +1,6 @@
 package com.viauc.igift.data;
 
 import android.app.Application;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,12 +19,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.viauc.igift.data.callbacks.FetchUserCallback;
-import com.viauc.igift.data.callbacks.FetchWishListCallback;
-import com.viauc.igift.model.Group;
 import com.viauc.igift.model.User;
 import com.viauc.igift.model.WishItem;
 import com.viauc.igift.model.WishList;
-import com.viauc.igift.util.TAG;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -46,7 +42,10 @@ public class WishListsRepository {
     private ArrayList<WishList> userWishLists;
 
     private MutableLiveData<ArrayList<WishList>> userWishListsMutableLiveData;
-    private LiveData<ArrayList<WishList>> userWishListsGroupsLiveData;
+    private LiveData<ArrayList<WishList>> userWishListsLiveData;
+
+    private MutableLiveData<WishList> userWishListMutableLiveData;
+    private LiveData<WishList> userWishListLiveData;
 
     public WishListsRepository(Application application) {
         this.application = application;
@@ -57,7 +56,10 @@ public class WishListsRepository {
         authAppRepository = AuthAppRepository.getInstance(application);
 
         userWishListsMutableLiveData = new MutableLiveData<>();
-        userWishListsGroupsLiveData = userWishListsMutableLiveData;
+        userWishListsLiveData = userWishListsMutableLiveData;
+
+        userWishListMutableLiveData = new MutableLiveData<>();
+        userWishListLiveData = userWishListMutableLiveData;
     }
 
 
@@ -131,7 +133,7 @@ public class WishListsRepository {
                             userWishLists.add(wishList);
                     }
                     userWishListsMutableLiveData.postValue(userWishLists);
-                    userWishListsGroupsLiveData=userWishListsMutableLiveData;
+                    userWishListsLiveData =userWishListsMutableLiveData;
                 }
             }
         });
@@ -158,8 +160,8 @@ public class WishListsRepository {
         return tempWishItems;
     }
 
-    public LiveData<ArrayList<WishList>> getUserWishListsGroupsLiveData() {
-        return userWishListsGroupsLiveData;
+    public LiveData<ArrayList<WishList>> getUserWishListsLiveData() {
+        return userWishListsLiveData;
     }
     //todo Delete this data is possible only through Callable Cloud Function
     public void deleteWishList(WishList wishList) {
@@ -167,5 +169,41 @@ public class WishListsRepository {
 //        data.put("path", wishList.getListName());
         Toast.makeText(application, "Coming soon :))",
                 Toast.LENGTH_SHORT).show();
+    }
+
+    public void deleteWishItem(String listName, WishItem wishItem) {
+        if(mAuth.getUid()==null){
+            return;
+        }
+      firebaseFirestore.collection("users").document(mAuth.getUid()).collection("wishLists").document(listName).update("wishItems",FieldValue.arrayRemove(wishItem));
+
+    }
+
+    public void getWishItemsOfWishList(String listName) {
+        firebaseFirestore.collection("users").document(mAuth.getUid()).collection("wishLists").document(listName).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable @org.jetbrains.annotations.Nullable DocumentSnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                if (value != null) {
+                    WishList wishList = value.toObject(WishList.class);
+                        // Get wish list items
+                        try {
+                            ArrayList<Map<String, Object>> wishItems = (ArrayList<Map<String, Object>>) value.get("wishItems");
+                            ArrayList<WishItem> convertedWishItems = convertMapArrayToObjectArray(wishItems);
+                            if (wishList != null) {
+                                wishList.setWishItemsList(convertedWishItems);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    userWishListMutableLiveData.postValue(wishList);
+                    userWishListLiveData =userWishListMutableLiveData;
+                }
+            }
+        });
+    }
+
+    public LiveData<WishList> getUserWishListLiveData() {
+        return userWishListLiveData;
     }
 }

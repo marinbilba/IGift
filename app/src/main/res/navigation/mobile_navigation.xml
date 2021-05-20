@@ -115,7 +115,7 @@
         android:id="@+id/wishItemsFragment"
         android:name="com.viauc.igift.ui.wishitems.WishItemsFragment"
         android:label="Wish items"
-        tools:layout="@layout/fragment_wish_items" >
+        tools:layout="@layout/fragment_my_wish_items" >
         <action
             android:id="@+id/action_wishItemsFragment_to_navigation_my_list"
             app:destination="@id/navigation_my_list" />
@@ -143,9 +143,9 @@
     </fragment>
     <fragment
         android:id="@+id/wishItemsDisplay"
-        android:name="com.viauc.igift.ui.wishitemsdisplay.WishItemsDisplayFragment"
+        android:name="com.viauc.igift.ui.wishitemdisplay.WishItemDisplayFragment"
         android:label="Wish items"
-        tools:layout="@layout/fragment_wish_items_display" >
+        tools:layout="@layout/fragment_wish_item_display" >
         <argument
             android:name="wishItem"
             app:argType="com.viauc.igift.model.WishItem" />
@@ -159,8 +159,8 @@
             android:name="userEmail"
             app:argType="string" />
         <action
-            android:id="@+id/action_wishListDisplayFragment_to_wishItemsFragment"
-            app:destination="@id/wishItemsFragment" />
+            android:id="@+id/action_wishListDisplayFragment_to_othersWishItemsFragment"
+            app:destination="@id/othersWishItemsFragment" />
     </fragment>
     <fragment
         android:id="@+id/calendarEventFragment"
@@ -170,5 +170,17 @@
         <argument
             android:name="calendarEvents"
             app:argType="com.viauc.igift.model.CalendarEventList" />
+    </fragment>
+    <fragment
+        android:id="@+id/othersWishItemsFragment"
+        android:name="com.viauc.igift.ui.otherswishitems.OthersWishItemsFragment"
+        android:label="fragment_others_wish_items"
+        tools:layout="@layout/fragment_others_wish_items" >
+        <action
+            android:id="@+id/action_othersWishItemsFragment_to_wishItemsDisplay"
+            app:destination="@id/wishItemsDisplay" />
+        <argument
+            android:name="wishList"
+            app:argType="com.viauc.igift.model.WishList" />
     </fragment>
 </navigation>

@@ -25,7 +25,7 @@ public class MyListsViewModel extends AndroidViewModel {
 
     public LiveData<ArrayList<WishList>> getUserWishLists() {
         wishListsRepository.getCurrentUserWishLists();
-        return wishListsRepository.getUserWishListsGroupsLiveData();
+        return wishListsRepository.getUserWishListsLiveData();
 
     }
 

@@ -1,4 +1,4 @@
-package com.viauc.igift.ui.wishitemsdisplay;
+package com.viauc.igift.ui.wishitemdisplay;
 
 import androidx.lifecycle.ViewModel;
 

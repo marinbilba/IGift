@@ -17,11 +17,10 @@ import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.viauc.igift.R;
+import com.viauc.igift.data.callbacks.OnDeleteRawCallback;
 import com.viauc.igift.data.callbacks.OnRecyclerViewPositionClickListener;
 import com.viauc.igift.model.WishItem;
 import com.viauc.igift.model.WishList;
-import com.viauc.igift.ui.mylists.MyListAdapter;
-import com.viauc.igift.ui.mylists.MyListsFragmentDirections;
 
 import java.util.ArrayList;
 
@@ -38,7 +37,7 @@ public class WishItemsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_wish_items, container, false);
+        view = inflater.inflate(R.layout.fragment_my_wish_items, container, false);
         wishItemsViewModel = new ViewModelProvider(this).get(WishItemsViewModel.class);
         recyclerView = view.findViewById(R.id.wishItemsRecyclerView);
         FloatingActionButton floatingActionButton = view.findViewById(R.id.addItemFloatingActionButton);
@@ -49,29 +48,31 @@ public class WishItemsFragment extends Fragment {
         return view;
     }
 
+    private void inflateRecyclerView(WishList wishList) {
+        wishItems = (ArrayList<WishItem>) wishList.getWishItemsList();
+                if (!wishItems.isEmpty()) {
+            WishItemsAdapter myAdapter = new WishItemsAdapter(wishItems, getContext(),onDeleteRawCallback, onRecyclerViewPositionClickListener);
+            recyclerView.setAdapter(myAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
+    }
+
+
+
     private void navigateToCreateNewItem() {
         WishItemsFragmentDirections.ActionWishItemsFragmentToNewItemFragment action =
                 WishItemsFragmentDirections.actionWishItemsFragmentToNewItemFragment(wishList);
         Navigation.findNavController(view).navigate(action);
     }
 
-    //todo Wish list live data is a better choice
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         WishItemsFragmentArgs wishItemsFragmentArgs = WishItemsFragmentArgs.fromBundle(getArguments());
         wishList = wishItemsFragmentArgs.getWishList();
-        wishItems = (ArrayList<WishItem>) wishList.getWishItemsList();
-        inflateRecyclerView();
+        wishItemsViewModel.getWishItemsOfWishList(wishList.getListName()).observe(getViewLifecycleOwner(), this::inflateRecyclerView);
 
     }
 
-    private void inflateRecyclerView() {
-        if (!wishItems.isEmpty()) {
-            WishItemsAdapter myAdapter = new WishItemsAdapter(wishItems, getContext(), onRecyclerViewPositionClickListener);
-            recyclerView.setAdapter(myAdapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        }
-    }
 
     OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener = new OnRecyclerViewPositionClickListener() {
         @Override
@@ -80,6 +81,13 @@ public class WishItemsFragment extends Fragment {
             WishItemsFragmentDirections.ActionWishItemsFragmentToWishItemsDisplay action =
                     WishItemsFragmentDirections.actionWishItemsFragmentToWishItemsDisplay(wishItem);
             Navigation.findNavController(view).navigate(action);
+        }
+    };
+    OnDeleteRawCallback onDeleteRawCallback=new OnDeleteRawCallback() {
+        @Override
+        public void deleteRaw(int position) {
+            WishItem wishItem=wishItems.get(position);
+            wishItemsViewModel.deleteWishItem(wishList.getListName(),wishItem);
         }
     };
 }

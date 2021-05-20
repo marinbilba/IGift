@@ -1,4 +1,4 @@
-package com.viauc.igift.ui.wishitemsdisplay;
+package com.viauc.igift.ui.wishitemdisplay;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -11,16 +11,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.viauc.igift.R;
 import com.viauc.igift.model.WishItem;
-import com.viauc.igift.ui.wishitems.WishItemsFragmentArgs;
 
-import java.util.ArrayList;
-
-public class WishItemsDisplayFragment extends Fragment {
+public class WishItemDisplayFragment extends Fragment {
 
     private WishItemsDisplayViewModel wishItemsDisplayViewModel;
     private View view;
@@ -33,7 +29,7 @@ public class WishItemsDisplayFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_wish_items_display, container, false);
+        view = inflater.inflate(R.layout.fragment_wish_item_display, container, false);
 
         wishItemsDisplayViewModel = new ViewModelProvider(this).get(WishItemsDisplayViewModel.class);
 
@@ -47,7 +43,7 @@ public class WishItemsDisplayFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        WishItemsDisplayFragmentArgs wishItemsDisplayFragmentArgs = WishItemsDisplayFragmentArgs.fromBundle(getArguments());
+        WishItemDisplayFragmentArgs wishItemsDisplayFragmentArgs = WishItemDisplayFragmentArgs.fromBundle(getArguments());
         wishItem = wishItemsDisplayFragmentArgs.getWishItem();
         itemNameTextView.setText(wishItem.getGiftName());
         itemPriceTextView.setText(String.valueOf(wishItem.getPrice()));

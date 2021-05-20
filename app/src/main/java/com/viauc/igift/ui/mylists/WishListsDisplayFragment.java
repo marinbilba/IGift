@@ -64,8 +64,8 @@ public class WishListsDisplayFragment extends Fragment {
         @Override
         public void onRecyclerViewPositionCallback(int position) {
             WishList wishList = wishLists.get(position);
-            WishListsDisplayFragmentDirections.ActionWishListDisplayFragmentToWishItemsFragment action =
-                    WishListsDisplayFragmentDirections.actionWishListDisplayFragmentToWishItemsFragment(wishList);
+            WishListsDisplayFragmentDirections.ActionWishListDisplayFragmentToOthersWishItemsFragment action =
+                    WishListsDisplayFragmentDirections.actionWishListDisplayFragmentToOthersWishItemsFragment(wishList);
             Navigation.findNavController(view).navigate(action);
         }
     };
