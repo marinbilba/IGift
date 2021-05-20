@@ -9,8 +9,9 @@ How many times have you struggled with finding the perfect gift for the close on
 **M**  
 As a user, I want to be able to log in using a registration system or with my facebook/google account - DONE  
 As a user, I want to be able to restore my password in case I forgot it - DONE  
+As a user, I want to be able to create wish lists on the app - DONE   
 As a user, I want to see my created wishes list - DONE  
-As a user, I want to be able to post my wishes on the app - DONE   
+As a user, I want to create wish list items and add them to a list - DONE    
 As a user, I want to see my wish list items - DONE  
 As a user, I want to join other members groups - DONE  
 As a user, I want to share my wish lists to my “family members” - DONE  
