@@ -36,6 +36,14 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
+/**
+ * This test will perform the following actions:
+ * Log in with email and password
+ * Create a new wish list
+ * Add a wish list item to the created wish list
+ * Assert if the created wish item is displayed correctly
+ * Log off from the app
+ */
 public class MyListsTest {
 
     @Rule
