@@ -10,6 +10,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.viauc.igift.R;
 import com.viauc.igift.ui.signin.SignInActivity;
 
 import org.hamcrest.Description;
@@ -36,17 +37,17 @@ import static org.hamcrest.Matchers.is;
 /**
  * This test will perform the following actions:
  * Log in with email and password
- * Create a new group
- * Delete the created group
+ * Join a created group
+ * Leave the joined group
  * Log off from the app
  */
-public class CreateGroupTest {
+public class JoinGroupTest {
 
     @Rule
     public ActivityTestRule<SignInActivity> mActivityTestRule = new ActivityTestRule<>(SignInActivity.class);
 
     @Test
-    public void createGroupsTest() {
+    public void joinGroupTest() {
         onView(withId(R.id.emailEditText)).perform(replaceText("maryn_777@mail.ru"), closeSoftKeyboard());
         onView(withId(R.id.signInPasswordEditText)).perform(replaceText("test123"), closeSoftKeyboard());
 
@@ -66,6 +67,7 @@ public class CreateGroupTest {
             e.printStackTrace();
         }
 
+
         ViewInteraction bottomNavigationItemView = onView(
                 allOf(withId(R.id.navigation_connect), withContentDescription("Connect"),
                         childAtPosition(
@@ -77,58 +79,82 @@ public class CreateGroupTest {
         bottomNavigationItemView.perform(click());
 
         ViewInteraction tableRow = onView(
-                allOf(withId(R.id.startGroupRow),
+                allOf(withId(R.id.joinGroupRow),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.nav_host_fragment),
+                                        0),
+                                3),
+                        isDisplayed()));
+        tableRow.perform(click());
+
+        ViewInteraction textInputEditText3 = onView(
+                allOf(withId(R.id.inputTextFindGroupName),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.nav_host_fragment),
                                         0),
                                 2),
                         isDisplayed()));
-        tableRow.perform(click());
+        textInputEditText3.perform(replaceText("maryn.777@gmail.com"), closeSoftKeyboard());
 
-        ViewInteraction textInputEditText3 = onView(
-                allOf(withId(R.id.inputTextCreateGroupName),
-                        childAtPosition(
-                                allOf(withId(R.id.create_group_fragment_container),
-                                        childAtPosition(
-                                                withId(R.id.nav_host_fragment),
-                                                0)),
-                                3),
-                        isDisplayed()));
-        textInputEditText3.perform(replaceText("TestGroup"), closeSoftKeyboard());
 
         ViewInteraction materialButton = onView(
-                allOf(withId(R.id.createGroupButton), withText("Create Group"),
+                allOf(withId(R.id.searchGroup), withText("Find group"),
                         childAtPosition(
-                                allOf(withId(R.id.create_group_fragment_container),
-                                        childAtPosition(
-                                                withId(R.id.nav_host_fragment),
-                                                0)),
-                                4),
+                                childAtPosition(
+                                        withId(R.id.nav_host_fragment),
+                                        0),
+                                3),
                         isDisplayed()));
         materialButton.perform(click());
-
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        ViewInteraction materialButton2 = onView(
+                allOf(withId(R.id.joinGroupButton), withText("Join"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.card_view),
+                                        0),
+                                1),
+                        isDisplayed()));
+        materialButton2.perform(click());
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction bottomNavigationItemView2 = onView(
+                allOf(withId(R.id.navigation_groups), withContentDescription("Groups"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.bottom_navigation_view),
+                                        0),
+                                2),
+                        isDisplayed()));
+        bottomNavigationItemView2.perform(click());
+
         ViewInteraction cardView = onView(
                 allOf(childAtPosition(
-                        allOf(withId(R.id.expandableCreatedGroupsPlaceholder),
+                        allOf(withId(R.id.expandableJoinedGroupsPlaceholder),
                                 childAtPosition(
                                         withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                        0)),
+                                        1)),
                         0),
                         isDisplayed()));
         cardView.perform(click());
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         ViewInteraction appCompatImageView = onView(
-                allOf(withId(R.id.deleteManagedGroupImageView),
+                allOf(withId(R.id.deleteJoinedGroupImageView),
                         childAtPosition(
                                 allOf(withId(R.id.groupsNameConstraintLayout),
                                         childAtPosition(
@@ -138,7 +164,7 @@ public class CreateGroupTest {
                         isDisplayed()));
         appCompatImageView.perform(click());
 
-        ViewInteraction appCompatImageButton = onView(
+        ViewInteraction appCompatImageButton2 = onView(
                 allOf(withContentDescription("Open navigation drawer"),
                         childAtPosition(
                                 allOf(withId(R.id.toolbar),
@@ -147,8 +173,12 @@ public class CreateGroupTest {
                                                 0)),
                                 1),
                         isDisplayed()));
-        appCompatImageButton.perform(click());
-
+        appCompatImageButton2.perform(click());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         ViewInteraction navigationMenuItemView = onView(
                 allOf(withId(R.id.nav_drawer_sign_out),
                         childAtPosition(

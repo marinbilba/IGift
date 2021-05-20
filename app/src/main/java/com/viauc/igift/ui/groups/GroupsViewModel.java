@@ -32,9 +32,13 @@ public class GroupsViewModel extends AndroidViewModel {
        return userGroupsRepository.getUserJoinedGroupsLiveData();
     }
 //todo check if the calling user is the owner of the group
-    public void deleteGroup(Group group) {
+    public void deleteCreatedGroup(Group group) {
 
-        userGroupsRepository.deleteGroup(group.getuID());
+        userGroupsRepository.deleteCreatedGroup(group.getuID());
 
+    }
+
+    public void leaveJoinedGroup(Group group) {
+        userGroupsRepository.leaveJoinedGroupCurrentUser(group);
     }
 }

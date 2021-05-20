@@ -21,6 +21,8 @@ public class JoinedGroupsView {
     TextView groupNameTextView;
     @View(R.id.groupsNameConstraintLayout)
     ConstraintLayout constraintLayout;
+    @View(R.id.deleteJoinedGroupImageView)
+    ImageView deleteJoinedGroupImageView;
 
 
 
@@ -40,6 +42,12 @@ public class JoinedGroupsView {
         constraintLayout.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View v) { onGroupClickListener.onGroupClickCallback(group);
+            }
+        });
+        deleteJoinedGroupImageView.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View v) {
+                onGroupClickListener.onDeleteJoinedGroupCallBack(group);
             }
         });
     }

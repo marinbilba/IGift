@@ -63,8 +63,13 @@ public class GroupsFragment extends Fragment {
             Navigation.findNavController(view).navigate(action);
         }
         @Override
-        public void onDeleteGroupCallBack(Group group) {
-            groupsViewModel.deleteGroup(group);
+        public void onDeleteCreatedGroupCallBack(Group group) {
+            groupsViewModel.deleteCreatedGroup(group);
+        }
+
+        @Override
+        public void onDeleteJoinedGroupCallBack(Group group) {
+            groupsViewModel.leaveJoinedGroup(group);
         }
     };
 

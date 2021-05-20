@@ -21,7 +21,7 @@ public class ManagedGroupsView {
     TextView groupNameTextView;
     @View(R.id.groupsNameConstraintLayout)
     ConstraintLayout constraintLayout;
-    @View(R.id.deleteGroupImageView)
+    @View(R.id.deleteManagedGroupImageView)
     ImageView deleteGroupImageView;
 
 
@@ -46,7 +46,7 @@ public class ManagedGroupsView {
         deleteGroupImageView.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View v) {
-                onGroupClickListener.onDeleteGroupCallBack(group);
+                onGroupClickListener.onDeleteCreatedGroupCallBack(group);
             }
         });
     }

@@ -10,7 +10,7 @@ public class FieldValidation {
         if (inputFieldToValidate.isEmpty()) {
             return new Pair<>(false, "Field can not be empty");
         }
-        return new Pair<>(true, "");
+        return new Pair<Boolean, String>(true, "");
     }
 
 

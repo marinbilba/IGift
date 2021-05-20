@@ -90,8 +90,8 @@ public class SignUpActivity extends AppCompatActivity {
         }
         Pair<Boolean, String> passwordFieldValidation = viewModel.passwordFieldValidation(password);
         if(!passwordFieldValidation.first){
-            emailEditText.setError(passwordFieldValidation.second);
-            emailEditText.requestFocus();
+            passwordEditText.setError(passwordFieldValidation.second);
+            passwordEditText.requestFocus();
             return false;
         }
         Pair<Boolean, String> confirmPasswordValidation =viewModel.confirmPasswordValidation(password,confirmPassword);

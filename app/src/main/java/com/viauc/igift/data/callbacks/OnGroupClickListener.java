@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface OnGroupClickListener {
     void onGroupClickCallback(Group group);
-    void onDeleteGroupCallBack(Group group);
+    void onDeleteCreatedGroupCallBack(Group group);
+    void onDeleteJoinedGroupCallBack(Group group);
+
 }

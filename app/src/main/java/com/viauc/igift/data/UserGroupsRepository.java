@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -178,12 +179,11 @@ public class UserGroupsRepository {
 
     public void getUserJoinedGroups() {
 
-
         firebaseFirestore.collection("groups")
                 .whereArrayContains("connectedUsers", currentUserEmail).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
-                userCreatedGroups = new ArrayList<>();
+                ArrayList<Group> tempUserJoinedGroups=new ArrayList();
                 if (value != null) {
                     for (QueryDocumentSnapshot document : value) {
                         Log.d(TAG.FIREBASE_STORAGE.toString(), document.getId() + " => " + document.getData());
@@ -195,10 +195,10 @@ public class UserGroupsRepository {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        userCreatedGroups.add(group);
+                        tempUserJoinedGroups.add(group);
                     }
                 }
-                userJoinedGroupsMutableLiveData.postValue(userCreatedGroups);
+                userJoinedGroupsMutableLiveData.postValue(tempUserJoinedGroups);
                 userJoinedGroupsLiveData = userJoinedGroupsMutableLiveData;
             }
             });
@@ -207,7 +207,7 @@ public class UserGroupsRepository {
 
 
 
-    public void deleteGroup(String getuID) {
+    public void deleteCreatedGroup(String getuID) {
         firebaseFirestore.collection("groups").document(getuID)
                 .delete();
 
@@ -219,5 +219,10 @@ public class UserGroupsRepository {
 
     public LiveData<ArrayList<Group>> getUserJoinedGroupsLiveData() {
         return userJoinedGroupsLiveData;
+    }
+
+    public void leaveJoinedGroupCurrentUser(Group group) {
+
+        firebaseFirestore.collection("groups").document(group.getuID()).update("connectedUsers",FieldValue.arrayRemove(currentUserEmail));
     }
 }

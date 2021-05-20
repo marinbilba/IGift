@@ -39,7 +39,7 @@
             tools:text="@tools:sample/full_names" />
 
         <ImageView
-            android:id="@+id/deleteGroupImageView"
+            android:id="@+id/deleteManagedGroupImageView"
             android:layout_margin="5dp"
             android:layout_width="62dp"
             android:layout_height="39dp"
