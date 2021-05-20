@@ -144,7 +144,7 @@
     <fragment
         android:id="@+id/wishItemsDisplay"
         android:name="com.viauc.igift.ui.wishitemsdisplay.WishItemsDisplayFragment"
-        android:label="fragment_wish_items_display"
+        android:label="Wish items"
         tools:layout="@layout/fragment_wish_items_display" >
         <argument
             android:name="wishItem"
@@ -152,7 +152,7 @@
     </fragment>
     <fragment
         android:id="@+id/wishListDisplayFragment"
-        android:name="com.viauc.igift.ui.mylists.WishListDisplayFragment"
+        android:name="com.viauc.igift.ui.mylists.WishListsDisplayFragment"
         android:label="Wish list"
         tools:layout="@layout/fragment_wish_list_display" >
         <argument

@@ -4,10 +4,11 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.viauc.igift.data.WishListsRepository;
-import com.viauc.igift.data.callbacks.FetchWishListCallback;
+import com.viauc.igift.model.WishList;
+
+import java.util.ArrayList;
 
 public class MyListsViewModel extends AndroidViewModel {
 
@@ -15,15 +16,16 @@ public class MyListsViewModel extends AndroidViewModel {
 
     public MyListsViewModel(Application app) {
         super(app);
-        wishListsRepository=WishListsRepository.getInstance(app);
+        wishListsRepository=new WishListsRepository(app);
 
 
     }
 
 
 
-    public void getUserWishLists(FetchWishListCallback fetchWishListCallback) {
-        wishListsRepository.getCurrentUserWishLists(fetchWishListCallback);
+    public LiveData<ArrayList<WishList>> getUserWishLists() {
+        wishListsRepository.getCurrentUserWishLists();
+        return wishListsRepository.getUserWishListsGroupsLiveData();
 
     }
 }

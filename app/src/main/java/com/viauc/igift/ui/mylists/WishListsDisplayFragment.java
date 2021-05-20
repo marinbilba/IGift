@@ -24,7 +24,7 @@ import com.viauc.igift.ui.wishitems.WishItemsFragmentArgs;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WishListDisplayFragment extends Fragment {
+public class WishListsDisplayFragment extends Fragment {
 
     private WishListsDisplayViewModel wishListsDisplayViewModel;
     private View view;
@@ -43,34 +43,30 @@ public class WishListDisplayFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        WishListDisplayFragmentArgs wishItemsFragmentArgs = WishListDisplayFragmentArgs.fromBundle(getArguments());
+        WishListsDisplayFragmentArgs wishItemsFragmentArgs = WishListsDisplayFragmentArgs.fromBundle(getArguments());
         String userEmail = wishItemsFragmentArgs.getUserEmail();
-        wishListsDisplayViewModel.getUserWishLists(fetchWishListCallback, userEmail);
+        wishListsDisplayViewModel.getUserWishLists(userEmail).observe(getViewLifecycleOwner(), this::inflateRecyclerView);
+
 
     }
 
-    private void inflateRecyclerView() {
+    private void inflateRecyclerView(ArrayList<WishList> wishLists) {
         if (!wishLists.isEmpty()) {
+            this.wishLists=wishLists;
             MyListAdapter myAdapter = new MyListAdapter(wishLists, getContext(), onRecyclerViewPositionClickListener);
             recyclerView.setAdapter(myAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
     }
 
+
     OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener = new OnRecyclerViewPositionClickListener() {
         @Override
         public void onRecyclerViewPositionCallback(int position) {
             WishList wishList = wishLists.get(position);
-            WishListDisplayFragmentDirections.ActionWishListDisplayFragmentToWishItemsFragment action =
-                    WishListDisplayFragmentDirections.actionWishListDisplayFragmentToWishItemsFragment(wishList);
+            WishListsDisplayFragmentDirections.ActionWishListDisplayFragmentToWishItemsFragment action =
+                    WishListsDisplayFragmentDirections.actionWishListDisplayFragmentToWishItemsFragment(wishList);
             Navigation.findNavController(view).navigate(action);
-        }
-    };
-    FetchWishListCallback fetchWishListCallback = new FetchWishListCallback() {
-        @Override
-        public void fetchedWishListOnSuccess(List<WishList> wishListList) {
-            wishLists = (ArrayList<WishList>) wishListList;
-            inflateRecyclerView();
         }
     };
 }

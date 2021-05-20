@@ -40,30 +40,20 @@ public class MyListsFragment extends Fragment {
             Navigation.findNavController(view).navigate(R.id.action_navigation_my_list_to_newListFragment);
 
         });
-        loadUserWishLists();
+        myListsViewModel.getUserWishLists().observe(getViewLifecycleOwner(), this::inflateRecyclerView);
+
         return view;
     }
 
-    private void loadUserWishLists() {
-        myListsViewModel.getUserWishLists(fetchWishListCallback);
-    }
-
-    private void inflateRecyclerView() {
+    private void inflateRecyclerView(ArrayList<WishList> wishLists) {
         if (!wishLists.isEmpty()) {
+         this.wishLists=wishLists;
             MyListAdapter myAdapter = new MyListAdapter(wishLists, getContext(), onRecyclerViewPositionClickListener);
             recyclerView.setAdapter(myAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
-
     }
 
-    FetchWishListCallback fetchWishListCallback = new FetchWishListCallback() {
-        @Override
-        public void fetchedWishListOnSuccess(List<WishList> wishListList) {
-            wishLists = (ArrayList<WishList>) wishListList;
-            inflateRecyclerView();
-        }
-    };
 
     OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener=new OnRecyclerViewPositionClickListener() {
         @Override

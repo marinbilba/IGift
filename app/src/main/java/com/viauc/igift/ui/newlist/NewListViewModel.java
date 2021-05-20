@@ -17,7 +17,8 @@ public class NewListViewModel extends AndroidViewModel {
     public NewListViewModel(@NonNull @NotNull Application application) {
         super(application);
         fieldValidation=new FieldValidation();
-        wishListsRepository=WishListsRepository.getInstance(application);
+        wishListsRepository=new WishListsRepository(application);
+
     }
 
     public Pair<Boolean, String> validateListNameInputField(String listName) {

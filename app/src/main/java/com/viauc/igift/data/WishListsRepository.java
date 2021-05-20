@@ -4,16 +4,23 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.viauc.igift.data.callbacks.FetchUserCallback;
 import com.viauc.igift.data.callbacks.FetchWishListCallback;
+import com.viauc.igift.model.Group;
 import com.viauc.igift.model.User;
 import com.viauc.igift.model.WishItem;
 import com.viauc.igift.model.WishList;
@@ -37,21 +44,22 @@ public class WishListsRepository {
     private String currentUserEmail;
     private ArrayList<WishList> userWishLists;
 
+    private MutableLiveData<ArrayList<WishList>> userWishListsMutableLiveData;
+    private LiveData<ArrayList<WishList>> userWishListsGroupsLiveData;
 
-    private WishListsRepository(Application application) {
+    public WishListsRepository(Application application) {
         this.application = application;
         // Initialize firebase  instance
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         currentUserEmail = Objects.requireNonNull(mAuth.getCurrentUser()).getEmail();
         authAppRepository = AuthAppRepository.getInstance(application);
+
+        userWishListsMutableLiveData = new MutableLiveData<>();
+        userWishListsGroupsLiveData = userWishListsMutableLiveData;
     }
 
-    public static WishListsRepository getInstance(Application app) {
-        if (instance == null)
-            instance = new WishListsRepository(app);
-        return instance;
-    }
+
 
     public void createNewList(String listName) {
         if (mAuth.getUid() == null) {
@@ -78,21 +86,21 @@ public class WishListsRepository {
     }
 
 
-    public void getCurrentUserWishLists(FetchWishListCallback fetchWishListCallback) {
+    public void getCurrentUserWishLists() {
         if (mAuth.getUid() == null) {
             return;
         }
-        fetchUserWishLists(fetchWishListCallback, mAuth.getUid());
+        fetchUserWishLists(mAuth.getUid());
     }
 
-    public void getUserWishLists(FetchWishListCallback fetchWishListCallback, String userEmail) {
+    public void getUserWishListsByEmail( String userEmail) {
 
         FetchUserCallback fetchUserCallback = new FetchUserCallback() {
             @Override
             public void fetchUserOnSuccess(User user) {
                 try {
                     String userId = user.getuID();
-                    fetchUserWishLists(fetchWishListCallback, userId);
+                    fetchUserWishLists(userId);
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
@@ -102,32 +110,27 @@ public class WishListsRepository {
         authAppRepository.getUserByEmail(userEmail, fetchUserCallback);
     }
 
-    private void fetchUserWishLists(FetchWishListCallback fetchWishListCallback, String userId) {
+    private void fetchUserWishLists(String userId) {
 
-        firebaseFirestore.collection("users").document(userId).collection("wishLists").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        firebaseFirestore.collection("users").document(userId).collection("wishLists").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    userWishLists = new ArrayList<>();
-                    for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                        Log.d(TAG.FIREBASE_STORAGE.toString(), documentSnapshot.getId() + " => " + documentSnapshot.getData());
-                        WishList wishList = documentSnapshot.toObject(WishList.class);
-                        if (wishList != null) {
+            public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                userWishLists=new ArrayList<>();
+                if (value != null) {
+                    for (QueryDocumentSnapshot document : value) {
+                        WishList wishList = document.toObject(WishList.class);
                             // Get wish list items
                             try {
-                                ArrayList<Map<String, Object>> wishItems = (ArrayList<Map<String, Object>>) documentSnapshot.get("wishItems");
+                                ArrayList<Map<String, Object>> wishItems = (ArrayList<Map<String, Object>>) document.get("wishItems");
                                 ArrayList<WishItem> convertedWishItems = convertMapArrayToObjectArray(wishItems);
                                 wishList.setWishItemsList(convertedWishItems);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             userWishLists.add(wishList);
-                            fetchWishListCallback.fetchedWishListOnSuccess(userWishLists);
-                        }
                     }
-                } else {
-                    Log.d(TAG.FIREBASE_STORAGE.toString(), "Error getting documents: ", task.getException());
-
+                    userWishListsMutableLiveData.postValue(userWishLists);
+                    userWishListsGroupsLiveData=userWishListsMutableLiveData;
                 }
             }
         });
@@ -152,5 +155,9 @@ public class WishListsRepository {
         }
 
         return tempWishItems;
+    }
+
+    public LiveData<ArrayList<WishList>> getUserWishListsGroupsLiveData() {
+        return userWishListsGroupsLiveData;
     }
 }

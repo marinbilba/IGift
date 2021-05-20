@@ -21,7 +21,8 @@ public class WishItemsViewModel extends AndroidViewModel {
 
     public WishItemsViewModel(@NonNull @NotNull Application application) {
         super(application);
-        wishListsRepository= WishListsRepository.getInstance(application);
+        wishListsRepository=new WishListsRepository(application);
+
     }
 
 

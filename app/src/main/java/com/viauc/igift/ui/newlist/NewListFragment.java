@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.viauc.igift.R;
 import com.viauc.igift.data.callbacks.CreateWishListCallback;
-import com.viauc.igift.ui.mylists.WishListDisplayFragmentDirections;
+import com.viauc.igift.ui.mylists.WishListsDisplayFragmentDirections;
 
 public class NewListFragment extends Fragment {
 

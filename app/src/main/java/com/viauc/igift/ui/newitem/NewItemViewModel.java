@@ -19,7 +19,8 @@ public class NewItemViewModel extends AndroidViewModel {
 
     public NewItemViewModel(@NonNull @NotNull Application application) {
         super(application);
-        wishListsRepository=WishListsRepository.getInstance(application);
+        wishListsRepository=new WishListsRepository(application);
+
         fieldValidation=new FieldValidation();
 
     }
