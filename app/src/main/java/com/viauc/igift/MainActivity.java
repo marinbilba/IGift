@@ -120,10 +120,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_drawer_sign_out:
                 mainActivityViewModel.signOut();
                 break;
+            case R.id.nav_drawer_report_issue:
+                reportIssue();
+                break;
         }
         //close navigation drawer
         return true;
     }
+//todo strTo must be isolated
+    private void reportIssue() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        String[] strTo = { "293141@via.dk" };
+        intent.putExtra(Intent.EXTRA_EMAIL, strTo);
+        intent.setType("message/rfc822");
+        intent.setPackage("com.google.android.gm");
+        startActivity(intent);
+    }
+
 
 
 }

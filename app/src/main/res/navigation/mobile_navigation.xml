@@ -174,8 +174,8 @@
     <fragment
         android:id="@+id/othersWishItemsFragment"
         android:name="com.viauc.igift.ui.otherswishitems.OthersWishItemsFragment"
-        android:label="fragment_others_wish_items"
-        tools:layout="@layout/fragment_others_wish_items" >
+        android:label="Wish Items"
+        tools:layout="@layout/fragment_others_wish_items">
         <action
             android:id="@+id/action_othersWishItemsFragment_to_wishItemsDisplay"
             app:destination="@id/wishItemsDisplay" />

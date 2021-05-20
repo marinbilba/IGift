@@ -204,9 +204,6 @@ public class UserGroupsRepository {
             });
     }
 
-
-
-
     public void deleteCreatedGroup(String getuID) {
         firebaseFirestore.collection("groups").document(getuID)
                 .delete();
