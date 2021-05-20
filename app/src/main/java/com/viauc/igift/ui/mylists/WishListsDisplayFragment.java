@@ -53,7 +53,7 @@ public class WishListsDisplayFragment extends Fragment {
     private void inflateRecyclerView(ArrayList<WishList> wishLists) {
         if (!wishLists.isEmpty()) {
             this.wishLists=wishLists;
-            MyListAdapter myAdapter = new MyListAdapter(wishLists, getContext(), onRecyclerViewPositionClickListener);
+            WishListsDisplayAdapter myAdapter = new WishListsDisplayAdapter(wishLists, getContext(), onRecyclerViewPositionClickListener);
             recyclerView.setAdapter(myAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }

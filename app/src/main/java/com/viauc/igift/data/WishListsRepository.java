@@ -2,6 +2,7 @@ package com.viauc.igift.data;
 
 import android.app.Application;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -159,5 +160,12 @@ public class WishListsRepository {
 
     public LiveData<ArrayList<WishList>> getUserWishListsGroupsLiveData() {
         return userWishListsGroupsLiveData;
+    }
+    //todo Delete this data is possible only through Callable Cloud Function
+    public void deleteWishList(WishList wishList) {
+//        Map<String, Object> data = new HashMap<>();
+//        data.put("path", wishList.getListName());
+        Toast.makeText(application, "Coming soon :))",
+                Toast.LENGTH_SHORT).show();
     }
 }

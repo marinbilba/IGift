@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,7 +11,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.viauc.igift.R;
-import com.viauc.igift.data.callbacks.OnDeleteWishListCallback;
 import com.viauc.igift.data.callbacks.OnRecyclerViewPositionClickListener;
 import com.viauc.igift.model.WishList;
 
@@ -20,18 +18,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.MyListAdapterViewHolder> {
+public class WishListsDisplayAdapter extends RecyclerView.Adapter<WishListsDisplayAdapter.MyListAdapterViewHolder> {
     private ArrayList<WishList> wishLists;
     private Context context;
     private final OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener;
-    private final OnDeleteWishListCallback onDeleteWishListCallback;
 
-    public MyListAdapter(ArrayList<WishList> wishLists, Context context,OnDeleteWishListCallback onDeleteWishListCallback, OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener) {
+    public WishListsDisplayAdapter(ArrayList<WishList> wishLists, Context context, OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener) {
         this.wishLists = wishLists;
         this.context = context;
         this.onRecyclerViewPositionClickListener = onRecyclerViewPositionClickListener;
-        this.onDeleteWishListCallback=onDeleteWishListCallback;
-
     }
 
     @NonNull
@@ -40,7 +35,7 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.MyListAdap
     public MyListAdapterViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.my_raw_layout, parent, false);
-        return new MyListAdapter.MyListAdapterViewHolder(view,onDeleteWishListCallback, onRecyclerViewPositionClickListener);
+        return new WishListsDisplayAdapter.MyListAdapterViewHolder(view, onRecyclerViewPositionClickListener);
     }
 
     @Override
@@ -57,34 +52,21 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.MyListAdap
     public static class MyListAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView wishListName;
         ConstraintLayout constraintLayout;
-        ImageView deleteWishListImageView;
-
         OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener;
-        OnDeleteWishListCallback onDeleteWishListCallback;
 
-        public MyListAdapterViewHolder(@NonNull View itemView, OnDeleteWishListCallback onDeleteWishListCallback, OnRecyclerViewPositionClickListener listener) {
+        public MyListAdapterViewHolder(@NonNull View itemView, OnRecyclerViewPositionClickListener listener) {
             super(itemView);
             constraintLayout = itemView.findViewById(R.id.my_raw_ConstraintLayout);
             wishListName = itemView.findViewById(R.id.list_name_raw_text_view);
-            deleteWishListImageView = itemView.findViewById(R.id.deleteWishListImageView);
-            deleteWishListImageView.setOnClickListener(this);
             constraintLayout.setOnClickListener(this);
-
             onRecyclerViewPositionClickListener = listener;
-            this.onDeleteWishListCallback=onDeleteWishListCallback;
 
 
         }
 
         @Override
         public void onClick(View v) {
-            if(v==constraintLayout){
-                onRecyclerViewPositionClickListener.onRecyclerViewPositionCallback(getAbsoluteAdapterPosition());
-            }
-            if(v==deleteWishListImageView){
-                onDeleteWishListCallback.deleteWishList(getAbsoluteAdapterPosition());
-            }
-
+            onRecyclerViewPositionClickListener.onRecyclerViewPositionCallback(getAbsoluteAdapterPosition());
         }
     }
 }

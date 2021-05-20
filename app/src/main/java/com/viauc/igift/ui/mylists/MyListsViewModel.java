@@ -28,4 +28,8 @@ public class MyListsViewModel extends AndroidViewModel {
         return wishListsRepository.getUserWishListsGroupsLiveData();
 
     }
+
+    public void deleteWishList(WishList wishList) {
+        wishListsRepository.deleteWishList(wishList);
+    }
 }
