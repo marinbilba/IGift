@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
@@ -99,21 +100,23 @@ public class SignInActivity extends AppCompatActivity {
 
         if (loginFieldsValidation(email, password)) {
             viewModel.signIn(email, password);
+
         }
     }
 
     private boolean loginFieldsValidation(String email, String password) {
-
-        if (!viewModel.isValidEmail(email)) {
+        if (!viewModel.validateEmail(email)) {
             emailEditText.setError(getString(R.string.invalid_email));
             emailEditText.requestFocus();
             return false;
         }
-        if (password.isEmpty()) {
-            passwordEditText.setError(getString(R.string.required_field));
+        Pair<Boolean, String> passwordFieldValidation = viewModel.emptyFieldValidation(password);
+        if(!passwordFieldValidation.first){
+            passwordEditText.setError(passwordFieldValidation.second);
             passwordEditText.requestFocus();
             return false;
         }
+
         return true;
     }
 
