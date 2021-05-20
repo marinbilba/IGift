@@ -4,7 +4,9 @@
 
 How many times have you struggled with finding the perfect gift for the close ones? IGift is designed to help people share their wishes. 
 
-[![IMAGE ALT TEXT HERE](https://prnt.sc/136fvlh](https://www.youtube.com/watch?v=T2rbdMlmpYY)  
+### Youtube link:
+###  Vimeo link:
+https://vimeo.com/553000855
  
 ## MoSCoW Requirements:
 
