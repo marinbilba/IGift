@@ -40,7 +40,7 @@ public class ManagedGroupsView {
         groupNameTextView.setText(group.getGroupName());
         constraintLayout.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
-            public void onClick(android.view.View v) { onGroupClickListener.onGroupClickCallback(group);
+            public void onClick(android.view.View v) { onGroupClickListener.onCreatedGroupClickCallback(group);
             }
         });
         deleteGroupImageView.setOnClickListener(new android.view.View.OnClickListener() {

@@ -41,7 +41,7 @@ public class JoinedGroupsView {
         groupNameTextView.setText(group.getGroupName());
         constraintLayout.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
-            public void onClick(android.view.View v) { onGroupClickListener.onGroupClickCallback(group);
+            public void onClick(android.view.View v) { onGroupClickListener.onJoinGroupClickCallback(group);
             }
         });
         deleteJoinedGroupImageView.setOnClickListener(new android.view.View.OnClickListener() {

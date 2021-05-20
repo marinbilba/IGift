@@ -41,4 +41,7 @@ public class GroupsViewModel extends AndroidViewModel {
     public void leaveJoinedGroup(Group group) {
         userGroupsRepository.leaveJoinedGroupCurrentUser(group);
     }
+    public String getCurrentUserEmail() {
+        return userGroupsRepository.getCurrentUserEmail();
+    }
 }

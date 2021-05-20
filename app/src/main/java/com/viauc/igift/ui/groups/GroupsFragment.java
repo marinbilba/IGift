@@ -57,11 +57,17 @@ public class GroupsFragment extends Fragment {
 
     OnGroupClickListener onGroupClickListener = new OnGroupClickListener() {
         @Override
-        public void onGroupClickCallback(Group group) {
-            GroupsFragmentDirections.ActionNavigationGroupsToGroupMembersFragment action =
-                    GroupsFragmentDirections.actionNavigationGroupsToGroupMembersFragment(group);
-            Navigation.findNavController(view).navigate(action);
+        public void onCreatedGroupClickCallback(Group group) {
+       navigateToGroupMembersFragment(group);
         }
+
+        @Override
+        public void onJoinGroupClickCallback(Group group) {
+            group.getUsersConnected().add(group.getOwnerEmail());
+            group.getUsersConnected().remove(groupsViewModel.getCurrentUserEmail());
+            navigateToGroupMembersFragment(group);
+        }
+
         @Override
         public void onDeleteCreatedGroupCallBack(Group group) {
             groupsViewModel.deleteCreatedGroup(group);
@@ -72,5 +78,9 @@ public class GroupsFragment extends Fragment {
             groupsViewModel.leaveJoinedGroup(group);
         }
     };
-
+private void navigateToGroupMembersFragment(Group group){
+    GroupsFragmentDirections.ActionNavigationGroupsToGroupMembersFragment action =
+            GroupsFragmentDirections.actionNavigationGroupsToGroupMembersFragment(group);
+    Navigation.findNavController(view).navigate(action);
+}
 }

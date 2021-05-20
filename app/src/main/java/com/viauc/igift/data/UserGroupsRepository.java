@@ -225,4 +225,8 @@ public class UserGroupsRepository {
 
         firebaseFirestore.collection("groups").document(group.getuID()).update("connectedUsers",FieldValue.arrayRemove(currentUserEmail));
     }
+
+    public String getCurrentUserEmail() {
+        return currentUserEmail;
+    }
 }
