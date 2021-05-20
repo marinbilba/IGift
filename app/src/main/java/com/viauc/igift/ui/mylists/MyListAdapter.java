@@ -21,8 +21,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.MyListAdapterViewHolder> {
-    private ArrayList<WishList> wishLists;
-    private Context context;
+    private final ArrayList<WishList> wishLists;
+    private final Context context;
     private final OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener;
     private final OnDeleteRawCallback onDeleteRawCallback;
 

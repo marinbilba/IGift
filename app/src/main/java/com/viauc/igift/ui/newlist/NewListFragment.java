@@ -31,7 +31,7 @@ public class NewListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_new_list, container, false);
-        Button createNewListButton = (Button) view.findViewById(R.id.createNewListButton);
+        Button createNewListButton = view.findViewById(R.id.createNewListButton);
         newListNameTextView =view.findViewById(R.id.inputTextCreateNewListName);
         createNewListButton.setOnClickListener(v -> {
             createNewList();

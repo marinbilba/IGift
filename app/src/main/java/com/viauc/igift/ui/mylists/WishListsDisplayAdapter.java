@@ -19,8 +19,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class WishListsDisplayAdapter extends RecyclerView.Adapter<WishListsDisplayAdapter.MyListAdapterViewHolder> {
-    private ArrayList<WishList> wishLists;
-    private Context context;
+    private final ArrayList<WishList> wishLists;
+    private final Context context;
     private final OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener;
 
     public WishListsDisplayAdapter(ArrayList<WishList> wishLists, Context context, OnRecyclerViewPositionClickListener onRecyclerViewPositionClickListener) {

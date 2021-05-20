@@ -40,12 +40,12 @@ public class UserGroupsRepository {
     private final FirebaseFirestore firebaseFirestore;
     private final FirebaseAuth mAuth;
     private ArrayList<Group> userCreatedGroups;
-    private String currentUserEmail;
+    private final String currentUserEmail;
 
-    private MutableLiveData<ArrayList<Group>> userCreatedGroupsMutableLiveData;
+    private final MutableLiveData<ArrayList<Group>> userCreatedGroupsMutableLiveData;
     private LiveData<ArrayList<Group>> userCreatedGroupsLiveData;
 
-    private MutableLiveData<ArrayList<Group>> userJoinedGroupsMutableLiveData;
+    private final MutableLiveData<ArrayList<Group>> userJoinedGroupsMutableLiveData;
     private LiveData<ArrayList<Group>> userJoinedGroupsLiveData;
 
 

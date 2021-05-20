@@ -27,7 +27,7 @@ public class CreateGroupFragment extends Fragment {
         createGroupViewModel =
                 new ViewModelProvider(this).get(CreateGroupViewModel.class);
 
-        Button createGroupButton=(Button) view.findViewById(R.id.createGroupButton);
+        Button createGroupButton= view.findViewById(R.id.createGroupButton);
         createGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

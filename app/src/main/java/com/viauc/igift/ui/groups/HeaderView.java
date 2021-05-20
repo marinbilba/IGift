@@ -18,13 +18,13 @@ import com.viauc.igift.R;
 @Layout(R.layout.groups_header_layout)
 public class HeaderView {
 
-    private static String TAG = "HeaderView";
+    private static final String TAG = "HeaderView";
 
     @View(R.id.header_text)
     TextView headerText;
 
-    private Context mContext;
-    private String mHeaderText;
+    private final Context mContext;
+    private final String mHeaderText;
 
     public HeaderView(Context context,String headerText) {
         this.mContext = context;

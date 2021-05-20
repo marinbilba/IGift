@@ -38,13 +38,13 @@ public class WishListsRepository {
     private final Application application;
     private final FirebaseFirestore firebaseFirestore;
     private final FirebaseAuth mAuth;
-    private String currentUserEmail;
+    private final String currentUserEmail;
     private ArrayList<WishList> userWishLists;
 
-    private MutableLiveData<ArrayList<WishList>> userWishListsMutableLiveData;
+    private final MutableLiveData<ArrayList<WishList>> userWishListsMutableLiveData;
     private LiveData<ArrayList<WishList>> userWishListsLiveData;
 
-    private MutableLiveData<WishList> userWishListMutableLiveData;
+    private final MutableLiveData<WishList> userWishListMutableLiveData;
     private LiveData<WishList> userWishListLiveData;
 
     public WishListsRepository(Application application) {

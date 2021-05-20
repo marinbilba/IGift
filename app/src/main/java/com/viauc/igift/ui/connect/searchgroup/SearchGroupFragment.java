@@ -35,7 +35,7 @@ public class SearchGroupFragment extends Fragment {
 
         EditText userEmailToSearch = view.findViewById(R.id.inputTextFindGroupName);
 
-        Button searchGroupButton = (Button) view.findViewById(R.id.searchGroup);
+        Button searchGroupButton = view.findViewById(R.id.searchGroup);
         searchGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

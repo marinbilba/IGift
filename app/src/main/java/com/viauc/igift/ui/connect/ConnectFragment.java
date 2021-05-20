@@ -25,7 +25,7 @@ public class ConnectFragment extends Fragment {
                 new ViewModelProvider(this).get(ConnectViewModel.class);
         view = inflater.inflate(R.layout.fragment_connect, container, false);
 
-        TableRow startGroupRow = (TableRow) view.findViewById(R.id.startGroupRow);
+        TableRow startGroupRow = view.findViewById(R.id.startGroupRow);
 
         startGroupRow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,7 +33,7 @@ public class ConnectFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_navigation_connect_to_newGroupFragment);
             }
         });
-        TableRow joinGroupRow = (TableRow) view.findViewById(R.id.joinGroupRow);
+        TableRow joinGroupRow = view.findViewById(R.id.joinGroupRow);
 
         joinGroupRow.setOnClickListener(new View.OnClickListener() {
             @Override

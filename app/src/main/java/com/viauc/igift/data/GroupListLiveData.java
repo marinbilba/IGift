@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 public class GroupListLiveData extends LiveData<List<Group>> implements EventListener<DocumentSnapshot> {
-    private DocumentReference documentReference;
-    private List<Group> groupsTemp = new ArrayList<>();
+    private final DocumentReference documentReference;
+    private final List<Group> groupsTemp = new ArrayList<>();
     public MutableLiveData<List<Group>> shoppingList = new MutableLiveData<>();
 
     public GroupListLiveData(DocumentReference documentReference) {

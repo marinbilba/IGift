@@ -11,7 +11,7 @@ import com.viauc.igift.util.FieldValidation;
 
 public class SearchGroupViewModel extends AndroidViewModel {
     private final UserGroupsRepository userGroupsRepository;
-private FieldValidation fieldValidation;
+private final FieldValidation fieldValidation;
     public SearchGroupViewModel(Application app) {
         super(app);
         userGroupsRepository = UserGroupsRepository.getInstance(app);

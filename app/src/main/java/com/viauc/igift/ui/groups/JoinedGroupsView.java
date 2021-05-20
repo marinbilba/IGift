@@ -15,7 +15,7 @@ import com.viauc.igift.model.Group;
 
 @Layout(R.layout.joined_groups_name_raw_layout)
 public class JoinedGroupsView {
-    private static String TAG ="ChildView";
+    private static final String TAG ="ChildView";
 
     @View(R.id.group_name)
     TextView groupNameTextView;
@@ -28,8 +28,8 @@ public class JoinedGroupsView {
 
 
     private Context mContext;
-    private Group group;
-    private OnGroupClickListener onGroupClickListener;
+    private final Group group;
+    private final OnGroupClickListener onGroupClickListener;
 
     public JoinedGroupsView(OnGroupClickListener onGroupClickListener, Group group) {
         this.group = group;

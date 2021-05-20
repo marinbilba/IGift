@@ -29,8 +29,8 @@ public class GroupsFragment extends Fragment {
         groupsViewModel =
                 new ViewModelProvider(this).get(GroupsViewModel.class);
         view = inflater.inflate(R.layout.fragment_groups, container, false);
-        createdGroupsPlaceHolderView = (ExpandablePlaceHolderView) view.findViewById(R.id.expandableCreatedGroupsPlaceholder);
-        groupsUserJoinedPlaceHolderView = (ExpandablePlaceHolderView) view.findViewById(R.id.expandableJoinedGroupsPlaceholder);
+        createdGroupsPlaceHolderView = view.findViewById(R.id.expandableCreatedGroupsPlaceholder);
+        groupsUserJoinedPlaceHolderView = view.findViewById(R.id.expandableJoinedGroupsPlaceholder);
 
         groupsViewModel.getUserCreatedGroups().observe(getViewLifecycleOwner(), this::inflateCreatedUserGroupsExpandablePlaceHolderView);
         groupsViewModel.getUserJoinedGroups().observe(getViewLifecycleOwner(), this::inflateUserJoinedGroupsExpandablePlaceHolderView);
