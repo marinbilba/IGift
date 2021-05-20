@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -47,7 +48,7 @@ public class SignUpActivity extends AppCompatActivity {
         viewModel.getCurrentUser().observe(this, new Observer<FirebaseUser>() {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
-                if(firebaseUser!=null){
+                if (firebaseUser != null) {
                     updateUIToHomePage(firebaseUser);
                 }
             }
@@ -68,39 +69,34 @@ public class SignUpActivity extends AppCompatActivity {
         confirmPassword = passwordConfirmEditText.getText().toString().trim();
 
 
-        if (allFieldsValidation(email,password,confirmPassword)) {
-            viewModel.signUp(email,password);
-        }else{
-
+        if (allFieldsValidation(email, password, confirmPassword)) {
+            viewModel.signUp(email, password);
         }
 
     }
 
     private void updateUIToHomePage(FirebaseUser user) {
-        if(user!=null){
-        Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivityForResult(myIntent, 0);
-    }
+        if (user != null) {
+            Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivityForResult(myIntent, 0);
+        }
     }
 
     private boolean allFieldsValidation(String email, String password, String confirmPassword) {
-
-        if (!viewModel.isValidEmail(email)) {
+        if (!viewModel.validateEmail(email)) {
             emailEditText.setError(getString(R.string.invalid_email));
             emailEditText.requestFocus();
             return false;
         }
-        if (password.isEmpty()) {
-            passwordEditText.setError(getString(R.string.required_field));
-            passwordEditText.requestFocus();
-            return false;
-        } else if (password.length() < 6) {
-            passwordEditText.setError(getString(R.string.password_greater_then_6_char));
-            passwordEditText.requestFocus();
+        Pair<Boolean, String> passwordFieldValidation = viewModel.passwordFieldValidation(password);
+        if(!passwordFieldValidation.first){
+            emailEditText.setError(passwordFieldValidation.second);
+            emailEditText.requestFocus();
             return false;
         }
-        if (confirmPassword.isEmpty()) {
-            passwordConfirmEditText.setError(getString(R.string.required_field));
+        Pair<Boolean, String> confirmPasswordValidation =viewModel.confirmPasswordValidation(password,confirmPassword);
+        if (!confirmPasswordValidation.first) {
+            passwordConfirmEditText.setError(confirmPasswordValidation.second);
             passwordConfirmEditText.requestFocus();
             return false;
         }

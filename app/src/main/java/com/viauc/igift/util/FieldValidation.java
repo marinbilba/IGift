@@ -8,9 +8,9 @@ public class FieldValidation {
 
     public Pair<Boolean, String> validateEmptyField(String inputFieldToValidate) {
         if (inputFieldToValidate.isEmpty()) {
-            return new Pair<Boolean, String>(false, "Field can not be empty");
+            return new Pair<>(false, "Field can not be empty");
         }
-        return new Pair<Boolean, String>(true, "");
+        return new Pair<>(true, "");
     }
 
 
@@ -35,7 +35,7 @@ public class FieldValidation {
         if (!minCharRequired.first) {
             return minCharRequired;
         }
-        return new Pair<Boolean, String>(true, "");
+        return new Pair<>(true, "");
 
     }
 
@@ -55,7 +55,7 @@ public class FieldValidation {
         if (!minCharRequired.first) {
             return minCharRequired;
         }
-        return new Pair<Boolean, String>(true, "");
+        return new Pair<>(true, "");
 
     }
 
@@ -76,14 +76,54 @@ public class FieldValidation {
         if (!minCharRequired.first) {
             return minCharRequired;
         }
-        return new Pair<Boolean, String>(true, "");
+        return new Pair<>(true, "");
 
     }
+
+
     private Pair<Boolean, String> validateMinCharRequired(String stringToValidate, int minCharRequired) {
         if (stringToValidate.length() < minCharRequired) {
-            return new Pair<Boolean, String>(false, "Required minimum " + minCharRequired + " characters");
+            return new Pair<>(false, "Required minimum " + minCharRequired + " characters");
         }
-        return new Pair<Boolean, String>(true, "");
+        return new Pair<>(true, "");
 
+    }
+    /**
+     * Validates password. Validation will check if the given param is an empty String and if its length>6
+     *
+     * @param password requires minimum 6 char
+     * @return Pair object on first position containing true if validation was passed or false if failed, second position contains a String
+     * with the error description
+     */
+    public Pair<Boolean, String> passwordFieldValidation(String password) {
+        Pair<Boolean, String> emptyField = validateEmptyField(password);
+        if (!emptyField.first) {
+            return emptyField;
+        }
+        Pair<Boolean, String> minCharRequired = validateMinCharRequired(password,6);
+        if (!minCharRequired.first) {
+            return minCharRequired;
+        }
+        return new Pair<>(true, "");
+
+    }
+
+    /**
+     * Validates confirm password.
+
+     * @param password
+     * @param confirmPassword must match password
+     * @return Pair object on first position containing true if validation was passed or false if failed, second position contains a String
+     *      with the error description
+     */
+    public Pair<Boolean, String> confirmPasswordValidation(String password, String confirmPassword) {
+        Pair<Boolean, String> passwordFieldValidation = validateEmptyField(password);
+        if (!passwordFieldValidation.first) {
+            return passwordFieldValidation;
+        }
+        if(!password.equals(confirmPassword)){
+            return new Pair<>(false, "Passwords are not matching " );
+        }
+        return new Pair<>(true, "");
     }
 }
