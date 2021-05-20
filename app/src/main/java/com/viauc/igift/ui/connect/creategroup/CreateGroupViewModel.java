@@ -22,7 +22,7 @@ public class CreateGroupViewModel extends AndroidViewModel {
     }
 
     public Pair<Boolean, String> validateGroupNameInputField(String groupName) {
-return fieldValidation.validateEmptyAndMinCharInputField(groupName,6);
+return fieldValidation.validateGroupName(groupName);
 
     }
 }

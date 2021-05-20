@@ -21,7 +21,7 @@ private FieldValidation fieldValidation;
 
     public Pair<Boolean, String> validateJoinGroupNameInputField(String groupName) {
 
-      return fieldValidation.validateEmptyAndMinCharInputField(groupName,6);
+      return fieldValidation.validateGroupName(groupName);
     }
 
     public void getUserCreatedGroupsByEmail(UserCreatedGroupsCallback fetchedUserCreatedGroupsCallback, String userEmail) {

@@ -21,7 +21,7 @@ public class NewListViewModel extends AndroidViewModel {
     }
 
     public Pair<Boolean, String> validateListNameInputField(String listName) {
-        return fieldValidation.validateEmptyAndMinCharInputField(listName,6);
+        return fieldValidation.validateWishListName(listName);
 
     }
 
