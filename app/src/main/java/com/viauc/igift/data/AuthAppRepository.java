@@ -106,6 +106,7 @@ public class AuthAppRepository {
                             checkIfUserExists(user);
                         } else {
                             // If sign in fails, display a message to the user.
+                            Log.d("AAAAAAAAAAAAAAAA", "Error "+task.getException());
                             Toast.makeText(application, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
