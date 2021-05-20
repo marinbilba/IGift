@@ -19,6 +19,8 @@ As a user, I want to delete my created group - DONE
 As a user, I want to be able to leave joined group - DONE   
 As a user, I want to share my wish lists to my “family members” - DONE  
 As a user, I want to see the other "family members" wish lists and items - DONE   
+As a user, I want to delete the created wish items - DONE   
+As a user, I want to delete the created wish lists - NOT IMPL   
 
 **S**  
 As a user, I want to be able to synchronize the calendar on the app with the calendar on Facebook in order to know about upcoming birthdays and events - NOT IMPL    
