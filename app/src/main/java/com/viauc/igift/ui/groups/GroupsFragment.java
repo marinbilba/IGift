@@ -13,11 +13,9 @@ import androidx.navigation.Navigation;
 import com.mindorks.placeholderview.ExpandablePlaceHolderView;
 import com.viauc.igift.R;
 import com.viauc.igift.data.callbacks.OnGroupClickListener;
-import com.viauc.igift.data.callbacks.UserCreatedGroupsCallback;
-import com.viauc.igift.data.callbacks.UserJoinedGroupsCallback;
 import com.viauc.igift.model.Group;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class GroupsFragment extends Fragment {
 
@@ -33,61 +31,29 @@ public class GroupsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_groups, container, false);
         createdGroupsPlaceHolderView = (ExpandablePlaceHolderView) view.findViewById(R.id.expandableCreatedGroupsPlaceholder);
         groupsUserJoinedPlaceHolderView = (ExpandablePlaceHolderView) view.findViewById(R.id.expandableJoinedGroupsPlaceholder);
-        loadGroupData();
+
+        groupsViewModel.getUserCreatedGroups().observe(getViewLifecycleOwner(), this::inflateCreatedUserGroupsExpandablePlaceHolderView);
+        groupsViewModel.getUserJoinedGroups().observe(getViewLifecycleOwner(), this::inflateUserJoinedGroupsExpandablePlaceHolderView);
+
         return view;
     }
 
-    private void inflateCreatedUserGroupsExpandablePlaceHolderView() {
+    private void inflateUserJoinedGroupsExpandablePlaceHolderView(ArrayList<Group> groups) {
+        groupsUserJoinedPlaceHolderView.removeAllViews();
+        groupsUserJoinedPlaceHolderView.addView(new HeaderView(getContext(), "Groups I joined"));
+        for (Group group : groups) {
+            groupsUserJoinedPlaceHolderView.addView(new JoinedGroupsView(onGroupClickListener, group));
+        }
+    }
+
+    private void inflateCreatedUserGroupsExpandablePlaceHolderView(ArrayList<Group> groups) {
         createdGroupsPlaceHolderView.removeAllViews();
         createdGroupsPlaceHolderView.addView(new HeaderView(getContext(), "Groups I manage"));
-
+        for (Group group : groups) {
+            createdGroupsPlaceHolderView.addView(new ManagedGroupsView(onGroupClickListener, group));
+        }
     }
 
-    private void inflateUserJoinedGroupsExpandablePlaceHolderView() {
-        groupsUserJoinedPlaceHolderView.removeAllViews();
-        groupsUserJoinedPlaceHolderView.addView(new HeaderView(getContext(), "Groups I Joined"));
-
-    }
-
-    // todo can be optimized by caching locally the data
-    private void loadGroupData() {
-        groupsViewModel.getUserCreatedGroups(userCreatedGroupsCallback);
-        groupsViewModel.getUserJoinedGroups(userJoinedGroupsCallback);
-    }
-
-    UserCreatedGroupsCallback userCreatedGroupsCallback = new UserCreatedGroupsCallback() {
-        @Override
-        public void createdGroupsOnCallbackSuccess(List<Group> list) {
-            inflateCreatedUserGroupsExpandablePlaceHolderView();
-            for (Group group : list) {
-                createdGroupsPlaceHolderView.addView(new GroupNameView(onGroupClickListener, group));
-            }
-
-        }
-
-        @Override
-        public void createdGroupsOnCallbackNoResults() {
-            //todo dumb way of handling
-//            createExpandablePlaceHolderViews();
-//            Group testGroup=new Group();
-//            testGroup.setGroupName("No managed groups");
-//            createdGroupsPlaceHolderView.addView(new GroupNameView(getContext(), testGroup));
-        }
-    };
-    UserJoinedGroupsCallback userJoinedGroupsCallback = new UserJoinedGroupsCallback() {
-        @Override
-        public void joinedGroupsOnCallbackSuccess(List<Group> list) {
-            inflateUserJoinedGroupsExpandablePlaceHolderView();
-            for (Group group : list) {
-                groupsUserJoinedPlaceHolderView.addView(new GroupNameView(onGroupClickListener, group));
-            }
-        }
-
-        @Override
-        public void joinedGroupsOnCallbackNoResults() {
-
-        }
-    };
 
     OnGroupClickListener onGroupClickListener = new OnGroupClickListener() {
         @Override
@@ -95,6 +61,10 @@ public class GroupsFragment extends Fragment {
             GroupsFragmentDirections.ActionNavigationGroupsToGroupMembersFragment action =
                     GroupsFragmentDirections.actionNavigationGroupsToGroupMembersFragment(group);
             Navigation.findNavController(view).navigate(action);
+        }
+        @Override
+        public void onDeleteGroupCallBack(Group group) {
+            groupsViewModel.deleteGroup(group);
         }
     };
 

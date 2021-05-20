@@ -3,10 +3,12 @@ package com.viauc.igift.ui.groups;
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
-import com.viauc.igift.data.callbacks.UserCreatedGroupsCallback;
 import com.viauc.igift.data.UserGroupsRepository;
-import com.viauc.igift.data.callbacks.UserJoinedGroupsCallback;
+import com.viauc.igift.model.Group;
+
+import java.util.ArrayList;
 
 public class GroupsViewModel extends AndroidViewModel {
 
@@ -19,12 +21,20 @@ public class GroupsViewModel extends AndroidViewModel {
     }
 
 
-    public void getUserCreatedGroups(UserCreatedGroupsCallback fetchedUserCreatedGroupsCallback) {
-        userGroupsRepository.getCurrentUserCreatedGroups(fetchedUserCreatedGroupsCallback);
+    public LiveData<ArrayList<Group>> getUserCreatedGroups() {
+     userGroupsRepository.getCurrentUserCreatedGroups();
+       return userGroupsRepository.getUserCreatedGroupsLiveData();
     }
 
 
-    public void getUserJoinedGroups(UserJoinedGroupsCallback userJoinedGroupsCallback) {
-        userGroupsRepository.getUserJoinedGroups(userJoinedGroupsCallback);
+    public LiveData<ArrayList<Group>> getUserJoinedGroups() {
+        userGroupsRepository.getUserJoinedGroups();
+       return userGroupsRepository.getUserJoinedGroupsLiveData();
+    }
+//todo check if the calling user is the owner of the group
+    public void deleteGroup(Group group) {
+
+        userGroupsRepository.deleteGroup(group.getuID());
+
     }
 }

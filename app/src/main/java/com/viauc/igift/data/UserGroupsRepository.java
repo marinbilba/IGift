@@ -5,6 +5,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -12,12 +15,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.viauc.igift.data.callbacks.UserCreatedGroupsCallback;
-import com.viauc.igift.data.callbacks.UserJoinedGroupsCallback;
 import com.viauc.igift.model.Group;
-import com.viauc.igift.model.User;
 import com.viauc.igift.util.TAG;
 
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +40,12 @@ public class UserGroupsRepository {
     private final FirebaseAuth mAuth;
     private ArrayList<Group> userCreatedGroups;
     private String currentUserEmail;
-//    private OnCreatedGroupTaskComplete onCreatedGroupTaskComplete;
+
+    private MutableLiveData<ArrayList<Group>> userCreatedGroupsMutableLiveData;
+    private LiveData<ArrayList<Group>> userCreatedGroupsLiveData;
+
+    private MutableLiveData<ArrayList<Group>> userJoinedGroupsMutableLiveData;
+    private LiveData<ArrayList<Group>> userJoinedGroupsLiveData;
 
 
     private UserGroupsRepository(Application application) {
@@ -49,6 +58,10 @@ public class UserGroupsRepository {
         firebaseFirestore = FirebaseFirestore.getInstance();
         currentUserEmail = Objects.requireNonNull(mAuth.getCurrentUser()).getEmail();
 
+        userCreatedGroupsMutableLiveData = new MutableLiveData<>();
+        userCreatedGroupsLiveData = userCreatedGroupsMutableLiveData;
+        userJoinedGroupsMutableLiveData = new MutableLiveData<>();
+        userJoinedGroupsLiveData = userJoinedGroupsMutableLiveData;
     }
 
 
@@ -75,38 +88,30 @@ public class UserGroupsRepository {
     }
 
 
-    public void getCurrentUserCreatedGroups(UserCreatedGroupsCallback fetchedUserCreatedGroupsCallback) {
+    public void getCurrentUserCreatedGroups() {
         firebaseFirestore.collection("groups")
-                .whereEqualTo("ownerEmail", currentUserEmail)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .whereEqualTo("ownerEmail", currentUserEmail).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
                 userCreatedGroups = new ArrayList<>();
-                if (task.isSuccessful()) {
-                    for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                        Log.d(TAG.FIREBASE_STORAGE.toString(), documentSnapshot.getId() + " => " + documentSnapshot.getData());
-                        Group group = documentSnapshot.toObject(Group.class);
-                        if (group != null) {
-                            // Get users connected to this group
-                            try {
-                                ArrayList<String> connectedUsers = (ArrayList<String>) documentSnapshot.get("connectedUsers");
-                                group.setUsersConnected(connectedUsers);
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            userCreatedGroups.add(group);
-                            fetchedUserCreatedGroupsCallback.createdGroupsOnCallbackSuccess(userCreatedGroups);
+                if (value != null) {
+                    for (QueryDocumentSnapshot document : value) {
+                        Log.d(TAG.FIREBASE_STORAGE.toString(), document.getId() + " => " + document.getData());
+                        Group group = document.toObject(Group.class);
+                        // Get users connected to this group
+                        try {
+                            ArrayList<String> connectedUsers = (ArrayList<String>) document.get("connectedUsers");
+                            group.setUsersConnected(connectedUsers);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
+                        userCreatedGroups.add(group);
                     }
-                } else {
-                    Log.d(TAG.FIREBASE_STORAGE.toString(), "Error getting documents: ", task.getException());
-
                 }
-
+                userCreatedGroupsMutableLiveData.postValue(userCreatedGroups);
+                userCreatedGroupsLiveData = userCreatedGroupsMutableLiveData;
             }
         });
-
     }
 
     public void getUserCreatedGroupsByEmail(UserCreatedGroupsCallback userCreatedGroupsCallback, String userEmail) {
@@ -171,37 +176,48 @@ public class UserGroupsRepository {
 
     }
 
-    public void getUserJoinedGroups(UserJoinedGroupsCallback userJoinedGroupsCallback) {
+    public void getUserJoinedGroups() {
+
+
         firebaseFirestore.collection("groups")
-                .whereArrayContains("connectedUsers", currentUserEmail)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .whereArrayContains("connectedUsers", currentUserEmail).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    userCreatedGroups = new ArrayList<>();
-                    for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                        Log.d(TAG.FIREBASE_STORAGE.toString(), documentSnapshot.getId() + " => " + documentSnapshot.getData());
-                        Group group = documentSnapshot.toObject(Group.class);
-                        if (group != null) {
-                            // Get users connected to this group
-                            try {
-                                ArrayList<String> connectedUsers = (ArrayList<String>) documentSnapshot.get("connectedUsers");
-                                group.setUsersConnected(connectedUsers);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            userCreatedGroups.add(group);
-                            userJoinedGroupsCallback.joinedGroupsOnCallbackSuccess(userCreatedGroups);
+            public void onEvent(@Nullable @org.jetbrains.annotations.Nullable QuerySnapshot value, @Nullable @org.jetbrains.annotations.Nullable FirebaseFirestoreException error) {
+                userCreatedGroups = new ArrayList<>();
+                if (value != null) {
+                    for (QueryDocumentSnapshot document : value) {
+                        Log.d(TAG.FIREBASE_STORAGE.toString(), document.getId() + " => " + document.getData());
+                        Group group = document.toObject(Group.class);
+                        // Get users connected to this group
+                        try {
+                            ArrayList<String> connectedUsers = (ArrayList<String>) document.get("connectedUsers");
+                            group.setUsersConnected(connectedUsers);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
+                        userCreatedGroups.add(group);
                     }
-                    userJoinedGroupsCallback.joinedGroupsOnCallbackNoResults();
-                } else {
-                    Log.d(TAG.FIREBASE_STORAGE.toString(), "Error getting documents: ", task.getException());
-
                 }
-
+                userJoinedGroupsMutableLiveData.postValue(userCreatedGroups);
+                userJoinedGroupsLiveData = userJoinedGroupsMutableLiveData;
             }
-        });
+            });
+    }
 
+
+
+
+    public void deleteGroup(String getuID) {
+        firebaseFirestore.collection("groups").document(getuID)
+                .delete();
+
+    }
+
+    public LiveData<ArrayList<Group>> getUserCreatedGroupsLiveData() {
+        return userCreatedGroupsLiveData;
+    }
+
+    public LiveData<ArrayList<Group>> getUserJoinedGroupsLiveData() {
+        return userJoinedGroupsLiveData;
     }
 }

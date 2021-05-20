@@ -1,6 +1,7 @@
 package com.viauc.igift.ui.groups;
 
 import android.content.Context;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -12,14 +13,16 @@ import com.viauc.igift.R;
 import com.viauc.igift.data.callbacks.OnGroupClickListener;
 import com.viauc.igift.model.Group;
 
-@Layout(R.layout.groups_name_raw_layout)
-public class GroupNameView {
+@Layout(R.layout.managed_groups_name_raw_layout)
+public class ManagedGroupsView {
     private static String TAG ="ChildView";
 
     @View(R.id.group_name)
     TextView groupNameTextView;
     @View(R.id.groupsNameConstraintLayout)
     ConstraintLayout constraintLayout;
+    @View(R.id.deleteGroupImageView)
+    ImageView deleteGroupImageView;
 
 
 
@@ -27,7 +30,7 @@ public class GroupNameView {
     private Group group;
     private OnGroupClickListener onGroupClickListener;
 
-    public GroupNameView(OnGroupClickListener onGroupClickListener, Group group) {
+    public ManagedGroupsView(OnGroupClickListener onGroupClickListener, Group group) {
         this.group = group;
         this.onGroupClickListener=onGroupClickListener;
     }
@@ -38,6 +41,12 @@ public class GroupNameView {
         constraintLayout.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View v) { onGroupClickListener.onGroupClickCallback(group);
+            }
+        });
+        deleteGroupImageView.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View v) {
+                onGroupClickListener.onDeleteGroupCallBack(group);
             }
         });
     }
